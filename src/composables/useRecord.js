@@ -30,8 +30,8 @@ const addNewRecord = () => {
 
     currentEligibilityRecord.value = {
         'CaseDetails.ErepCaseId': '',
-        // 'CaseDetails.HohDetails.HohMemberId': '',
-        // 'CaseDetails.HohDetails.SpokenLanguage': '',
+        'CaseDetails.HohDetails.HohMemberId': '',
+        'CaseDetails.HohDetails.SpokenLanguage': '',
         'MemberData.MemberId': '',
         // 'MemberData.Demographics.FirstName': '',
         // 'MemberData.Demographics.MiddleName': '',

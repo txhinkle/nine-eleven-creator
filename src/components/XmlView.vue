@@ -37,15 +37,16 @@
                     path.pop()
                     tabIndex = 2
                     tabString = '\t\t'
-                    console.log('path[i]', path[i]);
                     xml += tabString +'<' + path[0] + '>' + '\n'
+                    tabString += '\t'
                 }
                 if(!path.includes(currentPathArray[currentPathArray.length - 2])) {
-                    addTag()
+                    tabString = tabString.substring(0, tabString.length - 1);
+                    addTag(currentPathArray[currentPathArray.length - 2])
+                    tabString += '\t'
                 }
 
                 if(currentPathArray[currentPathArray.length - 2] === path[path.length - 1]) {
-                    tabString += '\t'
                     tabIndex++;
                     xml += tabString + '<' + currentPathArray[currentPathArray.length - 1] + '>' + eligibilityList.value[i][currentPath]
                     + '</' + currentPathArray[currentPathArray.length - 1] + '>\n'
