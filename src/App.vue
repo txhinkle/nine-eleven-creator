@@ -3,8 +3,6 @@ import FormView from './components/FormView.vue'
 import ListView from './components/ListView.vue'
 import XmlView from './components/XmlView.vue'
 import { ref } from 'vue'
-import useRecord from './composables/useRecord';
-const {addNewRecord} = useRecord();
 const currentView = ref('form')
 
 const updateView = function(view) {
@@ -21,7 +19,6 @@ const updateView = function(view) {
     </ul>
   </nav>
   <main>
-    <button @click="addNewRecord">Add Record</button>
     <FormView v-if="currentView==='form'" />
     <ListView v-else-if="currentView==='list'" />
     <XmlView v-else-if="currentView==='xml'" />

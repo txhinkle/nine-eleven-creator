@@ -1,7 +1,7 @@
 import {ref} from 'vue'
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
-const currentRecordRequireFields = ref([]);
+const currentRecordSections = ref([]);
 const currentRecordValidationObject = ref({})
 // flattened keys... what do you need to rebuild? XML needs to know what level to build
 
@@ -26,76 +26,47 @@ const addNewRecord = () => {
         includeInmate: false,
         includeUppPremiumInformation: false,
         includeEsiPremiumInformation: false,
-        requiredFields: [ 
-            'CaseDetails.ErepCaseId',
-            'CaseDetails.HohDetails.HohMemberId',
-            'MemberData.MemberId',
-            'MemberData.Demographics.LastName',
-            'MemberData.Demographics.Details.BirthDate',
-            'MemberData.Demographics.Details.Gender',
-            'MemberData.Demographics.Details.Citizenship',
-            'MemberData.Address[0].AddressType',
-            'MemberData.Address[0].Street1',
-            'MemberData.Address[0].CityName',
-            'MemberData.Address[0].StateCode',
-            'MemberData.Address[0].ZipCode',
-            'MemberData.Address[0].AddressStartDate',
-            'MemberData.Address[0].AddressEndDate'
-        ],
     };
 
     currentEligibilityRecord.value = {
-        CaseDetails: {
-            ErepCaseId: '',
-            HohDetails: {
-                HohMemberId: '',
-                SpokenLanguage: ''
-            }
-        },
-        MemberData: {
-            MemberId: '',
-            Demographics: {
-                FirstName: '',
-                MiddleName: '',
-                LastName: '',
-                Suffix: '',
-                Details: {
-                    Ssn: '',
-                    Hispanic: '',
-                    BirthDate: '',
-                    MaritalStatus: '',
-                    Gender: '',
-                    Citizenship: '',
-                    AlienType: '',
-                    MortalityDate: '',
-                    DistrictOffice: '',
-                    EligibilityReviewDate: ''
-                }
-            },
-            Address: [
-                {
-                    AddressType: '',
-                    Street1: '',
-                    Street2: '',
-                    Street3: '',
-                    CityName: '',
-                    StateCode: '',
-                    ZipCode: '',
-                    ZipCodeExtension: '',
-                    CountyCode: '',
-                    AddressStartDate: '',
-                    AddressEndDate: ''
-                }
-            ]
-        }
+        'CaseDetails.ErepCaseId': '',
+        // 'CaseDetails.HohDetails.HohMemberId': '',
+        // 'CaseDetails.HohDetails.SpokenLanguage': '',
+        'MemberData.MemberId': '',
+        // 'MemberData.Demographics.FirstName': '',
+        // 'MemberData.Demographics.MiddleName': '',
+        // 'MemberData.Demographics.LastName': '',
+        // 'MemberData.Demographics.Suffix': '',
+        // 'MemberData.Demographics.Details.Ssn': '',
+        // 'MemberData.Demographics.Details.Hispanic': '',
+        // 'MemberData.Demographics.Details.BirthDate': '',
+        // 'MemberData.Demographics.Details.MaritalStatus': '',
+        // 'MemberData.Demographics.Details.Gender': '',
+        // 'MemberData.Demographics.Details.Citizenship': '',
+        // 'MemberData.Demographics.Details.AlienType': '',
+        // 'MemberData.Demographics.Details.MortalityDate': '',
+        // 'MemberData.Demographics.Details.DistrictOffice': '',
+        // 'MemberData.Demographics.Details.EligibilityReviewDate': '',
+        // 'MemberData.Address': []
     }
-    eligibilityList.value.push(currentEligibilityRecord);
+    eligibilityList.value.push(currentEligibilityRecord.value);
+    currentRecordSections.value.push(currentRecordValidationObject.value)
+}
+
+const selectRecord = function(index) {
+    // eligibilityList = ref([]);
+    // currentEligibilityRecord = ref({});
+    // currentRecordSections = ref([]);
+    // currentRecordValidationObject = ref({})
+    currentEligibilityRecord.value = eligibilityList.value[index];
+    currentRecordValidationObject.value = currentRecordSections.value[index];
 }
 
 export default function useRecord() {
     return {
         addNewRecord,
         eligibilityList,
-        currentEligibilityRecord
+        currentEligibilityRecord,
+        selectRecord
     }
 }

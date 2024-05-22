@@ -124,3 +124,41 @@ addInmate
 addUppPremiumInformation
 
 addESIPremiumInformation 
+
+// flattened version of the base record object
+
+currentEligibilityRecord.value = {
+    'CaseDetails.ErepCaseId': '',
+    'CaseDetailsHohDetails.HohMemberId': '',
+    'CaseDetailsHohDetails.SpokenLanguage': '',
+    'MemberData.MemberId': '',
+    'MemberData.Demographics.FirstName': '',
+    'MemberData.Demographics.MiddleName': '',
+    'MemberData.Demographics.LastName': '',
+    'MemberData.Demographics.Suffix': '',
+    'MemberData.Demographics.Details.Ssn': '',
+    'MemberData.Demographics.Details.Hispanic': '',
+    'MemberData.Demographics.Details.BirthDate': '',
+    'MemberData.Demographics.Details.MaritalStatus': '',
+    'MemberData.Demographics.Details.Gender': '',
+    'MemberData.Demographics.Details.Citizenship': '',
+    'MemberData.Demographics.Details.AlienType': '',
+    'MemberData.Demographics.Details.MortalityDate': '',
+    'MemberData.Demographics.Details.DistrictOffice': '',
+    'MemberData.Demographics.Details.EligibilityReviewDate': '',
+    'MemberData.Address': []
+}
+
+addressObject = {
+    'MemberData.AddressAddressType': '',
+    'MemberData.AddressStreet1': '',
+    'MemberData.AddressStreet2': '',
+    'MemberData.AddressStreet3': '',
+    'MemberData.AddressCityName': '',
+    'MemberData.AddressStateCode': '',
+    'MemberData.AddressZipCode': '',
+    'MemberData.AddressZipCodeExtension': '',
+    'MemberData.AddressCountyCode': '',
+    'MemberData.AddressAddressStartDate': '',
+    'MemberData.AddressAddressEndDate': ''
+}
