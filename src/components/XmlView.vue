@@ -1,13 +1,28 @@
 <script setup>
-    import useRecord from '@/composables/useRecord';
-    import {computed} from 'vue';
-    const {eligibilityList} = useRecord();
+    import useValidation from '@/composables/useValidation';
+    import {computed, onUpdated} from 'vue';
+    const {validateRecords, sanitizedRecords, errorList} = useValidation();
+    console.log('eligibilityList', sanitizedRecords.value)
     const timestamp = Date.now();
     const date = new Date().toISOString().substring(0, 10);
     let path = [];
     let xml = ''
     let tabIndex = 2
     let tabString = '\t\t'
+
+    onUpdated(() => {
+        validateRecords();
+    })
+
+    const errorCount = computed(() => {
+        let count = 0;
+        for(let i = 0; i < errorList.value.length; i++) {
+            if(errorList.value[i].length) {
+                count++
+            }
+        }
+        return count;
+    });
 
     const closeTag = function() {
         tabString = tabString.substring(0, tabString.length - 1);
@@ -23,8 +38,8 @@
     }
     const actualRecords = computed(() => {
 
-        for(let i = 0; i < eligibilityList.value.length; i++) {
-            const items = Object.keys(eligibilityList.value[i]);
+        for(let i = 0; i < sanitizedRecords.value.length; i++) {
+            const items = Object.keys(sanitizedRecords.value[i]);
             xml += '\t<Eligibility>\n'
             for(let k = 0; k < items.length; k++) {
                 const currentPath = items[k]
@@ -48,7 +63,7 @@
 
                 if(currentPathArray[currentPathArray.length - 2] === path[path.length - 1]) {
                     tabIndex++;
-                    xml += tabString + '<' + currentPathArray[currentPathArray.length - 1] + '>' + eligibilityList.value[i][currentPath]
+                    xml += tabString + '<' + currentPathArray[currentPathArray.length - 1] + '>' + sanitizedRecords.value[i][currentPath]
                     + '</' + currentPathArray[currentPathArray.length - 1] + '>\n'
                 }
             }
@@ -63,7 +78,8 @@
     }) 
 </script>
 <template>
-    <pre v-if="eligibilityList.length">
+    <div style="color: red;" v-if="errorCount">This XML contains errors</div>
+    <pre v-if="sanitizedRecords.length">
 &lt?xml version="1.0" encoding-"UTF-8" standalone="yes"?&gt
 &ltStateEligibility xmlns="http://www.utprism.com/dws/eligibility"&gt
     &ltHeader&gt
@@ -76,7 +92,7 @@
     {{actualRecords}}
     &lt/EligibilityDetail&gt
     &ltTrailer&gt
-        &ltTotalEligibilityRecords&gt{{eligibilityList.length}}&lt/TotalEligibilityRecords&gt
+        &ltTotalEligibilityRecords&gt{{sanitizedRecords.length}}&lt/TotalEligibilityRecords&gt
     &lt/Trailer&gt
 &lt/StateEligibility&gt
     </pre>

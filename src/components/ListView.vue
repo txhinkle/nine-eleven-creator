@@ -1,6 +1,13 @@
 <script setup>
 import useRecord from '@/composables/useRecord';
+import useValidation from '@/composables/useValidation';
+import { onMounted } from 'vue';
 const {eligibilityList, selectRecord} = useRecord();
+const {errorList, validateRecords} = useValidation();
+console.log('errorList', errorList.value);
+onMounted(() => {
+    validateRecords();
+})
 </script>
 
 <template>
@@ -14,10 +21,12 @@ const {eligibilityList, selectRecord} = useRecord();
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in eligibilityList">
-                    <th><a @click="selectRecord(index)">{{ index }}</a></th>
-                    <th>{{ item['MemberData.MemberId'] }}</th>
-                    <th>not implemented yet</th>
+                <tr v-for="(item, index) in eligibilityList" :key="index">
+                    <a @click="selectRecord(index)">
+                        <th>{{ index }}</th>
+                        <th>{{ item['MemberId'].value }}</th>
+                        <th style="max-width: 300px;">{{ errorList[index] }}</th>
+                    </a>
                 </tr>
             </tbody>
         </table>

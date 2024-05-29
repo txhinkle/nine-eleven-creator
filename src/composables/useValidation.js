@@ -1,4 +1,5 @@
 import useRecord from "./useRecord"
+import {ref, watch} from 'vue'
 const { eligibilityList, currentRecordSections} = useRecord()
 
 const basicRequiredFields = [ 
@@ -17,24 +18,49 @@ const basicRequiredFields = [
     'MemberData.Address[0].AddressStartDate',
     'MemberData.Address[0].AddressEndDate'
 ]
+watch(eligibilityList, async () => {
+	sanitizedRecords.value = [];
+})
+
+const sanitizedRecords = ref([])
+const errorList = ref([])
 
 // other required sets
 
 const validateRecords = function() {
-    for(let i = 0; i < eligibilityList.length; i++) {
-        // bad logic below, replace
-        const requiredFields = {
-            'sections': currentRecordSections[i],
-            ...basicRequiredFields
+    sanitizedRecords.value = []
+    errorList.value = []
+    const list = eligibilityList.value
+    for(let i = 0; i < list.length; i++) {
+        const record = {...list[i]}
+        const sanitizedRecord = {}
+        const recordErrors = []
+        const keys = Object.keys(record);
+        for(let j = 0; j < keys.length; j++) {
+            const item = record[keys[j]]
+            if(item.value !== '' && item.type !== 'modal') {
+                sanitizedRecord[item.path] = item.value
+            }
+            else if(item.required) {
+                recordErrors.push('missing required field:' + keys[j]);
+            }
+            if(item.path === 'MemberData.Address' && !item.value.length) {
+                recordErrors.push('missing required field: Address');
+            }
         }
-        return requiredFields
+        if(Object.keys(sanitizedRecord).length) {
+            sanitizedRecords.value.push(sanitizedRecord);
+            errorList.value.push(recordErrors);
+        }
     }
 }
 
 // helper functions for validate record to use
 
-export default useValidation = function() {
+export default function useValidation() {
     return {
-        validateRecords
+        validateRecords,
+        sanitizedRecords,
+        errorList
     }
 }

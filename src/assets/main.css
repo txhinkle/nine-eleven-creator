@@ -19,3 +19,12 @@ nav li {
 nav li a {
   padding: 0 10px;
 }
+
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+tr {
+  border-bottom: 1pt solid black;
+}
