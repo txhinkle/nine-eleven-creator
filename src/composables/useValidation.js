@@ -44,8 +44,13 @@ const validateRecords = function() {
             else if(item.required) {
                 recordErrors.push('missing required field:' + keys[j]);
             }
-            if(item.path === 'MemberData.Address' && !item.value.length) {
-                recordErrors.push('missing required field: Address');
+            if(item.type === 'modal') {
+                if(!item.value.length) {
+                    recordErrors.push('missing required field:' + keys[j]);
+                } else {
+                    // remove null fields TODO
+                    sanitizedRecord[item.path] = item.value
+                }
             }
         }
         if(Object.keys(sanitizedRecord).length) {

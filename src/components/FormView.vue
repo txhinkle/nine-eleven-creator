@@ -25,7 +25,7 @@ const oldAddressIndex = ref(null);
 const racModal = ref(false);
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
-	// needs logic to separate single address into multiple addresses with different types
+	
 	addressTypes.forEach((type) => {
 		const addy = {
 			AddressType: type,
@@ -45,9 +45,9 @@ const deleteFromArray = function (arrayName, index) {
 		? currentEligibilityRecord.value['Address'].value.splice(index, 1)
 		: currentEligibilityRecord.value['racstufffixlater'].splice(index, 1);
 };
-const submitRac = function (rac) {
-	// take object and create an array of objects based on the dates. This function needs to be aware of the system date
-};
+// const submitRac = function (rac) {
+// 	// take object and create an array of objects based on the dates. This function needs to be aware of the system date
+// };
 const addAddress = function (address, index) {
 	// change boolean, needs to know whether it's editing and old address or creating a new one
 	newAddress.value = address;
