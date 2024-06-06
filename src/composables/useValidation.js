@@ -38,10 +38,10 @@ const validateRecords = function() {
         const keys = Object.keys(record);
         for(let j = 0; j < keys.length; j++) {
             const item = record[keys[j]]
-            if(item.value !== '' && item.type !== 'modal') {
+            if(item.value !== '' && item.type !== 'modal' && item.included) {
                 sanitizedRecord[item.path] = item.value
             }
-            else if(item.required) {
+            else if(item.required && item.included) {
                 recordErrors.push('missing required field:' + keys[j]);
             }
             if(item.type === 'modal') {

@@ -5,7 +5,12 @@ import AddressModal from '@/components/AddressModal.vue';
 import useValidation from '@/composables/useValidation';
 const {validateRecords} = useValidation();
 
-const { currentEligibilityRecord, addNewRecord } = useRecord();
+const {
+	currentEligibilityRecord,
+	addNewRecord,
+	currentRecordValidationObject,
+	toggleIncluded,
+} = useRecord();
 const newAddressTemplate = {
 	Street1: '',
 	Street2: '',
@@ -74,13 +79,22 @@ const cancelModal = function () {
 		+
 	</button>
 	<div class="section-left">
+		<div class="section-booleans">
+			<label
+				v-for="item in Object.keys(currentRecordValidationObject)" :key="item"
+				@click="toggleIncluded(item)"
+			>
+				<span>{{ item }}</span>
+				<input type="checkbox" v-model="currentRecordValidationObject[item]"/>
+			</label>
+		</div>
 		<div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
-			<label>
+			<label v-if="currentEligibilityRecord[item].included">
 				<span>{{ item }}</span>
 				<span v-if="currentEligibilityRecord[item].required">*</span>
 			</label>
 			<div
-				v-if="item === 'Address'"
+				v-if="item === 'Address' && currentEligibilityRecord[item]"
 				class="address"
 			>
 				<div v-for="(address, index) in currentEligibilityRecord['Address'].value" :key="index">
@@ -95,7 +109,7 @@ const cancelModal = function () {
 					Add Address
 				</button>
 			</div>
-			<div v-else-if="item === 'Rac'">
+			<div v-else-if="item === 'Rac' && currentEligibilityRecord[item]">
 				<button>Add Rac - not implemented</button>
 				<div
 					class="modal"
@@ -108,7 +122,7 @@ const cancelModal = function () {
 				:type="currentEligibilityRecord[item].type"
 				v-model="currentEligibilityRecord[item].value"
 				:required="currentEligibilityRecord[item].required"
-				v-else
+				v-else-if="currentEligibilityRecord[item].included"
 			/>
 		</div>
 		<pre v-if="currentEligibilityRecord">{{ currentEligibilityRecord }}</pre>
