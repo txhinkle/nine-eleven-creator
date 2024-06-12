@@ -25,8 +25,8 @@
 
     const closeTag = function() {
         tabString = tabString.substring(0, tabString.length - 1);
-        xml += tabString + '</' + path[path.length - 1] + '>\n'
-        path.pop()
+        const endTag = path.pop()
+        xml += tabString + '</' + endTag + '>\n'
     }
     const addTag = function(segment) {
         tabString += '\t'
@@ -38,21 +38,18 @@
         while (path.length && !currentPathArray.includes(path[path.length - 1])) {
                     closeTag()
                 }
-                if(!path.length) {
-                    path = [...currentPathArray];
-                    path.pop()
-                    tabString = '\t\t'
-                    xml += tabString +'<' + path[0] + '>' + '\n'
-                    tabString += '\t'
-                }
-                if(!path.includes(currentPathArray[currentPathArray.length - 2])) {
-                    tabString = tabString.substring(0, tabString.length - 1);
-                    addTag(currentPathArray[currentPathArray.length - 2])
-                    tabString += '\t'
-                }
+        currentPathArray.forEach((element) => {
+            if(!path.includes(element) && element !== currentPathArray[currentPathArray.length - 1]) {
+                console.log('element hit if', element)
+                tabString = tabString.substring(0, tabString.length - 1);
+                addTag(element)
+                tabString += '\t'
+            }
+        })
     }
 
     const writeValue = function(path, value) {
+        console.log('writeValue Called')
         xml += tabString + '<' + path + '>' + value
         + '</' + path + '>\n'
     }
@@ -116,4 +113,6 @@
 &lt/StateEligibility&gt
     </pre>
     <p v-else>No records have been added yet</p>
+    <p>---------------Sent Object:---------------------</p>
+    <pre>{{ sanitizedRecords }}</pre>
 </template>
