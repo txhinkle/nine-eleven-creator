@@ -28,3 +28,6 @@ table {
 tr {
   border-bottom: 1pt solid black;
 }
+th td {
+  border-left: 1pt solid black;
+}

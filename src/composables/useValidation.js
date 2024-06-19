@@ -1,22 +1,15 @@
 import useRecord from "./useRecord"
 import {ref, watch} from 'vue'
-const { eligibilityList, currentRecordSections} = useRecord()
+const { eligibilityList} = useRecord()
 
-const basicRequiredFields = [ 
-    'CaseDetails.ErepCaseId',
-    'CaseDetails.HohDetails.HohMemberId',
-    'MemberData.MemberId',
-    'MemberData.Demographics.LastName',
-    'MemberData.Demographics.Details.BirthDate',
-    'MemberData.Demographics.Details.Gender',
-    'MemberData.Demographics.Details.Citizenship',
-    'MemberData.Address[0].AddressType',
-    'MemberData.Address[0].Street1',
-    'MemberData.Address[0].CityName',
-    'MemberData.Address[0].StateCode',
-    'MemberData.Address[0].ZipCode',
-    'MemberData.Address[0].AddressStartDate',
-    'MemberData.Address[0].AddressEndDate'
+const modalRequiredFields = [ 
+    'AddressType',
+    'Street1',
+    'CityName',
+    'StateCode',
+    'ZipCode',
+    'AddressStartDate',
+    'AddressEndDate'
 ]
 watch(eligibilityList, async () => {
 	sanitizedRecords.value = [];
@@ -45,12 +38,15 @@ const validateRecords = function() {
                 recordErrors.push('missing required field:' + keys[j]);
             }
             if(item.type === 'modal') {
-                if(!item.value.length) {
-                    recordErrors.push('missing required field:' + keys[j]);
-                } else {
-                    // remove null fields TODO
-                    sanitizedRecord[item.path] = item.value
-                }
+                item.value.forEach(modalObject => {
+                    Object.keys(modalObject).forEach(key => {
+                        if(modalObject[key]) {
+                               sanitizedRecord[item.path + '.' + key] = modalObject[key]
+                        } else if(modalRequiredFields.includes(key)) {
+                            recordErrors.push('missing required field:' + key)
+                        }
+                    })
+                })
             }
         }
         if(Object.keys(sanitizedRecord).length) {

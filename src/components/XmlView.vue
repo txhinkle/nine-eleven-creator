@@ -40,7 +40,6 @@
                 }
         currentPathArray.forEach((element) => {
             if(!path.includes(element) && element !== currentPathArray[currentPathArray.length - 1]) {
-                console.log('element hit if', element)
                 tabString = tabString.substring(0, tabString.length - 1);
                 addTag(element)
                 tabString += '\t'
@@ -49,7 +48,6 @@
     }
 
     const writeValue = function(path, value) {
-        console.log('writeValue Called')
         xml += tabString + '<' + path + '>' + value
         + '</' + path + '>\n'
     }
@@ -66,10 +64,8 @@
 
                 if(currentPathArray[currentPathArray.length - 2] === path[path.length - 1]) {
                     if(currentPathArray[currentPathArray.length - 1] === 'Address') {
-                        
                         sanitizedRecords.value[i][currentPath].forEach(element => {
                             tabString += '\t'
-                            //why this spacing?
                             xml += tabString + '<Address>\n'
                         //     console.log('element', element)
                             Object.keys(element).forEach(attribute => {
