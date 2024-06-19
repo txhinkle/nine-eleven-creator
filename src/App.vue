@@ -20,7 +20,10 @@ const updateView = function(view) {
   </nav>
   <main>
     <FormView v-if="currentView==='form'" />
-    <ListView v-else-if="currentView==='list'" />
+    <ListView
+      v-else-if="currentView==='list'"
+      @form="updateView('form')"
+    />
     <XmlView v-else-if="currentView==='xml'" />
   </main>
 </template>
