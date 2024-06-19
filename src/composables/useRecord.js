@@ -3,11 +3,31 @@ const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
 const currentRecordSections = ref([]);
 const currentRecordValidationObject = ref({})
-// flattened keys... what do you need to rebuild? XML needs to know what level to build
+
 const optionalSections = {
     'includeUnborn': [
         'MotherId',
         'UnbornId'
+    ],
+    'includeChipPremium': [
+       'Chip5Percent',
+       'LateFeeAssessedAmount',
+       'DueProcessIndicator',
+       'CertificationStartDate',
+       'CertificationEndDate',
+       'IssuanceDate'
+    ],
+    'includeCaseHeadRelationshipDetails': [
+        'HohMemberId-RelationshipDetails',
+        'MemberId-RelationshipDetails',
+        'RelationshipCode',
+        'RelationshipStartDate',
+        'RelationshipEndDate'
+    ],
+    includeEligibilityApplication: [
+        'EligibilityProgramStatus',
+        'DenialClosureReason',
+        'ApplicationDate'
     ]
 }
 
@@ -15,9 +35,9 @@ const addNewRecord = () => {
     currentRecordValidationObject.value = {
         // add booleans for sections
         includeUnborn: false,
-        // includeChipPremium: false,
-        // includeRace: false,
-        // includeEligibiilityApplication: false,
+        includeChipPremium: false,
+        includeCaseHeadRelationshipDetails: false,
+        includeEligibilityApplication: false,
         // includeShellProgram: false,
         // includeLivingArrangement: false,
         // includeCommunicationData: false,
@@ -77,6 +97,76 @@ const addNewRecord = () => {
             required: true,
             included: false,
         },
+        LateFeeAssessedAmount: {
+            path: 'CaseDetails.ChipPremiumDetails.LateFeeAssessedAmount',
+            type: 'number',
+            value: '',
+            required: false,
+            included: false,
+        },
+        DueProcessIndicator: {
+            path: 'CaseDetails.ChipPremiumDetails.DueProcessIndicator',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
+        CertificationStartDate: {
+            path: 'CaseDetails.ChipPremiumDetails.CertificationStartDate',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
+        CertificationEndDate: {
+            path: 'CaseDetails.ChipPremiumDetails.CertificationEndDate',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
+        IssuanceDate: {
+            path: 'CaseDetails.ChipPremiumDetails.IssuanceDate',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
+        'HohMemberId-RelationshipDetails': {
+            path: 'CaseDetails.CaseHeadRelationshipDetails.HohMemberId',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
+        'MemberId-RelationshipDetails': {
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.MemberId',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
+        RelationshipCode: {
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipCode',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
+        RelationshipStartDate: {
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipStartDate',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
+        RelationshipEndDate: {
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipEndDate',
+            type: 'number',
+            value: '',
+            required: true,
+            included: false,
+        },
         MemberId: {
             path: 'MemberData.MemberId',
             type: 'number',
@@ -110,6 +200,13 @@ const addNewRecord = () => {
             type: 'text',
             value: '',
             required: false,
+            included: true,
+        },
+        RaceCode: {
+            path: 'MemberData.Demographics.Race.RaceCode',
+            type: 'text',
+            value: '',
+            required: true,
             included: true,
         },
         Ssn: {
@@ -182,11 +279,33 @@ const addNewRecord = () => {
             required: false,
             included: true,
         },
+        EligibilityProgramStatus: {
+            path: 'MemberData.Demographics.EligibilityApplication.EligibilityProgramStatus',
+            type: '',
+            value: '',
+            required: false,
+            included: false,
+        },
+        DenialClosureReason: {
+            path: 'MemberData.Demographics.EligibilityApplication.DenialClosureReason',
+            type: '',
+            value: '',
+            required: false,
+            included: false,
+        },
+        ApplicationDate: {
+            path: 'MemberData.Demographics.EligibilityApplication.ApplicationDate',
+            type: '',
+            value: '',
+            required: false,
+            included: false,
+        },
+        //
         Address: {
             path: 'MemberData.Address',
             type: 'modal',
             value: [],
-            required: false,
+            required: true,
             included: true,
         }
     };
