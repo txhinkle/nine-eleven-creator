@@ -28,7 +28,80 @@ const optionalSections = {
         'EligibilityProgramStatus',
         'DenialClosureReason',
         'ApplicationDate'
-    ]
+    ],
+    includeShellProgram: [
+        'ShellProgramType',
+        'ShellProgramStatus',
+        'ShellProgramStartDate',
+        'ShellProgramEndDate'
+    ],
+    includeLivingArrangement: [
+        'Type',
+        'StartDate-LivingArrangement',
+        'EndDate-LivingArrangement'
+    ],
+    includeCommunicationData: [
+        'CommunicationType',
+        'CommunicationValue',
+        'ContactName',
+        'CommunicationStartDate',
+        'CommunicationEndDate',
+    ],
+    includeMemberEligibility: [
+        'RacCode',
+        'RacBeginDate',
+        'RacEndDate',
+        'RacIssuanceDate',
+        'PregnancyStatus',
+        'PregnancyStartDate',
+        'PregnancyDueDate',
+        'PregnancyEndDate',
+        'Income',
+        'ContributingMemberId',
+        'RelationshipCode',
+        'CopayExemptIndicator',
+        'Amount-PatientLiability',
+        // break for spenddown
+        'SPMIndicator',
+        'MedicareDualEligibilityStatusCode',
+    ],
+    includeSpenddown: [
+        'SpenddownIndicator',
+        'MetDate',
+        'Amount-Spenddown',
+        'BillId',
+        'BillAccountNumber',
+        'BillStartDate',
+        'BillEndDate',
+        'ServiceType',
+        'PrescriptionNumber',
+        'ErepCurrentUsedAmount',
+        'TotalBill',
+        'BillingProviderName',
+        'BillingProviderStreet1',
+        'BillingProviderStreet2',
+        'BillingProviderStreet3',
+        'BillingProviderCityName',
+        'BillingProviderStateCode',
+        'BillingProviderZipCode',
+        'BillingProviderZipCodeExtension',
+        'BillingProviderCountyCode',
+        'BilledPersonSuffix',
+        'BilledPersonFirstName',
+        'BilledPersonMiddleName',
+        'BilledPersonLastName',
+    ],
+    includeBenefit: [],
+    includeFosterCare: [],
+    includeSubsidizedAdoption: [],
+    includeGuardian: [],
+    includeSsaDisability: [],
+    includeMedicareEligibility: [],
+    includeLinkedMembers: [],
+    includeTobaccoSurveyCessation: [],
+    includeInmate: [],
+    includeUppPremiumInformation: [],
+    includeEsiPremiumInformation: [],
 }
 
 const addNewRecord = () => {
@@ -38,10 +111,12 @@ const addNewRecord = () => {
         includeChipPremium: false,
         includeCaseHeadRelationshipDetails: false,
         includeEligibilityApplication: false,
-        // includeShellProgram: false,
-        // includeLivingArrangement: false,
-        // includeCommunicationData: false,
+        includeShellProgram: false,
+        includeLivingArrangement: false,
+        includeCommunicationData: false,
         // includeMemberEligibility: false,
+        // includeSpenddown: false,
+        // includeBenefit:false,
         // includeFosterCare: false,
         // includeSubsidizedAdoption: false,
         // includeGuardian: false,
@@ -57,14 +132,14 @@ const addNewRecord = () => {
     const recordConfigurationBasic = {
         ErepCaseId: {
             path: 'CaseDetails.ErepCaseId',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: true,
         },
         HohMemberId: {
             path: 'CaseDetails.HohDetails.HohMemberId',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: true,
@@ -78,98 +153,98 @@ const addNewRecord = () => {
         },
         MotherId: {
             path: 'CaseDetails.UnbornLinks.MotherID',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         UnbornId: {
             path: 'CaseDetails.UnbornLinks.UnbornId',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         Chip5Percent: {
             path: 'CaseDetails.ChipPremiumDetails.Chip5Percent',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         LateFeeAssessedAmount: {
             path: 'CaseDetails.ChipPremiumDetails.LateFeeAssessedAmount',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: false,
             included: false,
         },
         DueProcessIndicator: {
             path: 'CaseDetails.ChipPremiumDetails.DueProcessIndicator',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         CertificationStartDate: {
             path: 'CaseDetails.ChipPremiumDetails.CertificationStartDate',
-            type: 'number',
+            type: 'date',
             value: '',
             required: true,
             included: false,
         },
         CertificationEndDate: {
             path: 'CaseDetails.ChipPremiumDetails.CertificationEndDate',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         IssuanceDate: {
             path: 'CaseDetails.ChipPremiumDetails.IssuanceDate',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         'HohMemberId-RelationshipDetails': {
             path: 'CaseDetails.CaseHeadRelationshipDetails.HohMemberId',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         'MemberId-RelationshipDetails': {
             path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.MemberId',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         RelationshipCode: {
             path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipCode',
-            type: 'number',
+            type: 'text',
             value: '',
             required: true,
             included: false,
         },
         RelationshipStartDate: {
             path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipStartDate',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         RelationshipEndDate: {
             path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipEndDate',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: false,
         },
         MemberId: {
             path: 'MemberData.MemberId',
-            type: 'number',
+            type: 'tel',
             value: '',
             required: true,
             included: true,
@@ -281,9 +356,9 @@ const addNewRecord = () => {
         },
         EligibilityProgramStatus: {
             path: 'MemberData.Demographics.EligibilityApplication.EligibilityProgramStatus',
-            type: '',
+            type: 'text',
             value: '',
-            required: false,
+            required: true,
             included: false,
         },
         DenialClosureReason: {
@@ -297,7 +372,98 @@ const addNewRecord = () => {
             path: 'MemberData.Demographics.EligibilityApplication.ApplicationDate',
             type: '',
             value: '',
+            required: true,
+            included: false,
+        },
+        ShellProgramType: {
+            path: 'MemberData.Demographics.ShellProgram.ShellProgramType',
+            type: 'text',
+            value: '',
+            required: true,
+            included: false,
+        },
+        ShellProgramStatus: {
+            path: 'MemberData.Demographics.ShellProgram.ShellProgramStatus',
+            type: 'text',
+            value: '',
+            required: true,
+            included: false,
+        },
+        ShellProgramStartDate: {
+            path: 'MemberData.Demographics.ShellProgram.ShellProgramStartDate',
+            type: '',
+            value: '',
+            required: true,
+            included: false,
+        },
+        ShellProgramEndDate: {
+            path: 'MemberData.Demographics.ShellProgram.ShellProgramEndDate',
+            type: '',
+            value: '',
+            required: true,
+            included: false,
+        },
+        Type: {
+            path: 'MemberData.Demographics.LivingArrangement.Type',
+            type: '',
+            value: '',
+            required: true,
+            included: false,
+        },
+        StartDate: {
+            path: 'MemberData.Demographics.LivingArrangement.StartDate',
+            type: '',
+            value: '',
             required: false,
+            included: false,
+        },
+        EndDate: {
+            path: 'MemberData.Demographics.LivingArrangement.EndDate',
+            type: '',
+            value: '',
+            required: false,
+            included: false,
+        },
+        CommunicationType: {
+            path: 'MemberData.CommunicationData.CommunicationType',
+            type: '',
+            value: '',
+            required: true,
+            included: false,
+        },
+        CommunicationValue: {
+            path: 'MemberData.CommunicationData.CommunicationValue',
+            type: '',
+            value: '',
+            required: true,
+            included: false,
+        },
+        ContactName: {
+            path: 'MemberData.CommunicationData.ContactName',
+            type: '',
+            value: '',
+            required: false,
+            included: false,
+        },
+        CommunicationStartDate: {
+            path: 'MemberData.CommunicationData.CommunicationStartDate',
+            type: '',
+            value: '',
+            required: false,
+            included: false,
+        },
+        CommunicationEndDate: {
+            path: 'MemberData.CommunicationData.CommunicationEndDate',
+            type: '',
+            value: '',
+            required: false,
+            included: false,
+        },
+        Rac: {
+            path: 'MemberData.MemberEligibility.Rac',
+            type: 'modal',
+            value: [],
+            required: true,
             included: false,
         },
         //
@@ -323,11 +489,22 @@ const selectRecord = function(index) {
 
 const toggleIncluded = function(section) {
     currentRecordValidationObject.value[section] = !currentRecordValidationObject.value[section];
+    if(section === 'includeMemberEligibility') {
+        currentRecordValidationObject.value[section] === false
+            ? delete currentRecordValidationObject.value.includeSpenddown
+            : currentRecordValidationObject.value.includeSpenddown = false
+    }
+    // populate MemberId or HohMemberId?
     optionalSections[section].forEach(element => {
         const attribute = {...currentEligibilityRecord.value[element]};
         currentEligibilityRecord.value[element] = {
             ...currentEligibilityRecord.value[element],
             included: !attribute.included
+        }
+        if(element.includes('HohMemberId') && currentEligibilityRecord.value.HohMemberId.value) {
+            currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.HohMemberId.value
+        } else if(element.includes('MemberId') && currentEligibilityRecord.value.MemberId.value) {
+            currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.MemberId.value
         }
     });
     console.log('added', section);

@@ -27,7 +27,8 @@ onUpdated(() => {
 })
 const newAddress = ref(null);
 const oldAddressIndex = ref(null);
-const racModal = ref(false);
+const newRac = ref(null);
+const oldRacIndex = ref(null);
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
 	
@@ -56,20 +57,22 @@ const deleteFromArray = function (arrayName, index) {
 const addAddress = function (address, index) {
 	// change boolean, needs to know whether it's editing and old address or creating a new one
 	newAddress.value = address;
-	console.log('new address?', newAddress.value);
 	if (index !== null) {
-		console.log('index?', index);
 		oldAddressIndex.value = index;
 	}
 };
-const addRac = function () {
-	// modal
+const addRac = function (rac, index) {
+	newRac.value = rac;
+	if(index !== null) {
+		oldRacIndex.value = index
+	}
 };
-const cancelModal = function () {
-	racModal.value = false;
-	newAddress.value = null;
-	oldAddressIndex.value = null;
-};
+const submitRac = function () {}
+// const cancelModal = function () {
+// 	racModal.value = false;
+// 	newAddress.value = null;
+// 	oldAddressIndex.value = null;
+// };
 </script>
 <template>
 	<button
@@ -79,18 +82,10 @@ const cancelModal = function () {
 		+
 	</button>
 	<div class="section-left">
-		<div class="section-booleans">
-			<label
-				v-for="item in Object.keys(currentRecordValidationObject)" :key="item"
-				@click="toggleIncluded(item)"
-			>
-				<span>{{ item }}</span>
-				<input type="checkbox" v-model="currentRecordValidationObject[item]"/>
-			</label>
-		</div>
+		
 		<div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
 			<label v-if="currentEligibilityRecord[item].included">
-				<span>{{ item }}</span>
+				<span>{{ item.includes('-') ? item.substring(0, item.indexOf('-')) : item }}</span>
 				<span v-if="currentEligibilityRecord[item].required">*</span>
 			</label>
 			<div
@@ -121,6 +116,7 @@ const cancelModal = function () {
 			<input
 				:type="currentEligibilityRecord[item].type"
 				v-model="currentEligibilityRecord[item].value"
+				:pattern="currentEligibilityRecord[item].type === 'tel' ? '[0-9]*' : ''"
 				:required="currentEligibilityRecord[item].required"
 				v-else-if="currentEligibilityRecord[item].included"
 			/>
@@ -129,15 +125,31 @@ const cancelModal = function () {
 		<p v-else>No Records Yet, Add Record to start</p>
 	</div>
 	<div class="section-right">
-		<!--    <p>To use this form:</p>-->
-		<!--    <p>If you want to make a formerly populated record value empty, put null as the new value</p>-->
-		<!--    <p>You can navigate between records on the List Tab</p>-->
+		<p>To use this form:</p>
+		<p>If you want to make a formerly populated record value empty, put null as the new value</p>
+		<p>You can navigate between records on the List Tab</p>
+		<p>All dates should be written in format: YYYY-MM-DD</p>
+		<div class="section-booleans">
+			<label
+				v-for="item in Object.keys(currentRecordValidationObject)" :key="item"
+				@click="toggleIncluded(item)"
+			>
+				<input type="checkbox" v-model="currentRecordValidationObject[item]"/>
+				<span>{{ item }}</span>
+			</label>
+		</div>
 	</div>
 	<AddressModal
 		v-if="newAddress"
 		:address="newAddress"
 		@submit="submitAddress"
 		@close="newAddress = null"
+	/>
+	<RacModal
+		v-if="newRac"
+		:rac="newRac"
+		@submit="submitRac"
+		@close="newRac = null"
 	/>
 </template>
 <style scoped>
@@ -151,7 +163,7 @@ label {
 
 #record-button {
 	position: fixed;
-	top: 5%;
+	top: 2%;
 	border-radius: 50%;
 	background-color: lightgreen;
 	font-size: larger;

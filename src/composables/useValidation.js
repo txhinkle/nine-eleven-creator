@@ -37,16 +37,22 @@ const validateRecords = function() {
             else if(item.required && item.included) {
                 recordErrors.push('missing required field:' + keys[j]);
             }
-            if(item.type === 'modal') {
+            if(item.type === 'modal' && item.included) {
+                console.log('item.value', item.value);
+                sanitizedRecord[item.path] = []
                 item.value.forEach(modalObject => {
+                    const tempObject = {}
                     Object.keys(modalObject).forEach(key => {
-                        if(modalObject[key]) {
-                               sanitizedRecord[item.path + '.' + key] = modalObject[key]
+                        if(modalObject[key] !== '') {
+                            tempObject[key] = modalObject[key]
                         } else if(modalRequiredFields.includes(key)) {
                             recordErrors.push('missing required field:' + key)
                         }
                     })
+                    console.log('item.path', item.path)
+                    sanitizedRecord[item.path].push(tempObject);
                 })
+                console.log('address result', sanitizedRecord[item.path])
             }
         }
         if(Object.keys(sanitizedRecord).length) {

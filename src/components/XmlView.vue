@@ -63,11 +63,12 @@
                 prepPath(currentPathArray);
 
                 if(currentPathArray[currentPathArray.length - 2] === path[path.length - 1]) {
+                    // console.log(currentPathArray[currentPathArray.length - 2])
                     if(currentPathArray[currentPathArray.length - 1] === 'Address') {
-                        sanitizedRecords.value[i][currentPath].forEach(element => {
-                            tabString += '\t'
+                        sanitizedRecords.value[i]['MemberData.Address'].forEach(element => {
+                            console.log('currentPath', sanitizedRecords.value[i][currentPath])
                             xml += tabString + '<Address>\n'
-                        //     console.log('element', element)
+                            tabString += '\t'
                             Object.keys(element).forEach(attribute => {
                                 writeValue(attribute, element[attribute]);
                             });
