@@ -16,7 +16,7 @@ const includeCopayExemptDetails = ref(false)
 const includePatientLiability = ref(false)
 const includeSpenddown = ref(false)
 // spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
-const includeSPM = ref(false)
+const includeSpm = ref(false)
 const includeMedicareDualEligibility = ref(false)
 const emit = defineEmits(['submit', 'close']);
 const submit = () => {
@@ -154,7 +154,7 @@ const close = () => {
 					/>
 				</label>
 			</div>
-			<div v-if="includeCopayExempt">
+			<div v-if="includeCopayExemptDetails">
 				<label>
 					<span>CopayExemptIndicator</span>
 					<input
