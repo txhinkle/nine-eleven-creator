@@ -47,54 +47,21 @@ const optionalSections = {
         'CommunicationStartDate',
         'CommunicationEndDate',
     ],
-    includeMemberEligibility: [
-        'RacCode',
-        'RacBeginDate',
-        'RacEndDate',
-        'RacIssuanceDate',
-        'PregnancyStatus',
-        'PregnancyStartDate',
-        'PregnancyDueDate',
-        'PregnancyEndDate',
-        'Income',
-        'ContributingMemberId',
-        'RelationshipCode',
-        'CopayExemptIndicator',
-        'Amount-PatientLiability',
-        // break for spenddown
-        'SPMIndicator',
-        'MedicareDualEligibilityStatusCode',
+    includeFosterCare: [
+        'FosterCareParentName'
     ],
-    includeSpenddown: [
-        'SpenddownIndicator',
-        'MetDate',
-        'Amount-Spenddown',
-        'BillId',
-        'BillAccountNumber',
-        'BillStartDate',
-        'BillEndDate',
-        'ServiceType',
-        'PrescriptionNumber',
-        'ErepCurrentUsedAmount',
-        'TotalBill',
-        'BillingProviderName',
-        'BillingProviderStreet1',
-        'BillingProviderStreet2',
-        'BillingProviderStreet3',
-        'BillingProviderCityName',
-        'BillingProviderStateCode',
-        'BillingProviderZipCode',
-        'BillingProviderZipCodeExtension',
-        'BillingProviderCountyCode',
-        'BilledPersonSuffix',
-        'BilledPersonFirstName',
-        'BilledPersonMiddleName',
-        'BilledPersonLastName',
+    includeSubsidizedAdoption: [
+        'SubsidizedParentFirstName',
+        'SubsidizedParentLastName',
+        'SubsidizedParentPhoneNumber',
     ],
+    includeGuardian: [
+        'GuardianParentFirstName',
+        'GuardianParentLastName',
+        'GuardianParentPhoneNumber',
+    ],
+    includeRac: [],
     includeBenefit: [],
-    includeFosterCare: [],
-    includeSubsidizedAdoption: [],
-    includeGuardian: [],
     includeSsaDisability: [],
     includeMedicareEligibility: [],
     includeLinkedMembers: [],
@@ -114,10 +81,9 @@ const addNewRecord = () => {
         includeShellProgram: false,
         includeLivingArrangement: false,
         includeCommunicationData: false,
-        // includeMemberEligibility: false,
-        // includeSpenddown: false,
-        // includeBenefit:false,
-        // includeFosterCare: false,
+        includeRac: false,
+        includeBenefit:false,
+        includeFosterCare: false,
         // includeSubsidizedAdoption: false,
         // includeGuardian: false,
         // includeSsaDisability: false,
@@ -466,13 +432,68 @@ const addNewRecord = () => {
             required: true,
             included: false,
         },
-        //
+        Benefit: {
+            path: 'MemberData.MemberEligibility.Benefit',
+            type: 'modal',
+            value: [],
+            required: true,
+            included: false,
+        },
         Address: {
             path: 'MemberData.Address',
             type: 'modal',
             value: [],
             required: true,
             included: true,
+        },
+        FosterCareParentName: {
+            path: 'MemberData.FosterCare.FosterCareParentName',
+            type: 'text',
+            value: '',
+            required: true,
+            included: false,
+        },
+        SubsidizedParentFirstName: {
+            path: 'MemberData.SubsidizedAdoption.SubsidizedParentFirstName',
+            type: 'text',
+            value: '',
+            required: false,
+            included: false,
+        },
+        SubsidizedParentLastName: {
+            path: 'MemberData.SubsidizedAdoption.SubsidizedParentLastName',
+            type: 'text',
+            value: '',
+            required: true,
+            included: false,
+        },
+        SubsidizedParentPhoneNumber: {
+            path: 'MemberData.SubsidizedAdoption.SubsidizedParentPhoneNumber',
+            type: 'tell',
+            value: '',
+            required: false,
+            included: false,
+        },
+        GuardianParentFirstName: {
+            path: 'MemberData.Guardian.GuardianParentFirstName',
+            type: 'text',
+            value: '',
+            required: false,
+            included: false,
+        },
+        GuardianParentLastName: {
+            path: 'MemberData.Guardian.GuardianParentLastName',
+            type: 'text',
+            value: '',
+            required: true,
+            included: false,
+        },
+        GuardianParentPhoneNumber: {
+            path: 'MemberData.Guardian.GuardianParentPhoneNumber',
+            type: 'tell',
+            value: '',
+            required: false,
+            included: false,
         }
     };
 
@@ -489,11 +510,11 @@ const selectRecord = function(index) {
 
 const toggleIncluded = function(section) {
     currentRecordValidationObject.value[section] = !currentRecordValidationObject.value[section];
-    if(section === 'includeMemberEligibility') {
-        currentRecordValidationObject.value[section] === false
-            ? delete currentRecordValidationObject.value.includeSpenddown
-            : currentRecordValidationObject.value.includeSpenddown = false
-    }
+    // if(section === 'includeRac') {
+    //     currentRecordValidationObject.value[section] === false
+    //         ? delete currentRecordValidationObject.value.includeSpenddown
+    //         : currentRecordValidationObject.value.includeSpenddown = false
+    // }
     // populate MemberId or HohMemberId?
     optionalSections[section].forEach(element => {
         const attribute = {...currentEligibilityRecord.value[element]};

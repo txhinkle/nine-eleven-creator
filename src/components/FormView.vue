@@ -2,8 +2,12 @@
 import useRecord from '@/composables/useRecord';
 import { ref, onUpdated } from 'vue';
 import AddressModal from '@/components/AddressModal.vue';
+import RacModal from './RacModal.vue';
+import BenefitModal from './BenefitModal.vue';
 import useValidation from '@/composables/useValidation';
+import useTemplates from '@/composables/useTemplates'
 const {validateRecords} = useValidation();
+const {newAddressTemplate, newRacTemplate, newBenefitTemplate} = useTemplates()
 
 const {
 	currentEligibilityRecord,
@@ -11,16 +15,7 @@ const {
 	currentRecordValidationObject,
 	toggleIncluded,
 } = useRecord();
-const newAddressTemplate = {
-	Street1: '',
-	Street2: '',
-	Street3: '',
-	CityName: '',
-	StateCode: '',
-	ZipCode: '',
-	AddressStartDate: '',
-	AddressEndDate: '',
-};
+
 
 onUpdated(() => {
 	validateRecords();
@@ -29,6 +24,8 @@ const newAddress = ref(null);
 const oldAddressIndex = ref(null);
 const newRac = ref(null);
 const oldRacIndex = ref(null);
+const newBenefit = ref(null);
+const oldBenefitIndex = ref(null); 
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
 	
@@ -47,15 +44,9 @@ const submitAddress = function ({ addressTypes, address }) {
 	newAddress.value = null;
 };
 const deleteFromArray = function (arrayName, index) {
-	arrayName === 'address'
-		? currentEligibilityRecord.value['Address'].value.splice(index, 1)
-		: currentEligibilityRecord.value['racstufffixlater'].splice(index, 1);
+	currentEligibilityRecord.value[arrayName].value.splice(index, 1);
 };
-// const submitRac = function (rac) {
-// 	// take object and create an array of objects based on the dates. This function needs to be aware of the system date
-// };
 const addAddress = function (address, index) {
-	// change boolean, needs to know whether it's editing and old address or creating a new one
 	newAddress.value = address;
 	if (index !== null) {
 		oldAddressIndex.value = index;
@@ -68,11 +59,21 @@ const addRac = function (rac, index) {
 	}
 };
 const submitRac = function () {}
-// const cancelModal = function () {
-// 	racModal.value = false;
-// 	newAddress.value = null;
-// 	oldAddressIndex.value = null;
-// };
+const cancelModal = function () {
+	newAddress.value = null;
+	oldAddressIndex.value = null;
+	newRac.value = null;
+	oldRacIndex.value = null;
+	oldBenefitIndex.value = null;
+	newBenefit.value = null
+};
+const addBenefit = function (benefit, index) {
+	newBenefit.value = benefit;
+	if(index !== null) {
+		oldBenefitIndex.value = index;
+	}
+}
+// const submitBenefit = function () {}
 </script>
 <template>
 	<button
@@ -94,7 +95,7 @@ const submitRac = function () {}
 			>
 				<div v-for="(address, index) in currentEligibilityRecord['Address'].value" :key="index">
 					<pre>{{ address }}</pre>
-					<button @click="deleteFromArray('address', index)">Delete</button>
+					<button @click="deleteFromArray('Address', index)">Delete</button>
 					<button @click="addAddress(address, index)">Edit</button>
 				</div>
 				<button
@@ -105,12 +106,25 @@ const submitRac = function () {}
 				</button>
 			</div>
 			<div v-else-if="item === 'Rac' && currentEligibilityRecord[item]">
-				<button>Add Rac - not implemented</button>
-				<div
-					class="modal"
-					v-if="racModal"
+				<button
+					v-if="currentRecordValidationObject['includeRac'] === true"
+					@click="addRac({...newRacTemplate}, null)"
 				>
-					<!-- needs date picking logic in addition to pushing a complete object to an array -->
+					Add Rac - not implemented
+				</button>
+				<div>
+					<!-- display RACs -->
+				</div>
+			</div>
+			<div v-else-if="item === 'Benefit' && currentEligibilityRecord[item]">
+				<button
+					v-if="currentRecordValidationObject['includeBenefit'] === true"
+					@click="addBenefit({...newBenefitTemplate}, null)"
+				>
+					Add Benefit - not implemented
+				</button>
+				<div>
+					<!-- display Benefits -->
 				</div>
 			</div>
 			<input
@@ -143,13 +157,19 @@ const submitRac = function () {}
 		v-if="newAddress"
 		:address="newAddress"
 		@submit="submitAddress"
-		@close="newAddress = null"
+		@close="cancelModal"
 	/>
 	<RacModal
 		v-if="newRac"
 		:rac="newRac"
 		@submit="submitRac"
-		@close="newRac = null"
+		@close="cancelModal"
+	/>
+	<BenefitModal
+		v-if="newBenefit"
+		:benefit="newBenefit"
+		@submit="submitRac"
+		@close="cancelModal"
 	/>
 </template>
 <style scoped>
