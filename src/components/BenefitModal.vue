@@ -2,12 +2,12 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-	rac: {
+	benefit: {
 		type: Object,
 		required: true,
 	},
 });
-const newRac = ref(JSON.parse(JSON.stringify(props.rac)));
+const newBenefit = ref(JSON.parse(JSON.stringify(props.benefit)));
 // include Booleans to turn on/off required aspect and to show/hide elements
 const includePregnancy = ref(false);
 const includeIncome = ref(false)
@@ -20,7 +20,7 @@ const includeSPM = ref(false)
 const includeMedicareDualEligibility = ref(false)
 const emit = defineEmits(['submit', 'close']);
 const submit = () => {
-	emit('submit', newRac);
+	emit('submit', newBenefit);
 };
 const close = () => {
 	emit('close');
@@ -64,34 +64,34 @@ const close = () => {
 		</div>
 		<form @submit.prevent="submit">
 			<label>
-				<span>RacCode</span>
+				<span>BenefitSubType</span>
 				<input
 					type="text"
-					v-model="newRac.RacCode"
+					v-model="newBenefit.BenefitSubType"
 					required
 				/>
 			</label>
 			<label>
-				<span>RacBeginDate</span>
+				<span>BenefitSubTypeStartDate</span>
 				<input
 					type="text"
-					v-model="newRac.RacBeginDate"
+					v-model="newBenefit.BenefitSubTypeStartDate"
 					required
 				/>
 			</label>
 			<label>
-				<span>RacEndDate</span>
+				<span>BenefitSubTypeEndDate</span>
 				<input
 					type="text"
-					v-model="newRac.RacEndDate"
+					v-model="newBenefit.BenefitSubTypeEndDate"
 					required
 				/>
 			</label>
 			<label>
-				<span>RacIssuanceDate</span>
+				<span>BenefitSubTypeIssuanceDate</span>
 				<input
 					type="text"
-					v-model="newRac.RacIssuanceDate"
+					v-model="newBenefit.BenefitSubTypeIssuanceDate"
 					required
 				/>
 			</label>
@@ -100,7 +100,7 @@ const close = () => {
 					<span>PregnancyStatus</span>
 					<input
 						type="text"
-						v-model="newRac.Pregnancy.PregnancyStatus"
+						v-model="newBenefit.Pregnancy.PregnancyStatus"
 						required
 					/>
 				</label>
@@ -108,21 +108,21 @@ const close = () => {
 					<span>PregnancyStartDate</span>
 					<input
 						type="text"
-						v-model="newRac.Pregnancy.PregnancyStartDate"
+						v-model="newBenefit.Pregnancy.PregnancyStartDate"
 					/>
 				</label>
 				<label>
 					<span>PregnancyDueDate</span>
 					<input
 						type="text"
-						v-model="newRac.Pregnancy.PregnancyDueDate"
+						v-model="newBenefit.Pregnancy.PregnancyDueDate"
 					/>
 				</label>
 				<label>
 					<span>PregnancyEndDate</span>
 					<input
 						type="text"
-						v-model="newRac.Pregnancy.PregnancyEndDate"
+						v-model="newBenefit.Pregnancy.PregnancyEndDate"
 					/>
 				</label>
 			</div>
@@ -131,7 +131,7 @@ const close = () => {
 					<span>Income</span>
 					<input
 						type="text"
-						v-model="newRac.Countable.Income"
+						v-model="newBenefit.Countable.Income"
 						required
 					/>
 				</label>
@@ -141,16 +141,14 @@ const close = () => {
 					<span>ContributingMemberId</span>
 					<input
 						type="text"
-						v-model="newRac.MemberIdsForAssistanceUnit.ContributingMemberId"
-						required
+						v-model="newBenefit.MemberIdsForAssistanceUnit.ContributingMemberId"
 					/>
 				</label>
 				<label>
 					<span>RelationshipCode</span>
 					<input
 						type="text"
-						v-model="newRac.MemberIdsForAssistanceUnit.RelationshipCode"
-						required
+						v-model="newBenefit.MemberIdsForAssistanceUnit.RelationshipCode"
 					/>
 				</label>
 			</div>
@@ -159,7 +157,7 @@ const close = () => {
 					<span>CopayExemptIndicator</span>
 					<input
 						type="text"
-						v-model="newRac.CopayExemptDetails.CopayExemptIndicator"
+						v-model="newBenefit.CopayExemptDetails.CopayExemptIndicator"
 						required
 					/>
 				</label>
@@ -169,7 +167,7 @@ const close = () => {
 					<span>Amount</span>
 					<input
 						type="text"
-						v-model="newRac.PatientLiability.Amount"
+						v-model="newBenefit.PatientLiability.Amount"
 						required
 					/>
 				</label>
@@ -179,7 +177,7 @@ const close = () => {
 					<span>SpenddownIndicator</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.Information.SpenddownIndicator"
+						v-model="newBenefit.Spenddown.Information.SpenddownIndicator"
 						required
 					/>
 				</label>
@@ -187,14 +185,14 @@ const close = () => {
 					<span>MetDate</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.Information.MetDate"
+						v-model="newBenefit.Spenddown.Information.MetDate"
 					/>
 				</label>
 				<label>
 					<span>Amount</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.Information.Amount"
+						v-model="newBenefit.Spenddown.Information.Amount"
 						required
 					/>
 				</label>
@@ -202,7 +200,7 @@ const close = () => {
 					<span>BillId</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillId"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillId"
 						required
 					/>
 				</label>
@@ -210,7 +208,7 @@ const close = () => {
 					<span>BillAccountNumber</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillAccountNumber"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillAccountNumber"
 						required
 					/>
 				</label>
@@ -218,7 +216,7 @@ const close = () => {
 					<span>BillStartDate</span>
 					<input
 						type="date"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillStartDate"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillStartDate"
 						required
 					/>
 				</label>
@@ -226,7 +224,7 @@ const close = () => {
 					<span>BillEndDate</span>
 					<input
 						type="date"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillEndDate"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillEndDate"
 						required
 					/>
 				</label>
@@ -234,7 +232,7 @@ const close = () => {
 					<span>ServiceType</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.ServiceType"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.ServiceType"
 						required
 					/>
 				</label>
@@ -242,14 +240,14 @@ const close = () => {
 					<span>PrescriptionNumber</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.PrescriptionNumber"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.PrescriptionNumber"
 					/>
 				</label>
 				<label>
 					<span>ErepCurrentUsedAmount</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.ErepCurrentUsedAmount"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.ErepCurrentUsedAmount"
 						required
 					/>
 				</label>
@@ -257,7 +255,7 @@ const close = () => {
 					<span>TotalBill</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.TotalBill"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.TotalBill"
 						required
 					/>
 				</label>
@@ -265,7 +263,7 @@ const close = () => {
 					<span>BillingProviderName</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderName"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderName"
 						required
 					/>
 				</label>
@@ -273,7 +271,7 @@ const close = () => {
 					<span>BillingProviderStreet1</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet1"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet1"
 						required
 					/>
 				</label>
@@ -281,7 +279,7 @@ const close = () => {
 					<span>BillingProviderStreet2</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet2"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet2"
 						required
 					/>
 				</label>
@@ -289,7 +287,7 @@ const close = () => {
 					<span>BillingProviderStreet3</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet3"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet3"
 						required
 					/>
 				</label>
@@ -297,7 +295,7 @@ const close = () => {
 					<span>BillingProviderCityName</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderCityName"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderCityName"
 						required
 					/>
 				</label>
@@ -305,7 +303,7 @@ const close = () => {
 					<span>BillingProviderStateCode</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStateCode"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderStateCode"
 						required
 					/>
 				</label>
@@ -313,7 +311,7 @@ const close = () => {
 					<span>BillingProviderZipCode</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCode"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCode"
 						required
 					/>
 				</label>
@@ -321,28 +319,28 @@ const close = () => {
 					<span>BillingProviderZipCodeExtension</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCodeExtension"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCodeExtension"
 					/>
 				</label>
 				<label>
 					<span>BillingProviderCountyCode</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderCountyCode"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderCountyCode"
 					/>
 				</label>
 				<label>
 					<span>BilledPersonSuffix</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BilledPersonSuffix"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BilledPersonSuffix"
 					/>
 				</label>
 				<label>
 					<span>BilledPersonFirstName</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BilledPersonFirstName"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BilledPersonFirstName"
 						required
 					/>
 				</label>
@@ -350,14 +348,14 @@ const close = () => {
 					<span>BilledPersonMiddleName</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BilledPersonMiddleName"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BilledPersonMiddleName"
 					/>
 				</label>
 				<label>
 					<span>BilledPersonLastName</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BilledPersonLastName"
+						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BilledPersonLastName"
 						required
 					/>
 				</label>
@@ -367,7 +365,7 @@ const close = () => {
 					<span>SPMIndicator</span>
 					<input
 						type="text"
-						v-model="newRac.SPMDetails.SPMIndicator"
+						v-model="newBenefit.SPMDetails.SPMIndicator"
 						required
 					/>
 				</label>
@@ -377,7 +375,7 @@ const close = () => {
 					<span>MedicareDualEligibilityStatusCode</span>
 					<input
 						type="text"
-						v-model="newRac.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode"
+						v-model="newBenefit.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode"
 						required
 					/>
 				</label>
