@@ -142,7 +142,6 @@ const addBenefit = function (benefit, index) {
 		<p>To use this form:</p>
 		<p>If you want to make a formerly populated record value empty, put null as the new value</p>
 		<p>You can navigate between records on the List Tab</p>
-		<p>All dates should be written in format: YYYY-MM-DD</p>
 		<div class="section-booleans">
 			<label
 				v-for="item in Object.keys(currentRecordValidationObject)" :key="item"
