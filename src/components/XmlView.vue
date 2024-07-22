@@ -47,9 +47,23 @@
         })
     }
 
-    const writeValue = function(path, value) {
-        xml += tabString + '<' + path + '>' + value
-        + '</' + path + '>\n'
+    const writeValue = function(key, value) {
+        if(typeof value === 'object') {
+            tabString = tabString.substring(0, tabString.length - 1);
+            addTag(key)
+            tabString += '\t'
+            // path.push(key)
+            Object.keys(value).forEach(item => {
+                writeValue(item, value[item])
+            })
+            closeTag()
+            // tabString = tabString.substring(0, tabString.length - 1);
+        } else {
+            xml += tabString + '<' + key + '>' + value
+        + '</' + key + '>\n'
+        }
+        console.log('key', key)
+        console.log('tabString', tabString.length)
     }
 
     const actualRecords = computed(() => {
@@ -64,9 +78,10 @@
 
                 if(currentPathArray[currentPathArray.length - 2] === path[path.length - 1]) {
                     // console.log(currentPathArray[currentPathArray.length - 2])
-                    if(currentPathArray[currentPathArray.length - 1] === 'Address') {
+                    const pathway = currentPathArray[currentPathArray.length - 1]
+                    if(pathway === 'Address') {
                         sanitizedRecords.value[i]['MemberData.Address'].forEach(element => {
-                            console.log('currentPath', sanitizedRecords.value[i][currentPath])
+                            // console.log('currentPath', sanitizedRecords.value[i][currentPath])
                             xml += tabString + '<Address>\n'
                             tabString += '\t'
                             Object.keys(element).forEach(attribute => {
@@ -76,8 +91,20 @@
                             xml += tabString + '</Address>\n'
                         });
                         
+                     } else if (['Rac', 'Benefit', 'Incarceration'].includes(pathway)) {
+                        // standardized modal logic
+                        sanitizedRecords.value[i][currentPath].forEach(rac => {
+                            xml += tabString + `<${pathway}>\n`;
+                            tabString = tabString + '\t';
+                            Object.keys(rac).forEach(attribute => {
+                                prepPath(currentPathArray)
+                                writeValue(attribute, rac[attribute])
+                            })
+                            tabString = tabString.substring(0, tabString.length - 1);
+                            xml += tabString + `<${pathway}>\n`
+                        })
                     } else {
-                        writeValue(currentPathArray[currentPathArray.length - 1], sanitizedRecords.value[i][currentPath]);
+                        writeValue(pathway, sanitizedRecords.value[i][currentPath]);
                     }
                 }
             }

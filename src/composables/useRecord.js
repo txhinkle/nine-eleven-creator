@@ -60,8 +60,8 @@ const optionalSections = {
         'GuardianParentLastName',
         'GuardianParentPhoneNumber',
     ],
-    includeRac: [],
-    includeBenefit: [],
+    includeRac: ['Rac'],
+    includeBenefit: ['Benefit'],
     includeSsaDisability: [
         'DisabilityInitialEntitlementDate',
         'DisabilityDeterminedBy'
