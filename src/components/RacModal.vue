@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue';
-import useValidation from '@/composables/useValidation';
-const {removeEmptyValuesFromObjects} = useValidation();
+import { ref, onMounted } from 'vue';
+// import useValidation from '@/composables/useValidation';
+// const {removeEmptyValuesFromObjects} = useValidation();
 
 const props = defineProps({
 	rac: {
@@ -13,43 +13,26 @@ const props = defineProps({
 		required: false,
 	}
 });
+
+onMounted(() => {
+	console.log('edit', props.edit);
+})
 const newRac = ref(JSON.parse(JSON.stringify(props.rac)));
 // include Booleans to turn on/off required aspect and to show/hide elements
-const includePregnancy = ref(props.edit && props.rac.Pregnancy);
-const includeIncome = ref()
-const includeAssistance = ref(false)
-const includeCopayExemptDetails = ref(false)
-const includePatientLiability = ref(false)
-const includeSpenddown = ref(false)
+const includePregnancy = ref(props.edit && props.rac.Pregnancy.PregnancyStatus !== '');
+const includeIncome = ref(props.edit && props.rac.Countable.Income !== '');
+const includeAssistance = ref(props.edit && props.rac.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
+const includeCopayExemptDetails = ref(props.edit && props.rac.CopayExemptDetails.CopayExemptIndicator !== '')
+const includePatientLiability = ref(props.edit && props.rac.PatientLiability.Amount !== '')
+const includeSpenddown = ref(props.edit && props.rac.Spenddown.Information.SpenddownIndicator !== '')
 // spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
-const includeSpm = ref(false)
-const includeMedicareDualEligibility = ref(false)
+const includeSpm = ref(props.edit && props.rac.SPMDetails.SPMIndicator !== '')
+const includeMedicareDualEligibility = ref(props.edit && props.rac.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
 const emit = defineEmits(['submit', 'close']);
 
-const emptySections = function(shortRac) {
-	const rac = removeEmptyValuesFromObjects(shortRac)
-	// let rac = {...shortRac}
-	// if(!includePregnancy.value) {
-	// 	delete rac.Pregnancy
-	// } else {
-	// 	rac.Pregnancy = removeEmptyValuesFromObjects(rac.Pregnancy)
-	// }
-	// if(!includeIncome.value) delete rac.Countable
-	// else rac.Countable = removeEmptyValuesFromObjects(rac.Countable)
-	// if(!includeAssistance.value) delete rac.MemberIdsForAssistanceUnit
-	// else rac.MemberIdsForAssistanceUnit = removeEmptyValuesFromObjects(rac.MemberIdsForAssistanceUnit)
-	// if(!includeCopayExemptDetails.value) delete rac.CopayExemptDetails
-	// if(!includePatientLiability.value) delete rac.PatientLiability
-	// if(!includeSpenddown.value) delete rac.Spenddown
-	// else rac.Spenddown = removeEmptyValuesFromObjects(rac.Spenddown)
-	// if(!includeSpm.value) delete rac.SPMDetails
-	// if(!includeMedicareDualEligibility.value) delete rac.MedicareDualEligibilityStatusCode
-	return rac
-}
 
 const submit = () => {
-	const shortRac = emptySections(newRac.value)
-	emit('submit', shortRac);
+	emit('submit', newRac.value);
 };
 const close = () => {
 	emit('close');

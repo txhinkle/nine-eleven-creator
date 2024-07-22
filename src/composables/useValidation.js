@@ -15,14 +15,11 @@ const removeEmptyValuesFromObjects = function (originalObject) {
     Object.keys(originalObject).forEach(attribute => {
         if(typeof object[attribute] === 'object') {
             object[attribute] = removeEmptyValuesFromObjects(object[attribute])
-            console.log('attribute', attribute)
-            console.log('attribute length', Object.keys(object[attribute]).length)
             if(!Object.keys(object[attribute]).length) {
                 delete object[attribute]
             } 
         } else {
             if(object[attribute] === '') {
-                console.log('actually removing')
                 delete object[attribute]
             }
         }
@@ -50,6 +47,7 @@ const validateRecords = function() {
                 // console.log('item.value', item.value);
                 sanitizedRecord[item.path] = []
                 item.value.forEach(modalObject => {
+                    modalObject = removeEmptyValuesFromObjects(modalObject)
                     const tempObject = {}
                     Object.keys(modalObject).forEach(key => {
                         if(modalObject[key] !== '') {

@@ -20,6 +20,7 @@ const {
 onUpdated(() => {
 	validateRecords();
 })
+const edit = ref(false)
 const newAddress = ref(null);
 const oldAddressIndex = ref(null);
 const newRac = ref(null);
@@ -42,6 +43,7 @@ const submitAddress = function ({ addressTypes, address }) {
 		oldAddressIndex.value = null;
 	}
 	newAddress.value = null;
+	edit.value = false
 };
 const submitRac = function (rac) {
 	const index = oldRacIndex.value;
@@ -51,6 +53,7 @@ const submitRac = function (rac) {
 		currentEligibilityRecord.value['Rac'].value.push(rac);
 	}
 	oldRacIndex.value = null;
+	edit.value = false
 	newRac.value = null
 }
 const submitBenefit = function (benefit) {
@@ -61,6 +64,7 @@ const submitBenefit = function (benefit) {
 		currentEligibilityRecord.value['Benefit'].value.push(benefit);
 	}
 	oldBenefitIndex.value = null;
+	edit.value = false
 	newBenefit.value = null
 }
 const deleteFromArray = function (arrayName, index) {
@@ -70,18 +74,21 @@ const addAddress = function (address, index) {
 	newAddress.value = address;
 	if (index !== null) {
 		oldAddressIndex.value = index;
+		edit.value = true;
 	}
 };
 const addRac = function (rac, index) {
 	newRac.value = rac;
 	if(index !== null) {
 		oldRacIndex.value = index
+		edit.value = true;
 	} 
 };
 const addBenefit = function (benefit, index) {
 	newBenefit.value = benefit;
 	if(index !== null) {
 		oldBenefitIndex.value = index;
+		edit.value = true;
 	}
 }
 const cancelModal = function () {
@@ -190,7 +197,7 @@ const cancelModal = function () {
 	<RacModal
 		v-if="newRac"
 		:rac="newRac"
-		:edit="!!oldRacIndex"
+		:edit="edit"
 		@submit="submitRac"
 		@close="cancelModal"
 	/>
