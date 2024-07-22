@@ -190,6 +190,7 @@ const cancelModal = function () {
 	<RacModal
 		v-if="newRac"
 		:rac="newRac"
+		:edit="!!oldRacIndex"
 		@submit="submitRac"
 		@close="cancelModal"
 	/>

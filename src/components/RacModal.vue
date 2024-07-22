@@ -1,16 +1,22 @@
 <script setup>
 import { ref } from 'vue';
+import useValidation from '@/composables/useValidation';
+const {removeEmptyValuesFromObjects} = useValidation();
 
 const props = defineProps({
 	rac: {
 		type: Object,
 		required: true,
 	},
+	edit: {
+		type: Boolean,
+		required: false,
+	}
 });
 const newRac = ref(JSON.parse(JSON.stringify(props.rac)));
 // include Booleans to turn on/off required aspect and to show/hide elements
-const includePregnancy = ref(false);
-const includeIncome = ref(false)
+const includePregnancy = ref(props.edit && props.rac.Pregnancy);
+const includeIncome = ref()
 const includeAssistance = ref(false)
 const includeCopayExemptDetails = ref(false)
 const includePatientLiability = ref(false)
@@ -19,8 +25,31 @@ const includeSpenddown = ref(false)
 const includeSpm = ref(false)
 const includeMedicareDualEligibility = ref(false)
 const emit = defineEmits(['submit', 'close']);
+
+const emptySections = function(shortRac) {
+	const rac = removeEmptyValuesFromObjects(shortRac)
+	// let rac = {...shortRac}
+	// if(!includePregnancy.value) {
+	// 	delete rac.Pregnancy
+	// } else {
+	// 	rac.Pregnancy = removeEmptyValuesFromObjects(rac.Pregnancy)
+	// }
+	// if(!includeIncome.value) delete rac.Countable
+	// else rac.Countable = removeEmptyValuesFromObjects(rac.Countable)
+	// if(!includeAssistance.value) delete rac.MemberIdsForAssistanceUnit
+	// else rac.MemberIdsForAssistanceUnit = removeEmptyValuesFromObjects(rac.MemberIdsForAssistanceUnit)
+	// if(!includeCopayExemptDetails.value) delete rac.CopayExemptDetails
+	// if(!includePatientLiability.value) delete rac.PatientLiability
+	// if(!includeSpenddown.value) delete rac.Spenddown
+	// else rac.Spenddown = removeEmptyValuesFromObjects(rac.Spenddown)
+	// if(!includeSpm.value) delete rac.SPMDetails
+	// if(!includeMedicareDualEligibility.value) delete rac.MedicareDualEligibilityStatusCode
+	return rac
+}
+
 const submit = () => {
-	emit('submit', newRac);
+	const shortRac = emptySections(newRac.value)
+	emit('submit', shortRac);
 };
 const close = () => {
 	emit('close');
@@ -28,7 +57,7 @@ const close = () => {
 </script>
 <template>
 	<div class="modal">
-		<div>
+		<div class="radios">
 			<label>
 				<span>Include Pregnancy</span>
 				<input type="checkbox" v-model="includePregnancy" />
@@ -55,7 +84,7 @@ const close = () => {
 			</label>
 			<label>
 				<span>Include SPM</span>
-				<input type="checkbox" v-model="includeSPM" />
+				<input type="checkbox" v-model="includeSpm" />
 			</label>
 			<label>
 				<span>Include includeMedicareDualEligibility</span>
@@ -74,7 +103,7 @@ const close = () => {
 			<label>
 				<span>RacBeginDate</span>
 				<input
-					type="text"
+					type="date"
 					v-model="newRac.RacBeginDate"
 					required
 				/>
@@ -82,7 +111,7 @@ const close = () => {
 			<label>
 				<span>RacEndDate</span>
 				<input
-					type="text"
+					type="date"
 					v-model="newRac.RacEndDate"
 					required
 				/>
@@ -90,7 +119,7 @@ const close = () => {
 			<label>
 				<span>RacIssuanceDate</span>
 				<input
-					type="text"
+					type="date"
 					v-model="newRac.RacIssuanceDate"
 					required
 				/>
@@ -107,21 +136,21 @@ const close = () => {
 				<label>
 					<span>PregnancyStartDate</span>
 					<input
-						type="text"
+						type="date"
 						v-model="newRac.Pregnancy.PregnancyStartDate"
 					/>
 				</label>
 				<label>
 					<span>PregnancyDueDate</span>
 					<input
-						type="text"
+						type="date"
 						v-model="newRac.Pregnancy.PregnancyDueDate"
 					/>
 				</label>
 				<label>
 					<span>PregnancyEndDate</span>
 					<input
-						type="text"
+						type="date"
 						v-model="newRac.Pregnancy.PregnancyEndDate"
 					/>
 				</label>
@@ -186,7 +215,7 @@ const close = () => {
 				<label>
 					<span>MetDate</span>
 					<input
-						type="text"
+						type="date"
 						v-model="newRac.Spenddown.Information.MetDate"
 					/>
 				</label>
@@ -392,15 +421,27 @@ const close = () => {
 label {
 	display: block;
 }
-
+.radios {
+	margin-right: 20px;
+	padding-right: 10px;
+	border-right: solid black 1px;
+	height: 50svw;
+}
+.form {
+	height: 500px;
+	max-height: 500px;
+	overflow-y: scroll;
+}
 .modal {
 	z-index: 5;
 	position: fixed;
 	top: 0;
 	left: 0;
-	padding: 20svw;
+	padding-top: 5svw;
+	padding-left: 10svw;
 	width: 100%;
 	height: 100%;
 	background-color: #bfc;
+	display: flex;
 }
 </style>

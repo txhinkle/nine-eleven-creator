@@ -2,15 +2,6 @@ import useRecord from "./useRecord"
 import {ref, watch} from 'vue'
 const { eligibilityList} = useRecord()
 
-const modalRequiredFields = [ 
-    'AddressType',
-    'Street1',
-    'CityName',
-    'StateCode',
-    'ZipCode',
-    'AddressStartDate',
-    'AddressEndDate'
-]
 watch(eligibilityList, async () => {
 	sanitizedRecords.value = [];
 })
@@ -19,7 +10,25 @@ const sanitizedRecords = ref([])
 const errorList = ref([])
 
 // other required sets
-
+const removeEmptyValuesFromObjects = function (originalObject) {
+    const object = {...originalObject}
+    Object.keys(originalObject).forEach(attribute => {
+        if(typeof object[attribute] === 'object') {
+            object[attribute] = removeEmptyValuesFromObjects(object[attribute])
+            console.log('attribute', attribute)
+            console.log('attribute length', Object.keys(object[attribute]).length)
+            if(!Object.keys(object[attribute]).length) {
+                delete object[attribute]
+            } 
+        } else {
+            if(object[attribute] === '') {
+                console.log('actually removing')
+                delete object[attribute]
+            }
+        }
+    })
+    return object
+}
 const validateRecords = function() {
     sanitizedRecords.value = []
     errorList.value = []
@@ -37,22 +46,20 @@ const validateRecords = function() {
             else if(item.required && item.included) {
                 recordErrors.push('missing required field:' + keys[j]);
             }
-            if(item.type === 'modal' && item.included) {
-                console.log('item.value', item.value);
+            if(item.type === 'modal' && item.included && item.value.length) {
+                // console.log('item.value', item.value);
                 sanitizedRecord[item.path] = []
                 item.value.forEach(modalObject => {
                     const tempObject = {}
                     Object.keys(modalObject).forEach(key => {
                         if(modalObject[key] !== '') {
                             tempObject[key] = modalObject[key]
-                        } else if(modalRequiredFields.includes(key)) {
-                            recordErrors.push('missing required field:' + key)
-                        }
+                        } 
                     })
-                    console.log('item.path', item.path)
+                    // console.log('item.path', item.path)
                     sanitizedRecord[item.path].push(tempObject);
                 })
-                console.log('address result', sanitizedRecord[item.path])
+                // console.log('modal result', sanitizedRecord[item.path])
             }
         }
         if(Object.keys(sanitizedRecord).length) {
@@ -67,6 +74,7 @@ const validateRecords = function() {
 export default function useValidation() {
     return {
         validateRecords,
+        removeEmptyValuesFromObjects,
         sanitizedRecords,
         errorList
     }

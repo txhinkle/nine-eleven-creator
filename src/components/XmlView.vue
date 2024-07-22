@@ -62,8 +62,6 @@
             xml += tabString + '<' + key + '>' + value
         + '</' + key + '>\n'
         }
-        console.log('key', key)
-        console.log('tabString', tabString.length)
     }
 
     const actualRecords = computed(() => {
