@@ -43,6 +43,26 @@ const submitAddress = function ({ addressTypes, address }) {
 	}
 	newAddress.value = null;
 };
+const submitRac = function (rac) {
+	const index = oldRacIndex.value;
+	if(index !== null) {
+		currentEligibilityRecord.value['Rac'].value.splice(index, 1, rac);
+	} else {
+		currentEligibilityRecord.value['Rac'].value.push(rac);
+	}
+	oldRacIndex.value = null;
+	newRac.value = null
+}
+const submitBenefit = function (benefit) {
+	const index = oldBenefitIndex.value;
+	if(index !== null) {
+		currentEligibilityRecord.value['Benefit'].value.splice(index, 1, benefit);
+	} else {
+		currentEligibilityRecord.value['Benefit'].value.push(benefit);
+	}
+	oldBenefitIndex.value = null;
+	newBenefit.value = null
+}
 const deleteFromArray = function (arrayName, index) {
 	currentEligibilityRecord.value[arrayName].value.splice(index, 1);
 };
@@ -56,9 +76,14 @@ const addRac = function (rac, index) {
 	newRac.value = rac;
 	if(index !== null) {
 		oldRacIndex.value = index
-	}
+	} 
 };
-const submitRac = function () {}
+const addBenefit = function (benefit, index) {
+	newBenefit.value = benefit;
+	if(index !== null) {
+		oldBenefitIndex.value = index;
+	}
+}
 const cancelModal = function () {
 	newAddress.value = null;
 	oldAddressIndex.value = null;
@@ -67,13 +92,7 @@ const cancelModal = function () {
 	oldBenefitIndex.value = null;
 	newBenefit.value = null
 };
-const addBenefit = function (benefit, index) {
-	newBenefit.value = benefit;
-	if(index !== null) {
-		oldBenefitIndex.value = index;
-	}
-}
-// const submitBenefit = function () {}
+
 </script>
 <template>
 	<button
@@ -110,10 +129,15 @@ const addBenefit = function (benefit, index) {
 					v-if="currentRecordValidationObject['includeRac'] === true"
 					@click="addRac({...newRacTemplate}, null)"
 				>
-					Add Rac - not implemented
+					Add Rac - testing
 				</button>
-				<div>
-					<!-- display RACs -->
+				<div v-if="currentEligibilityRecord['Rac'].included && currentEligibilityRecord['Rac'].value.length">
+					<label>RAC</label>
+					<div v-for="(rac, index) in currentEligibilityRecord['Rac'].value" :key="index">
+						<pre>RacCode {{ rac.RacCode }} : {{ rac.RacBeginDate }}–{{ rac.RacEndDate }}</pre>
+						<button @click="deleteFromArray('Rac', index)">Delete</button>
+						<button @click="addRac(rac, index)">Edit</button>
+					</div>
 				</div>
 			</div>
 			<div v-else-if="item === 'Benefit' && currentEligibilityRecord[item]">
@@ -121,10 +145,15 @@ const addBenefit = function (benefit, index) {
 					v-if="currentRecordValidationObject['includeBenefit'] === true"
 					@click="addBenefit({...newBenefitTemplate}, null)"
 				>
-					Add Benefit - not implemented
+					Add Benefit - testing
 				</button>
 				<div>
 					<!-- display Benefits -->
+					<div v-for="(benefit, index) in currentEligibilityRecord['Benefit'].value" :key="index">
+						<pre>BenefitSubType {{ benefit.BenefitSubType }} : {{ benefit.BenefitSubTypeStartDate }}–{{ benefit.BenefitSubTypeEndDate }}</pre>
+						<button @click="deleteFromArray('Benefit', index)">Delete</button>
+						<button @click="addBenefit(benefit, index)">Edit</button>
+					</div>
 				</div>
 			</div>
 			<input
@@ -167,7 +196,7 @@ const addBenefit = function (benefit, index) {
 	<BenefitModal
 		v-if="newBenefit"
 		:benefit="newBenefit"
-		@submit="submitRac"
+		@submit="submitBenefit"
 		@close="cancelModal"
 	/>
 </template>
