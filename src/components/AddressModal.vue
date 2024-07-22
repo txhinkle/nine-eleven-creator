@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
 	address: {
@@ -12,12 +12,21 @@ const types = ref([]);
 if (newAddress.value.AddressType) {
 	types.value.push(newAddress.value.AddressType);
 }
+
+const checkType = computed(() => {
+	if(types.value.length) {
+		return true;
+	}
+	return false
+})
 const emit = defineEmits(['submit', 'close']);
 const submit = () => {
-	emit('submit', {
+	if(types.value.length) {
+		emit('submit', {
 		addressTypes: types.value,
 		address: newAddress.value,
 	});
+	}
 };
 const close = () => {
 	emit('close');
@@ -93,7 +102,7 @@ const close = () => {
 			<label>
 				<span>AddressStartDate</span>
 				<input
-					type="text"
+					type="date"
 					v-model="newAddress.AddressStartDate"
 					required
 				/>
@@ -101,13 +110,14 @@ const close = () => {
 			<label>
 				<span>AddressEndDate</span>
 				<input
-					type="text"
+					type="date"
 					v-model="newAddress.AddressEndDate"
 					required
 				/>
 			</label>
 			<button type="submit">Update</button>
 			<button @click="close">Cancel</button>
+			<div v-if="!checkType">Please select one or more address types</div>
 		</form>
 	</div>
 </template>

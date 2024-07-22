@@ -31,3 +31,7 @@ tr {
 th td {
   border-left: 1pt solid black;
 }
+
+input:invalid {
+  background-color: lightpink;
+}

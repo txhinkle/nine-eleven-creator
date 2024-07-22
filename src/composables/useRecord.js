@@ -126,12 +126,13 @@ const addNewRecord = () => {
         includeSubsidizedAdoption: false,
         includeGuardian: false,
         includeSsaDisability: false,
+        // Medicare Sections
         // includeMedicareEligibility: false,
         // includeMedicareCoverageDetailsPartA: false,
         // includeMedicareCoverageDetailsPartB: false,
         // includeMedicareBuyinPartA: false
         includeLinkedMembers: false,
-        // includeTobaccoSurveyCessation: false,
+        includeTobaccoSurveyCessation: false,
         // includeIncarceration: false,
         // includeUppPremiumInformation: false,
         // includeEsiPremiumInformation: false,
@@ -160,7 +161,7 @@ const addNewRecord = () => {
             included: true,
         },
         MotherId: {
-            path: 'CaseDetails.UnbornLinks.MotherID',
+            path: 'CaseDetails.UnbornLinks.MotherId',
             type: 'tel',
             value: '',
             required: true,
@@ -771,11 +772,7 @@ const selectRecord = function(index) {
 
 const toggleIncluded = function(section) {
     currentRecordValidationObject.value[section] = !currentRecordValidationObject.value[section];
-    // if(section === 'includeRac') {
-    //     currentRecordValidationObject.value[section] === false
-    //         ? delete currentRecordValidationObject.value.includeSpenddown
-    //         : currentRecordValidationObject.value.includeSpenddown = false
-    // }
+    
     // populate MemberId or HohMemberId?
     optionalSections[section].forEach(element => {
         const attribute = {...currentEligibilityRecord.value[element]};
@@ -786,7 +783,10 @@ const toggleIncluded = function(section) {
         if(element.includes('HohMemberId') && currentEligibilityRecord.value.HohMemberId.value) {
             currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.HohMemberId.value
         } else if(element.includes('MemberId') && currentEligibilityRecord.value.MemberId.value) {
-            currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.MemberId.value
+            const elementArray = currentEligibilityRecord.value[element]['path'].split('.');
+            if(elementArray[elementArray.length - 1] === 'MemberId') {
+                currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.MemberId.value
+            }
         }
     });
     console.log('added', section);

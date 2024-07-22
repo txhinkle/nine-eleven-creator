@@ -111,6 +111,11 @@ const cancelModal = function () {
 	<div class="section-left">
 		
 		<div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
+			<h3 v-if="item === 'ErepCaseId'">Basic Fields</h3>
+			<h3 v-else-if="item === 'MotherId' && currentEligibilityRecord['MotherId'].included">Unborn Links</h3>
+			<h3 v-else-if="item === 'Chip5Percent' && currentEligibilityRecord['Chip5Percent'].included">Chip Premium Details</h3>
+			<h3 v-else-if="item === 'HohMemberId-RelationshipDetails' && currentEligibilityRecord['HohMemberId-RelationshipDetails'].included">Case Head Releationship Details</h3>
+			<h3 v-else-if="item === 'MemberId'">Member Data</h3>
 			<label v-if="currentEligibilityRecord[item].included">
 				<span>{{ item.includes('-') ? item.substring(0, item.indexOf('-')) : item }}</span>
 				<span v-if="currentEligibilityRecord[item].required">*</span>
@@ -166,7 +171,7 @@ const cancelModal = function () {
 			<input
 				:type="currentEligibilityRecord[item].type"
 				v-model="currentEligibilityRecord[item].value"
-				:pattern="currentEligibilityRecord[item].type === 'tel' ? '[0-9]*' : ''"
+				:pattern="currentEligibilityRecord[item].type === 'tel' ? '\\d{9,10}' : null"
 				:required="currentEligibilityRecord[item].required"
 				v-else-if="currentEligibilityRecord[item].included"
 			/>
