@@ -1,4 +1,62 @@
 ## divisions:
+// pair down to items that should always have the same value
+repeatFields = [
+    HohMemberId
+    FirstName
+    LastName
+    Ssn
+    Gender
+    FileLoadDate
+    AccretionCode
+    AccretionStartDate
+    AccretionEndDate
+    DeletionCode
+    DeletionStartDate
+    DeletionEndDate
+    BuyinEligibilityCode
+    PremiumAmount
+    StatusDescription
+    MedicareId
+    MiddleInitial
+    DateOfBirth
+    AgencyCode
+    RecordIdentifier
+    TransactionCode
+    SsiStartDate
+    SsiStopDate
+    MedicareEntitlementDate
+    PostalCode
+    SsiLivingArrangementCode
+    SsiStatusCode
+    TransactionSubCode
+    AgencyClientId
+    BuyinEligCode
+]
+repeatableLoops = [
+    UnbornLinks,
+    MemberRelationshipToHoh,
+    MemberData, //?
+    Race,
+    LivingArrangement,
+    CommunicationData,
+    MemberEligibility,
+    *Rac,
+    Rac.MemberIdsForAssistanceUnit,
+    Rac.SPMDetails,
+    *MemberBenefit,
+    MemberBenefit.MemberIdsForAssistanceUnit,
+    MemberBenefit.SPMDetails,
+    *Address,
+    MedicareEligibility.MedicareIdDetails,
+    MedicareEligibility.MedicareIdDetails.MedicareCoverageDetails, //max 2
+    MedicareEligibility.MedicareIdDetails.BuyIn.PartA.StateAgencyToCms,
+    MedicareEligibility.MedicareIdDetails.BuyIn.PartA.RicB,
+    MedicareEligibility.MedicareIdDetails.BuyIn.PartB.StateAgencyToCms,
+    MedicareEligibility.MedicareIdDetails.BuyIn.PartB.RicB,
+    Inmate.Incarceration, // multiple, but not overlapping - this is tricky
+    UppPremiumInformation,
+    ESIPremiumInformation,
+]
 basicSectionOptions = 
 Eligibility: {
     CaseDetails: {

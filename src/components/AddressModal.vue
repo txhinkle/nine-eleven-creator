@@ -71,6 +71,7 @@ const close = () => {
 				<input
 					type="text"
 					v-model="newAddress.CityName"
+					required
 				/>
 			</label>
 			<label>
@@ -78,6 +79,7 @@ const close = () => {
 				<input
 					type="text"
 					v-model="newAddress.StateCode"
+					required
 				/>
 			</label>
 			<label>
@@ -85,6 +87,7 @@ const close = () => {
 				<input
 					type="text"
 					v-model="newAddress.ZipCode"
+					required
 				/>
 			</label>
 			<label>
@@ -92,6 +95,7 @@ const close = () => {
 				<input
 					type="text"
 					v-model="newAddress.AddressStartDate"
+					required
 				/>
 			</label>
 			<label>
@@ -99,6 +103,7 @@ const close = () => {
 				<input
 					type="text"
 					v-model="newAddress.AddressEndDate"
+					required
 				/>
 			</label>
 			<button type="submit">Update</button>
