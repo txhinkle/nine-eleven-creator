@@ -59,6 +59,9 @@
             closeTag()
             // tabString = tabString.substring(0, tabString.length - 1);
         } else if (value !== '') {
+            if (value === 'null') {
+                value = ''
+            }
             xml += tabString + '<' + key + '>' + value
         + '</' + key + '>\n'
         }
