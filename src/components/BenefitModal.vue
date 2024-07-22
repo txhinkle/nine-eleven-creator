@@ -20,7 +20,7 @@ const includeSpm = ref(false)
 const includeMedicareDualEligibility = ref(false)
 const emit = defineEmits(['submit', 'close']);
 const submit = () => {
-	emit('submit', newBenefit);
+	emit('submit', newBenefit.value);
 };
 const close = () => {
 	emit('close');
@@ -28,7 +28,7 @@ const close = () => {
 </script>
 <template>
 	<div class="modal">
-		<div>
+		<div class="radios">
 			<label>
 				<span>Include Pregnancy</span>
 				<input type="checkbox" v-model="includePregnancy" />
@@ -55,7 +55,7 @@ const close = () => {
 			</label>
 			<label>
 				<span>Include SPM</span>
-				<input type="checkbox" v-model="includeSPM" />
+				<input type="checkbox" v-model="includeSpm" />
 			</label>
 			<label>
 				<span>Include includeMedicareDualEligibility</span>
@@ -74,7 +74,7 @@ const close = () => {
 			<label>
 				<span>BenefitSubTypeStartDate</span>
 				<input
-					type="text"
+					type="date"
 					v-model="newBenefit.BenefitSubTypeStartDate"
 					required
 				/>
@@ -82,7 +82,7 @@ const close = () => {
 			<label>
 				<span>BenefitSubTypeEndDate</span>
 				<input
-					type="text"
+					type="date"
 					v-model="newBenefit.BenefitSubTypeEndDate"
 					required
 				/>
@@ -90,7 +90,7 @@ const close = () => {
 			<label>
 				<span>BenefitSubTypeIssuanceDate</span>
 				<input
-					type="text"
+					type="date"
 					v-model="newBenefit.BenefitSubTypeIssuanceDate"
 					required
 				/>
@@ -107,21 +107,21 @@ const close = () => {
 				<label>
 					<span>PregnancyStartDate</span>
 					<input
-						type="text"
+						type="date"
 						v-model="newBenefit.Pregnancy.PregnancyStartDate"
 					/>
 				</label>
 				<label>
 					<span>PregnancyDueDate</span>
 					<input
-						type="text"
+						type="date"
 						v-model="newBenefit.Pregnancy.PregnancyDueDate"
 					/>
 				</label>
 				<label>
 					<span>PregnancyEndDate</span>
 					<input
-						type="text"
+						type="date"
 						v-model="newBenefit.Pregnancy.PregnancyEndDate"
 					/>
 				</label>
@@ -184,7 +184,7 @@ const close = () => {
 				<label>
 					<span>MetDate</span>
 					<input
-						type="text"
+						type="date"
 						v-model="newBenefit.Spenddown.Information.MetDate"
 					/>
 				</label>
@@ -390,15 +390,22 @@ const close = () => {
 label {
 	display: block;
 }
-
+.radios {
+	margin-right: 20px;
+	padding-right: 10px;
+	border-right: solid black 1px;
+}
 .modal {
 	z-index: 5;
 	position: fixed;
 	top: 0;
 	left: 0;
-	padding: 20svw;
+	padding-top: 3px;
+	padding-left: 10svw;
 	width: 100%;
 	height: 100%;
 	background-color: #bfc;
+	display: flex;
+	overflow: auto;
 }
 </style>
