@@ -62,7 +62,7 @@
             if (value === 'null') {
                 value = ''
             }
-            xml += tabString + '<' + key + '>' + value
+            xml += tabString + '<' + key + '>' + value.trim()
         + '</' + key + '>\n'
         }
     }
