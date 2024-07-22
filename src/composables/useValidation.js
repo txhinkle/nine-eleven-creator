@@ -39,9 +39,11 @@ const validateRecords = function() {
             const item = record[keys[j]]
             if(item.value !== '' && item.type !== 'modal' && item.included) {
                 sanitizedRecord[item.path] = item.value
-            }
-            else if(item.required && item.included) {
-                recordErrors.push('missing required field:' + keys[j]);
+            } else if(
+                (item.type === 'modal' && item.required && item.value.length < 1)
+                || (item.type !== 'modal' && item.required && item.included)
+            ) {
+                recordErrors.push('missing required field: ' + keys[j]);
             }
             if(item.type === 'modal' && item.included && item.value.length) {
                 // console.log('item.value', item.value);
