@@ -4,7 +4,7 @@
     import {computed, onUpdated} from 'vue';
     const {validateRecords, sanitizedRecords, errorList} = useValidation();
     const timestamp = Date.now();
-    const date = new Date().toISOString();
+    const date = new Date().toISOString().substring(0, 19);
     let path = [];
     let xml = ''
     let tabString = '\t\t'
@@ -102,7 +102,7 @@
                                 writeValue(attribute, rac[attribute])
                             })
                             tabString = tabString.substring(0, tabString.length - 1);
-                            xml += tabString + `<\\${pathway}>\n`
+                            xml += tabString + `</${pathway}>\n`
                         })
                     } else {
                         writeValue(pathway, sanitizedRecords.value[i][currentPath]);

@@ -28,3 +28,7 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# test files
+911_934_XML_Validator.xsd
+test.xml
