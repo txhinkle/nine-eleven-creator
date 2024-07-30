@@ -294,7 +294,6 @@ const close = () => {
 					<input
 						type="text"
 						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet2"
-						required
 					/>
 				</label>
 				<label>
@@ -302,7 +301,6 @@ const close = () => {
 					<input
 						type="text"
 						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet3"
-						required
 					/>
 				</label>
 				<label>
