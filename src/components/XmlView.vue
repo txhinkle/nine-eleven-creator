@@ -4,7 +4,7 @@
     import {computed, onUpdated} from 'vue';
     const {validateRecords, sanitizedRecords, errorList} = useValidation();
     const timestamp = Date.now();
-    const date = new Date().toISOString().substring(0, 10);
+    const date = new Date().toISOString();
     let path = [];
     let xml = ''
     let tabString = '\t\t'
@@ -102,7 +102,7 @@
                                 writeValue(attribute, rac[attribute])
                             })
                             tabString = tabString.substring(0, tabString.length - 1);
-                            xml += tabString + `<${pathway}>\n`
+                            xml += tabString + `<\\${pathway}>\n`
                         })
                     } else {
                         writeValue(pathway, sanitizedRecords.value[i][currentPath]);
@@ -120,8 +120,9 @@
 </script>
 <template>
     <div style="background-color: red; color: white;" v-if="errorCount">This XML contains errors</div>
-    <pre v-if="sanitizedRecords.length">
-&lt?xml version="1.0" encoding-"UTF-8" standalone="yes"?&gt
+    <div v-if="sanitizedRecords.length" >
+       <pre>
+&lt?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt
 &ltStateEligibility xmlns="http://www.utprism.com/dws/eligibility"&gt
     &ltHeader&gt
         &ltTransactionId&gt{{timestamp}}&lt/TransactionId&gt
@@ -136,7 +137,9 @@
         &ltTotalEligibilityRecords&gt{{sanitizedRecords.length}}&lt/TotalEligibilityRecords&gt
     &lt/Trailer&gt
 &lt/StateEligibility&gt
-    </pre>
+        </pre>
+    </div>
+    
     <p v-else>No records have been added yet</p>
     <p>---------------Sent Object:---------------------</p>
     <pre>{{ sanitizedRecords }}</pre>

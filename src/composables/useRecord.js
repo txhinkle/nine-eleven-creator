@@ -332,7 +332,7 @@ const addNewRecord = () => {
             path: 'MemberData.Demographics.Details.Citizenship',
             type: 'text',
             value: '',
-            required: false,
+            required: true,
             included: true,
         },
         AlienType: {
@@ -486,6 +486,13 @@ const addNewRecord = () => {
             path: 'MemberData.Address',
             type: 'modal',
             value: [],
+            required: true,
+            included: true,
+        },
+        ExemptDuplicateIndicator: {
+            path: 'MemberData.ExemptDuplicateIndicator',
+            type: 'text',
+            value: '',
             required: true,
             included: true,
         },
