@@ -325,7 +325,7 @@ const addNewRecord = () => {
             path: 'MemberData.Demographics.Details.Gender',
             type: 'text',
             value: '',
-            required: false,
+            required: true,
             included: true,
         },
         Citizenship: {
@@ -412,9 +412,9 @@ const addNewRecord = () => {
             required: true,
             included: false,
         },
-        Type: {
+        'Type': {
             path: 'MemberData.Demographics.LivingArrangement.Type',
-            type: '',
+            type: 'text',
             value: '',
             required: true,
             included: false,

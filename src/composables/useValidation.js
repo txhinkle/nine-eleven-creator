@@ -37,7 +37,7 @@ const validateRecords = function() {
         const keys = Object.keys(record);
         for(let j = 0; j < keys.length; j++) {
             const item = record[keys[j]]
-            if(item.value !== '' && item.type !== 'modal' && item.included) {
+            if(!['', undefined].includes(item.value) && item.type !== 'modal' && item.included) {
                 sanitizedRecord[item.path] = item.value
             } else if(
                 (item.type === 'modal' && item.required && item.value.length < 1)

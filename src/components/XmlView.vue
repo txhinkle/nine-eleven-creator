@@ -7,9 +7,11 @@
     const date = new Date().toISOString().substring(0, 19);
     let path = [];
     let xml = ''
-    let tabString = '\t\t'
+    let tabString = '        '
 
     onUpdated(() => {
+        xml = ''
+        path = []
         validateRecords();
     })
 
@@ -23,13 +25,19 @@
         return count;
     });
 
+    const title = computed(() => {
+        const dateString = date.substring(0, 10)
+        const dateArray = dateString.split('-');
+        return 'EREP_MEMBER_ELIGIBILITY_IN_REALTIME_' + dateArray[1] + dateArray[2] + dateArray[0] +'.txt'
+    })
+
     const closeTag = function() {
-        tabString = tabString.substring(0, tabString.length - 1);
+            tabString = tabString.substring(0, tabString.length - 4);
         const endTag = path.pop()
         xml += tabString + '</' + endTag + '>\n'
     }
     const addTag = function(segment) {
-        tabString += '\t'
+        tabString += '    '
         path.push(segment)
         xml += tabString + '<' + segment + '>\n'
     }
@@ -40,24 +48,24 @@
                 }
         currentPathArray.forEach((element) => {
             if(!path.includes(element) && element !== currentPathArray[currentPathArray.length - 1]) {
-                tabString = tabString.substring(0, tabString.length - 1);
+                    tabString = tabString.substring(0, tabString.length - 4);
                 addTag(element)
-                tabString += '\t'
+                tabString += '    '
             }
         })
     }
 
     const writeValue = function(key, value) {
         if(typeof value === 'object') {
-            tabString = tabString.substring(0, tabString.length - 1);
+                tabString = tabString.substring(0, tabString.length - 4);
             addTag(key)
-            tabString += '\t'
+            tabString += '    '
             // path.push(key)
             Object.keys(value).forEach(item => {
                 writeValue(item, value[item])
             })
             closeTag()
-            // tabString = tabString.substring(0, tabString.length - 1);
+            //     tabString = tabString.substring(0, tabString.length - 4);
         } else if (value !== '') {
             if (value === 'null') {
                 value = ''
@@ -71,7 +79,8 @@
 
         for(let i = 0; i < sanitizedRecords.value.length; i++) {
             const items = Object.keys(sanitizedRecords.value[i]);
-            xml += '\t<Eligibility>\n'
+            xml += tabString + '<Eligibility>\n'
+            tabString += '    '
             for(let k = 0; k < items.length; k++) {
                 const currentPath = items[k]
                 const currentPathArray = currentPath.split('.')
@@ -84,11 +93,11 @@
                         sanitizedRecords.value[i]['MemberData.Address'].forEach(element => {
                             // console.log('currentPath', sanitizedRecords.value[i][currentPath])
                             xml += tabString + '<Address>\n'
-                            tabString += '\t'
+                            tabString += '    '
                             Object.keys(element).forEach(attribute => {
                                 writeValue(attribute, element[attribute]);
                             });
-                            tabString = tabString.substring(0, tabString.length - 1);
+                                tabString = tabString.substring(0, tabString.length - 4);
                             xml += tabString + '</Address>\n'
                         });
                         
@@ -96,12 +105,12 @@
                         // standardized modal logic
                         sanitizedRecords.value[i][currentPath].forEach(rac => {
                             xml += tabString + `<${pathway}>\n`;
-                            tabString = tabString + '\t';
+                            tabString = tabString + '    ';
                             Object.keys(rac).forEach(attribute => {
                                 prepPath(currentPathArray)
                                 writeValue(attribute, rac[attribute])
                             })
-                            tabString = tabString.substring(0, tabString.length - 1);
+                                tabString = tabString.substring(0, tabString.length - 4);
                             xml += tabString + `</${pathway}>\n`
                         })
                     } else {
@@ -112,8 +121,8 @@
             while(path.length) {
                 closeTag()
             }
-            xml += '\t</Eligibility>\n'
-            tabString = '\t\t'
+            xml += '        </Eligibility>\n'
+            tabString = '        '
         }
         return xml
     }) 
@@ -121,7 +130,9 @@
 <template>
     <div style="background-color: red; color: white;" v-if="errorCount">This XML contains errors</div>
     <div v-if="sanitizedRecords.length" >
-       <pre>
+        <p>Suggested Filename: {{ title }}</p>
+        <p>File Contents:</p>
+       <pre style="border: 1px solid black; padding: 2px;">
 &lt?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt
 &ltStateEligibility xmlns="http://www.utprism.com/dws/eligibility"&gt
     &ltHeader&gt
@@ -131,7 +142,7 @@
         &ltMonthlyIssuanceFlag&gtN&lt/MonthlyIssuanceFlag&gt
     &lt/Header&gt
     &ltEligibilityDetail&gt
-    {{actualRecords}}
+{{actualRecords}}
     &lt/EligibilityDetail&gt
     &ltTrailer&gt
         &ltTotalEligibilityRecords&gt{{sanitizedRecords.length}}&lt/TotalEligibilityRecords&gt
