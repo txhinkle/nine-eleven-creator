@@ -36,7 +36,7 @@ const optionalSections = {
         'ShellProgramEndDate'
     ],
     includeLivingArrangement: [
-        'Type',
+        'LivingArrangementType',
         'StartDate-LivingArrangement',
         'EndDate-LivingArrangement'
     ],
@@ -141,7 +141,7 @@ const addNewRecord = () => {
     const recordConfigurationBasic = {
         ErepCaseId: {
             path: 'CaseDetails.ErepCaseId',
-            type: 'tel',
+            type: 'number',
             value: '',
             required: true,
             included: true,
@@ -412,35 +412,35 @@ const addNewRecord = () => {
             required: true,
             included: false,
         },
-        'Type': {
+        'LivingArrangementType': {
             path: 'MemberData.Demographics.LivingArrangement.Type',
             type: 'text',
             value: '',
             required: true,
             included: false,
         },
-        StartDate: {
+        'StartDate-LivingArrangement': {
             path: 'MemberData.Demographics.LivingArrangement.StartDate',
             type: 'date',
             value: '',
             required: false,
             included: false,
         },
-        EndDate: {
+        'EndDate-LivingArrangement': {
             path: 'MemberData.Demographics.LivingArrangement.EndDate',
             type: 'date',
             value: '',
             required: false,
             included: false,
         },
-        CommunicationType: {
+        'CommunicationType': {
             path: 'MemberData.CommunicationData.CommunicationType',
             type: '',
             value: '',
             required: true,
             included: false,
         },
-        CommunicationValue: {
+        'CommunicationValue': {
             path: 'MemberData.CommunicationData.CommunicationValue',
             type: '',
             value: '',
@@ -778,6 +778,10 @@ const selectRecord = function(index) {
     currentRecordValidationObject.value = currentRecordSections.value[index];
 }
 
+const deleteRecord = function(index) {
+    eligibilityList.value.splice(index, 1)
+}
+
 const toggleIncluded = function(section) {
     currentRecordValidationObject.value[section] = !currentRecordValidationObject.value[section];
     
@@ -807,6 +811,7 @@ export default function useRecord() {
         currentEligibilityRecord,
         currentRecordValidationObject,
         toggleIncluded,
-        selectRecord
+        selectRecord,
+        deleteRecord,
     }
 }
