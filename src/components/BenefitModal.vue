@@ -6,19 +6,25 @@ const props = defineProps({
 		type: Object,
 		required: true,
 	},
+	edit: {
+		type: Boolean,
+		required: false,
+	},
 });
+
 const newBenefit = ref(JSON.parse(JSON.stringify(props.benefit)));
 // include Booleans to turn on/off required aspect and to show/hide elements
-const includePregnancy = ref(false);
-const includeIncome = ref(false)
-const includeAssistance = ref(false)
-const includeCopayExemptDetails = ref(false)
-const includePatientLiability = ref(false)
-const includeSpenddown = ref(false)
+const includePregnancy = ref(props.edit && props.benefit.Pregnancy.PregnancyStatus !== '');
+const includeIncome = ref(props.edit && props.benefit.Countable.Income !== '')
+const includeAssistance = ref(props.edit && props.benefit.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
+const includeCopayExemptDetails = ref(props.edit && props.benefit.CopayExemptDetails.CopayExemptIndicator !== '')
+const includePatientLiability = ref(props.edit && props.benefit.PatientLiability.Amount !== '')
+const includeSpenddown = ref(props.edit && props.benefit.Spenddown.Information.SpenddownIndicator !== '')
 // spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
-const includeSpm = ref(false)
-const includeMedicareDualEligibility = ref(false)
+const includeSpm = ref(props.edit && props.benefit.SPMDetails.SPMIndicator !== '')
+const includeMedicareDualEligibility = ref(props.edit && props.benefit.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
 const emit = defineEmits(['submit', 'close']);
+
 const submit = () => {
 	emit('submit', newBenefit.value);
 };

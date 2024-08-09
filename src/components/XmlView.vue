@@ -147,11 +147,10 @@
     &ltTrailer&gt
         &ltTotalEligibilityRecords&gt{{sanitizedRecords.length}}&lt/TotalEligibilityRecords&gt
     &lt/Trailer&gt
-&lt/StateEligibility&gt
-        </pre>
+&lt/StateEligibility&gt</pre>
     </div>
     
     <p v-else>No records have been added yet</p>
-    <p>---------------Sent Object:---------------------</p>
-    <pre>{{ sanitizedRecords }}</pre>
+    <!-- <p>---------------Sent Object:---------------------</p>
+    <pre>{{ sanitizedRecords }}</pre> -->
 </template>

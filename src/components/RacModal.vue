@@ -1,7 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-// import useValidation from '@/composables/useValidation';
-// const {removeEmptyValuesFromObjects} = useValidation();
+import { ref } from 'vue';
 
 const props = defineProps({
 	rac: {
@@ -11,12 +9,9 @@ const props = defineProps({
 	edit: {
 		type: Boolean,
 		required: false,
-	}
+	},
 });
 
-onMounted(() => {
-	console.log('edit', props.edit);
-})
 const newRac = ref(JSON.parse(JSON.stringify(props.rac)));
 // include Booleans to turn on/off required aspect and to show/hide elements
 const includePregnancy = ref(props.edit && props.rac.Pregnancy.PregnancyStatus !== '');
@@ -29,7 +24,6 @@ const includeSpenddown = ref(props.edit && props.rac.Spenddown.Information.Spend
 const includeSpm = ref(props.edit && props.rac.SPMDetails.SPMIndicator !== '')
 const includeMedicareDualEligibility = ref(props.edit && props.rac.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
 const emit = defineEmits(['submit', 'close']);
-
 
 const submit = () => {
 	emit('submit', newRac.value);

@@ -98,6 +98,7 @@ const cancelModal = function () {
 	oldRacIndex.value = null;
 	oldBenefitIndex.value = null;
 	newBenefit.value = null
+	edit.value = false
 };
 
 </script>
@@ -209,6 +210,7 @@ const cancelModal = function () {
 	<BenefitModal
 		v-if="newBenefit"
 		:benefit="newBenefit"
+		:edit="edit"
 		@submit="submitBenefit"
 		@close="cancelModal"
 	/>
