@@ -108,6 +108,7 @@ const cancelModal = function () {
 	<button
 		@click="addNewRecord"
 		id="record-button"
+		style="z-index: 2;"
 	>
 		+
 	</button>
@@ -119,6 +120,12 @@ const cancelModal = function () {
 			<h3 v-else-if="item === 'Chip5Percent' && currentEligibilityRecord['Chip5Percent'].included">Chip Premium Details</h3>
 			<h3 v-else-if="item === 'HohMemberId-RelationshipDetails' && currentEligibilityRecord['HohMemberId-RelationshipDetails'].included">Case Head Releationship Details</h3>
 			<h3 v-else-if="item === 'MemberId'">Member Data</h3>
+			<h3 v-else-if="item === 'FosterCareParentName' && currentEligibilityRecord['FosterCareParentName'].included">Foster Care</h3>
+			<h3 v-else-if="item === 'SubsidizedParentFirstName' && currentEligibilityRecord['SubsidizedParentFirstName'].included">Subsidized Adoption</h3>
+			<h3 v-else-if="item === 'GuardianParentFirstName' && currentEligibilityRecord['GuardianParentFirstName'].included">Guardian</h3>
+			<h3 v-else-if="item === 'DisabilityInitialEntitlementDate' && currentEligibilityRecord['DisabilityInitialEntitlementDate'].included">SSA Disability</h3>
+			<h3 v-else-if="item === 'PrimaryMemberId' && currentEligibilityRecord['PrimaryMemberId'].included">Linked Members</h3>
+			<h3 v-else-if="item === 'Indicator' && currentEligibilityRecord['Indicator'].included">Tobacco Survey Cessation</h3>
 			<label v-if="currentEligibilityRecord[item].included">
 				<span>{{ item.includes('-') ? item.substring(0, item.indexOf('-')) : item }}</span>
 				<span v-if="currentEligibilityRecord[item].required">*</span>
@@ -187,7 +194,7 @@ const cancelModal = function () {
 	</div>
 	<div class="section-right">
 		<p>To use this form:</p>
-		<p>If you want to make a formerly populated record value empty, put null as the new value</p>
+		<p>If you want to make a formerly populated record value empty, put 'null' as the new value</p>
 		<p>You can navigate between records on the List Tab</p>
 		<div class="section-booleans">
 			<label
@@ -243,18 +250,21 @@ label {
 	display: inline-block;
 }
 .section-left {
+	position: absolute;
+	top: 10%;
 	width: 40%;
 }
 .section-middle {
-	width: 40%;
+	width: 35%;
 	position:absolute;
 	top: 10%;
 	left: 40%;
 }
 .section-right {
-	width: 20%;
+	width: 25%;
 	position: fixed;
 	top: 15%;
-	right: 10%;
+	right: 5%;
+	margin: 0;
 }
 </style>

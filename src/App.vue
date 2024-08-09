@@ -34,7 +34,12 @@ nav {
   top: 0%;
   left: 0%;
   padding: 5% 0 0 5%;
-  background-color: rgb(240, 235, 242, 5);
+  background-color: rgb(240, 235, 242, 1);
   width: 100%;
+  z-index: 2;
+}
+
+li {
+  padding: 0 3px 0 3px;
 }
 </style>
