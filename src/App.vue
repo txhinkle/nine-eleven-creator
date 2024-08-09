@@ -28,4 +28,12 @@ const updateView = function(view) {
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+nav {
+  position: fixed;
+  top: 0%;
+  padding-top: 5%;
+  background-color: rgb(255, 255, 255, 5);
+  width: 100%;
+}
+</style>
