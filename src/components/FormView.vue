@@ -16,6 +16,8 @@ const {
 	toggleIncluded,
 } = useRecord();
 
+//temp
+const includeMedicare = ref(false);
 
 onUpdated(() => {
 	validateRecords();
@@ -180,6 +182,9 @@ const cancelModal = function () {
 		<pre v-if="currentEligibilityRecord">{{ currentEligibilityRecord }}</pre>
 		<p v-else>No Records Yet, Add Record to start</p>
 	</div>
+	<div class="section-middle" v-if="includeMedicare">
+		<p>Well hello middle!</p>
+	</div>
 	<div class="section-right">
 		<p>To use this form:</p>
 		<p>If you want to make a formerly populated record value empty, put null as the new value</p>
@@ -238,12 +243,18 @@ label {
 	display: inline-block;
 }
 .section-left {
-	width: 80%;
+	width: 40%;
+}
+.section-middle {
+	width: 40%;
+	position:absolute;
+	top: 10%;
+	left: 40%;
 }
 .section-right {
 	width: 20%;
 	position: fixed;
 	top: 15%;
-	right: 20%;
+	right: 10%;
 }
 </style>

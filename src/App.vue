@@ -32,8 +32,9 @@ const updateView = function(view) {
 nav {
   position: fixed;
   top: 0%;
-  padding-top: 5%;
-  background-color: rgb(255, 255, 255, 5);
+  left: 0%;
+  padding: 5% 0 0 5%;
+  background-color: rgb(240, 235, 242, 5);
   width: 100%;
 }
 </style>
