@@ -66,11 +66,11 @@
             })
             closeTag()
             //     tabString = tabString.substring(0, tabString.length - 4);
-        } else if (value !== '') {
+        } else if (!['', null, undefined].includes(value)) {
             if (value === 'null') {
                 value = ''
             }
-            xml += tabString + '<' + key + '>' + value.trim()
+            xml += tabString + '<' + key + '>' + (value + '').trim()
         + '</' + key + '>\n'
         }
     }
