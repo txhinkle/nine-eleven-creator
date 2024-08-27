@@ -30,9 +30,13 @@ table {
 
 tr {
   border-bottom: 1pt solid black;
+  width: 100%;
+  border-right: 1pt solid black;
 }
-th td {
+
+th, td {
   border-left: 1pt solid black;
+  padding: 2px;
 }
 
 input:invalid {

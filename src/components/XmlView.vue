@@ -132,7 +132,7 @@
     <div v-if="sanitizedRecords.length" >
         <p>Suggested Filename: {{ title }}</p>
         <p>File Contents:</p>
-       <pre style="border: 1px solid black; padding: 2px;">
+       <pre>
 &lt?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt
 &ltStateEligibility xmlns="http://www.utprism.com/dws/eligibility"&gt
     &ltHeader&gt
@@ -154,3 +154,13 @@
     <!-- <p>---------------Sent Object:---------------------</p>
     <pre>{{ sanitizedRecords }}</pre> -->
 </template>
+<style scoped>
+    * {
+        margin-top: 5%;
+    }
+    pre {
+        border: 1px solid black;
+        padding: 2px;
+        width: 90%;
+    }
+</style>

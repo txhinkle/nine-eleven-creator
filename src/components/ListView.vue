@@ -23,14 +23,14 @@ onMounted(() => {
                     <th scope="col">Index</th>
                     <th scope="col">MemberID</th>
                     <th scope="col">Errors</th>
-                    <th scope="col"></th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(item, index) in eligibilityList" :key="index">
-                    <a @click="select(index)"><td>{{ index }}</td></a>
-                    <a @click="select(index)"><td>{{ item['MemberId'].value }}</td></a>
-                    <a @click="select(index)"><td style="max-width: 300px;">{{ errorList[index] }}</td></a>
+                    <td><a @click="select(index)">{{ index }}</a></td>
+                    <td><a @click="select(index)">{{ item['MemberId'].value }}</a></td>
+                    <td style="max-width: 300px;"><a @click="select(index)">{{ errorList[index] }}</a></td>
                     <td>
                         <input type="button" @click="deleteRecord(index)" value="delete" /></td>
                 </tr>
