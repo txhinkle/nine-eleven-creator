@@ -40,6 +40,9 @@ onMounted(() => {
     </div>
 </template>
 <style scoped>
+*{
+    margin-top: 5%;
+}
 a {
     color: blue;
     text-decoration: underline;

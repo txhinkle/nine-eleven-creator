@@ -135,10 +135,18 @@ const newBenefitTemplate = {
     }
 }
 
+const newIncarcerationTemplate = {
+    IncarcerationID: '',
+    IncarcerationStatus: '',
+    StartDate: '',
+    EndDate: '',
+}
+
 export default function useTEmplates () {
     return {
         newAddressTemplate,
         newRacTemplate,
-        newBenefitTemplate
+        newBenefitTemplate,
+        newIncarcerationTemplate,
     }
 }

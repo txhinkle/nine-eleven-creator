@@ -4,10 +4,16 @@ import { ref, onUpdated } from 'vue';
 import AddressModal from '@/components/AddressModal.vue';
 import RacModal from './RacModal.vue';
 import BenefitModal from './BenefitModal.vue';
+import IncarcerationModal from './IncarcerationModal.vue';
 import useValidation from '@/composables/useValidation';
 import useTemplates from '@/composables/useTemplates'
 const {validateRecords} = useValidation();
-const {newAddressTemplate, newRacTemplate, newBenefitTemplate} = useTemplates()
+const {
+	newAddressTemplate,
+	newRacTemplate,
+	newBenefitTemplate,
+	newIncarcerationTemplate,
+} = useTemplates()
 
 const {
 	currentEligibilityRecord,
@@ -28,7 +34,10 @@ const oldAddressIndex = ref(null);
 const newRac = ref(null);
 const oldRacIndex = ref(null);
 const newBenefit = ref(null);
-const oldBenefitIndex = ref(null); 
+const oldBenefitIndex = ref(null);
+const newIncarceration = ref(null);
+const oldIncarcerationIndex = ref(null)
+
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
 	
@@ -49,26 +58,34 @@ const submitAddress = function ({ addressTypes, address }) {
 };
 const submitRac = function (rac) {
 	const index = oldRacIndex.value;
-	if(index !== null) {
-		currentEligibilityRecord.value['Rac'].value.splice(index, 1, rac);
-	} else {
-		currentEligibilityRecord.value['Rac'].value.push(rac);
-	}
+	insertInArray(rac, 'Rac', index);
 	oldRacIndex.value = null;
 	edit.value = false
 	newRac.value = null
 }
 const submitBenefit = function (benefit) {
 	const index = oldBenefitIndex.value;
-	if(index !== null) {
-		currentEligibilityRecord.value['Benefit'].value.splice(index, 1, benefit);
-	} else {
-		currentEligibilityRecord.value['Benefit'].value.push(benefit);
-	}
+	insertInArray(benefit, 'Benefit', index);
 	oldBenefitIndex.value = null;
 	edit.value = false
 	newBenefit.value = null
 }
+const submitIncarceration = function (incarceration) {
+	const index = oldIncarcerationIndex.value;
+	insertInArray(incarceration, 'Incarceration', index);
+	oldIncarcerationIndex.value = null;
+	edit.value = false
+	newIncarceration.value = null
+}
+
+const insertInArray = function(object, name, index) {
+	if(index !== null) {
+		currentEligibilityRecord.value[name].value.splice(index, 1, object);
+	} else {
+		currentEligibilityRecord.value[name].value.push(object);
+	}
+}
+
 const deleteFromArray = function (arrayName, index) {
 	currentEligibilityRecord.value[arrayName].value.splice(index, 1);
 };
@@ -90,6 +107,13 @@ const addBenefit = function (benefit, index) {
 	newBenefit.value = benefit;
 	if(index !== null) {
 		oldBenefitIndex.value = index;
+		edit.value = true;
+	}
+}
+const addIncarceration = function(incarceration, index) {
+	newIncarceration.value = incarceration;
+	if(index !== null) {
+		oldIncarcerationIndex.value = index;
 		edit.value = true;
 	}
 }
@@ -178,6 +202,21 @@ const cancelModal = function () {
 					</div>
 				</div>
 			</div>
+			<div v-else-if="item === 'Incarceration' && currentEligibilityRecord[item]">
+				<button
+					v-if="currentRecordValidationObject['includeIncarceration'] === true"
+					@click="addIncarceration({...newIncarcerationTemplate}, null)"
+				>
+					Add Incarceration - testing
+				</button>
+				<div>
+					<div v-for="(incarceration, index) in currentEligibilityRecord['Incarceration'].value" :key="index">
+						<pre>{{ incarceration["IncarcerationID"]}}: {{ incarceration.StartDate }}–{{ incarceration.EndDate }}</pre>
+						<button @click="deleteFromArray('Incarceration', index)">Delete</button>
+						<button @click="addIncarceration(incarceration, index)">Edit</button>
+					</div>
+				</div>
+			</div>
 			<input
 				:type="currentEligibilityRecord[item].type"
 				v-model="currentEligibilityRecord[item].value"
@@ -224,6 +263,13 @@ const cancelModal = function () {
 		:benefit="newBenefit"
 		:edit="edit"
 		@submit="submitBenefit"
+		@close="cancelModal"
+	/>
+	<IncarcerationModal
+		v-if="newIncarceration"
+		:incarceration="newIncarceration"
+		:edit="edit"
+		@submit="submitIncarceration"
 		@close="cancelModal"
 	/>
 </template>

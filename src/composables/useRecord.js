@@ -105,7 +105,7 @@ const optionalSections = {
         'Indicator',
         'ResponseDate'
     ],
-    includeIncarceration: [],
+    includeIncarceration: ['Incarceration'],
     includeUppPremiumInformation: [],
     includeEsiPremiumInformation: [],
 }
@@ -133,7 +133,7 @@ const addNewRecord = () => {
         // includeMedicareBuyinPartA: false
         includeLinkedMembers: false,
         includeTobaccoSurveyCessation: false,
-        // includeIncarceration: false,
+        includeIncarceration: false,
         // includeUppPremiumInformation: false,
         // includeEsiPremiumInformation: false,
     };
