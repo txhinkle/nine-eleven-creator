@@ -220,7 +220,7 @@ const cancelModal = function () {
 			<input
 				:type="currentEligibilityRecord[item].type"
 				v-model="currentEligibilityRecord[item].value"
-				:pattern="currentEligibilityRecord[item].type === 'tel' ? '\\d{9,10}' : null"
+				:pattern="currentEligibilityRecord[item].pattern"
 				:required="currentEligibilityRecord[item].required"
 				v-else-if="currentEligibilityRecord[item].included"
 			/>

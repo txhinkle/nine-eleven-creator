@@ -152,6 +152,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: true,
+            pattern: '\\d{9}',
         },
         SpokenLanguage: {
             path: 'CaseDetails.HohDetails.SpokenLanguage',
@@ -257,6 +258,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: true,
+            pattern: '\\d{9}',
         },
         FirstName: {
             path: 'MemberData.Demographics.FirstName',
