@@ -781,7 +781,13 @@ const selectRecord = function(index) {
 }
 
 const deleteRecord = function(index) {
+    console.log('index', index)
     eligibilityList.value.splice(index, 1)
+    if(eligibilityList.value.length) {
+        selectRecord(0)
+    } else {
+        currentEligibilityRecord.value = {}
+    }
 }
 
 const toggleIncluded = function(section) {

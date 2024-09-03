@@ -155,7 +155,7 @@
     <pre>{{ sanitizedRecords }}</pre> -->
 </template>
 <style scoped>
-    * {
+    *:first-child {
         margin-top: 5%;
     }
     pre {
