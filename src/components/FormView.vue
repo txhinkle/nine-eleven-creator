@@ -5,6 +5,7 @@ import AddressModal from '@/components/AddressModal.vue';
 import RacModal from './RacModal.vue';
 import BenefitModal from './BenefitModal.vue';
 import IncarcerationModal from './IncarcerationModal.vue';
+import UppModal from './UppModal.vue';
 import useValidation from '@/composables/useValidation';
 import useTemplates from '@/composables/useTemplates'
 const {validateRecords} = useValidation();
@@ -13,6 +14,7 @@ const {
 	newRacTemplate,
 	newBenefitTemplate,
 	newIncarcerationTemplate,
+	newUppTemplate,
 } = useTemplates()
 
 const {
@@ -28,7 +30,7 @@ const includeMedicare = ref(false);
 onUpdated(() => {
 	validateRecords();
 })
-const edit = ref(false)
+const edit = ref(false);
 const newAddress = ref(null);
 const oldAddressIndex = ref(null);
 const newRac = ref(null);
@@ -37,6 +39,8 @@ const newBenefit = ref(null);
 const oldBenefitIndex = ref(null);
 const newIncarceration = ref(null);
 const oldIncarcerationIndex = ref(null)
+const newUpp = ref(null)
+const oldUppIndex = ref(null)
 
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
@@ -77,6 +81,13 @@ const submitIncarceration = function (incarceration) {
 	edit.value = false
 	newIncarceration.value = null
 }
+const submitUpp = function (upp) {
+	const index = oldUppIndex.value;
+	insertInArray(upp, 'UppPremiumInformation', index);
+	oldUppIndex.value = null;
+	edit.value = false
+	newUpp.value = null
+}
 
 const insertInArray = function(object, name, index) {
 	if(index !== null) {
@@ -114,6 +125,14 @@ const addIncarceration = function(incarceration, index) {
 	newIncarceration.value = incarceration;
 	if(index !== null) {
 		oldIncarcerationIndex.value = index;
+		edit.value = true;
+	}
+}
+
+const addUpp = function(upp, index) {
+	newUpp.value = upp;
+	if(index !== null) {
+		oldUppIndex.value = index;
 		edit.value = true;
 	}
 }
@@ -175,7 +194,7 @@ const cancelModal = function () {
 					v-if="currentRecordValidationObject['includeRac'] === true"
 					@click="addRac({...newRacTemplate}, null)"
 				>
-					Add Rac - testing
+					Add Rac
 				</button>
 				<div v-if="currentEligibilityRecord['Rac'].included && currentEligibilityRecord['Rac'].value.length">
 					<label>RAC</label>
@@ -191,7 +210,7 @@ const cancelModal = function () {
 					v-if="currentRecordValidationObject['includeBenefit'] === true"
 					@click="addBenefit({...newBenefitTemplate}, null)"
 				>
-					Add Benefit - testing
+					Add Benefit
 				</button>
 				<div>
 					<!-- display Benefits -->
@@ -207,13 +226,28 @@ const cancelModal = function () {
 					v-if="currentRecordValidationObject['includeIncarceration'] === true"
 					@click="addIncarceration({...newIncarcerationTemplate}, null)"
 				>
-					Add Incarceration - testing
+					Add Incarceration
 				</button>
 				<div>
 					<div v-for="(incarceration, index) in currentEligibilityRecord['Incarceration'].value" :key="index">
 						<pre>{{ incarceration["IncarcerationID"]}}: {{ incarceration.StartDate }}–{{ incarceration.EndDate }}</pre>
 						<button @click="deleteFromArray('Incarceration', index)">Delete</button>
 						<button @click="addIncarceration(incarceration, index)">Edit</button>
+					</div>
+				</div>
+			</div>
+			<div v-else-if="item === 'UppPremiumInformation' && currentEligibilityRecord[item]">
+				<button
+					v-if="currentRecordValidationObject['includeUppPremiumInformation'] === true"
+					@click="addUpp({...newUppTemplate}, null)"
+				>
+					Add Upp Premium
+				</button>
+				<div>
+					<div v-for="(upp, index) in currentEligibilityRecord['UppPremiumInformation'].value" :key="index">
+						<pre>{{ upp.UppProgramStartDate }}–{{ upp.UppProgramEndDate }}</pre>
+						<button @click="deleteFromArray('UppPremiumInformation', index)">Delete</button>
+						<button @click="addUpp(upp, index)">Edit</button>
 					</div>
 				</div>
 			</div>
@@ -270,6 +304,13 @@ const cancelModal = function () {
 		:incarceration="newIncarceration"
 		:edit="edit"
 		@submit="submitIncarceration"
+		@close="cancelModal"
+	/>
+	<UppModal
+		v-if="newUpp"
+		:upp="newUpp"
+		:edit="edit"
+		@submit="submitUpp"
 		@close="cancelModal"
 	/>
 </template>
