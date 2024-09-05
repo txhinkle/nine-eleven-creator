@@ -106,7 +106,7 @@ const optionalSections = {
         'ResponseDate'
     ],
     includeIncarceration: ['Incarceration'],
-    includeUppPremiumInformation: [],
+    includeUppPremiumInformation: ['UppPremiumInformation'],
     includeEsiPremiumInformation: [],
 }
 
@@ -134,7 +134,7 @@ const addNewRecord = () => {
         includeLinkedMembers: false,
         includeTobaccoSurveyCessation: false,
         includeIncarceration: false,
-        // includeUppPremiumInformation: false,
+        includeUppPremiumInformation: false,
         // includeEsiPremiumInformation: false,
     };
 
@@ -259,6 +259,13 @@ const addNewRecord = () => {
             required: true,
             included: true,
             pattern: '\\d{9}',
+        },
+        ExemptDuplicateIndicator: {
+            path: 'MemberData.ExemptDuplicateIndicator',
+            type: 'text',
+            value: '',
+            required: true,
+            included: true,
         },
         FirstName: {
             path: 'MemberData.Demographics.FirstName',
@@ -488,13 +495,6 @@ const addNewRecord = () => {
             path: 'MemberData.Address',
             type: 'modal',
             value: [],
-            required: true,
-            included: true,
-        },
-        ExemptDuplicateIndicator: {
-            path: 'MemberData.ExemptDuplicateIndicator',
-            type: 'text',
-            value: '',
             required: true,
             included: true,
         },

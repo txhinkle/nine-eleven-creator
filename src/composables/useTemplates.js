@@ -142,11 +142,19 @@ const newIncarcerationTemplate = {
     EndDate: '',
 }
 
+const newUppTemplate = {
+    UppProgramStartDate: '',
+    UppProgramEndDate: '',
+    BillMonth: '',
+    UppPremiumAmt: '',
+}
+
 export default function useTEmplates () {
     return {
         newAddressTemplate,
         newRacTemplate,
         newBenefitTemplate,
         newIncarcerationTemplate,
+        newUppTemplate,
     }
 }
