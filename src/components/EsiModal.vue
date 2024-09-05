@@ -25,6 +25,7 @@ const close = () => {
 				<span>ESIProgramStartDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newEsi.ESIProgramStartDate"
 					required
@@ -34,6 +35,7 @@ const close = () => {
 				<span>ESIProgramEndDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newEsi.ESIProgramEndDate"
 					required

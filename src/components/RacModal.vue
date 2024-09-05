@@ -81,6 +81,7 @@ const close = () => {
 				<span>RacBeginDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newRac.RacBeginDate"
 					required
@@ -90,6 +91,7 @@ const close = () => {
 				<span>RacEndDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newRac.RacEndDate"
 					required
@@ -99,6 +101,7 @@ const close = () => {
 				<span>RacIssuanceDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newRac.RacIssuanceDate"
 					required
@@ -117,6 +120,7 @@ const close = () => {
 					<span>PregnancyStartDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newRac.Pregnancy.PregnancyStartDate"
 					/>
@@ -125,6 +129,7 @@ const close = () => {
 					<span>PregnancyDueDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newRac.Pregnancy.PregnancyDueDate"
 					/>
@@ -133,6 +138,7 @@ const close = () => {
 					<span>PregnancyEndDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newRac.Pregnancy.PregnancyEndDate"
 					/>
@@ -199,6 +205,7 @@ const close = () => {
 					<span>MetDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newRac.Spenddown.Information.MetDate"
 					/>
@@ -231,6 +238,7 @@ const close = () => {
 					<span>BillStartDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillStartDate"
 						required
@@ -240,6 +248,7 @@ const close = () => {
 					<span>BillEndDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillEndDate"
 						required

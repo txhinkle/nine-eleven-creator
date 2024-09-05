@@ -25,6 +25,7 @@ const close = () => {
 				<span>UppProgramStartDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newUpp.UppProgramStartDate"
 					required
@@ -34,6 +35,7 @@ const close = () => {
 				<span>UppProgramEndDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newUpp.UppProgramEndDate"
 					required

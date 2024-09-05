@@ -41,6 +41,7 @@ const close = () => {
 				<span>StartDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newIncarceration.StartDate"
 					required
@@ -50,6 +51,7 @@ const close = () => {
 				<span>EndDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newIncarceration.EndDate"
 					required

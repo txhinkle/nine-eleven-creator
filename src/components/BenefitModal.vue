@@ -81,6 +81,7 @@ const close = () => {
 				<span>BenefitSubTypeStartDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newBenefit.BenefitSubTypeStartDate"
 					required
@@ -90,6 +91,7 @@ const close = () => {
 				<span>BenefitSubTypeEndDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newBenefit.BenefitSubTypeEndDate"
 					required
@@ -99,6 +101,7 @@ const close = () => {
 				<span>BenefitSubTypeIssuanceDate</span>
 				<input
 					type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 					v-model="newBenefit.BenefitSubTypeIssuanceDate"
 					required
@@ -117,6 +120,7 @@ const close = () => {
 					<span>PregnancyStartDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newBenefit.Pregnancy.PregnancyStartDate"
 					/>
@@ -125,6 +129,7 @@ const close = () => {
 					<span>PregnancyDueDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newBenefit.Pregnancy.PregnancyDueDate"
 					/>
@@ -133,6 +138,7 @@ const close = () => {
 					<span>PregnancyEndDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newBenefit.Pregnancy.PregnancyEndDate"
 					/>
@@ -197,6 +203,7 @@ const close = () => {
 					<span>MetDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newBenefit.Spenddown.Information.MetDate"
 					/>
@@ -229,6 +236,7 @@ const close = () => {
 					<span>BillStartDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillStartDate"
 						required
@@ -238,6 +246,7 @@ const close = () => {
 					<span>BillEndDate</span>
 					<input
 						type="date"
+					min="1900-01-01"
 					max="2999-12-31"
 						v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillEndDate"
 						required
