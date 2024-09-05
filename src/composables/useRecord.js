@@ -260,13 +260,6 @@ const addNewRecord = () => {
             included: true,
             pattern: '\\d{9}',
         },
-        ExemptDuplicateIndicator: {
-            path: 'MemberData.ExemptDuplicateIndicator',
-            type: 'text',
-            value: '',
-            required: true,
-            included: true,
-        },
         FirstName: {
             path: 'MemberData.Demographics.FirstName',
             type: 'text',
@@ -717,6 +710,13 @@ const addNewRecord = () => {
             included: false,
         },
         // Skipping past other Medicare fields for now
+        ExemptDuplicateIndicator: {
+            path: 'MemberData.ExemptDuplicateIndicator',
+            type: 'text',
+            value: '',
+            required: true,
+            included: true,
+        },
         PrimaryMemberId: {
             path: 'MemberData.LinkedMembers.PrimaryMemberId',
             type: 'text',
