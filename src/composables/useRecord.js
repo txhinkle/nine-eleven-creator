@@ -107,7 +107,7 @@ const optionalSections = {
     ],
     includeIncarceration: ['Incarceration'],
     includeUppPremiumInformation: ['UppPremiumInformation'],
-    includeEsiPremiumInformation: [],
+    includeEsiPremiumInformation: ['ESIPremiumInformation'],
 }
 
 const addNewRecord = () => {
@@ -135,7 +135,7 @@ const addNewRecord = () => {
         includeTobaccoSurveyCessation: false,
         includeIncarceration: false,
         includeUppPremiumInformation: false,
-        // includeEsiPremiumInformation: false,
+        includeEsiPremiumInformation: false,
     };
 
     const recordConfigurationBasic = {

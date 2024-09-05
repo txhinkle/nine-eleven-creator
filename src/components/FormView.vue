@@ -6,6 +6,7 @@ import RacModal from './RacModal.vue';
 import BenefitModal from './BenefitModal.vue';
 import IncarcerationModal from './IncarcerationModal.vue';
 import UppModal from './UppModal.vue';
+import EsiModal from './EsiModal.vue';
 import useValidation from '@/composables/useValidation';
 import useTemplates from '@/composables/useTemplates'
 const {validateRecords} = useValidation();
@@ -39,8 +40,10 @@ const newBenefit = ref(null);
 const oldBenefitIndex = ref(null);
 const newIncarceration = ref(null);
 const oldIncarcerationIndex = ref(null)
-const newUpp = ref(null)
-const oldUppIndex = ref(null)
+const newUpp = ref(null);
+const oldUppIndex = ref(null);
+const newEsi = ref(null);
+const oldEsiIndex = ref(null);
 
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
@@ -88,6 +91,13 @@ const submitUpp = function (upp) {
 	edit.value = false
 	newUpp.value = null
 }
+const submitEsi = function (esi) {
+	const index = oldEsiIndex.value;
+	insertInArray(esi, 'ESIPremiumInformation', index);
+	oldEsiIndex.value = null;
+	edit.value = false
+	newEsi.value = null
+}
 
 const insertInArray = function(object, name, index) {
 	if(index !== null) {
@@ -100,6 +110,7 @@ const insertInArray = function(object, name, index) {
 const deleteFromArray = function (arrayName, index) {
 	currentEligibilityRecord.value[arrayName].value.splice(index, 1);
 };
+
 const addAddress = function (address, index) {
 	newAddress.value = address;
 	if (index !== null) {
@@ -136,6 +147,15 @@ const addUpp = function(upp, index) {
 		edit.value = true;
 	}
 }
+
+const addEsi = function(esi, index) {
+	newEsi.value = esi;
+	if(index !== null) {
+		oldEsiIndex.value = index;
+		edit.value = true;
+	}
+}
+
 const cancelModal = function () {
 	newAddress.value = null;
 	oldAddressIndex.value = null;
@@ -251,12 +271,27 @@ const cancelModal = function () {
 					</div>
 				</div>
 			</div>
+			<div v-else-if="item === 'ESIPremiumInformation' && currentEligibilityRecord[item]">
+				<button
+					v-if="currentRecordValidationObject['includeEsiPremiumInformation'] === true"
+					@click="addEsi({...newEsiTemplate}, null)"
+				>
+					Add ESI Premium
+				</button>
+				<div>
+					<div v-for="(esi, index) in currentEligibilityRecord['ESIPremiumInformation'].value" :key="index">
+						<pre>{{ esi.ESIProgramStartDate }}–{{ esi.ESIProgramEndDate }}</pre>
+						<button @click="deleteFromArray('ESIPremiumInformation', index)">Delete</button>
+						<button @click="addEsi(esi, index)">Edit</button>
+					</div>
+				</div>
+			</div>
 			<input
+				v-else-if="currentEligibilityRecord[item].included"
 				:type="currentEligibilityRecord[item].type"
 				v-model="currentEligibilityRecord[item].value"
 				:pattern="currentEligibilityRecord[item].pattern"
 				:required="currentEligibilityRecord[item].required"
-				v-else-if="currentEligibilityRecord[item].included"
 			/>
 		</div>
 		<pre v-if="currentEligibilityRecord">{{ currentEligibilityRecord }}</pre>
@@ -311,6 +346,13 @@ const cancelModal = function () {
 		:upp="newUpp"
 		:edit="edit"
 		@submit="submitUpp"
+		@close="cancelModal"
+	/>
+	<EsiModal
+		v-if="newEsi"
+		:esi="newEsi"
+		:edit="edit"
+		@submit="submitEsi"
 		@close="cancelModal"
 	/>
 </template>

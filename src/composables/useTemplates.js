@@ -149,6 +149,13 @@ const newUppTemplate = {
     UppPremiumAmt: '',
 }
 
+const newEsiTemplate = {
+    ESIProgramStartDate: '',
+    ESIProgramEndDate: '',
+    BillMonth: '',
+    ESIPremiumAmt: '',
+}
+
 export default function useTEmplates () {
     return {
         newAddressTemplate,
@@ -156,5 +163,6 @@ export default function useTEmplates () {
         newBenefitTemplate,
         newIncarcerationTemplate,
         newUppTemplate,
+        newEsiTemplate,
     }
 }
