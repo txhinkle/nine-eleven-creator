@@ -232,7 +232,7 @@ const cancelModal = function () {
 				>
 					Add Benefit
 				</button>
-				<div>
+				<div v-if="currentRecordValidationObject['includeBenefit'] === true">
 					<!-- display Benefits -->
 					<div v-for="(benefit, index) in currentEligibilityRecord['Benefit'].value" :key="index">
 						<pre>BenefitSubType {{ benefit.BenefitSubType }} : {{ benefit.BenefitSubTypeStartDate }}–{{ benefit.BenefitSubTypeEndDate }}</pre>
@@ -248,7 +248,7 @@ const cancelModal = function () {
 				>
 					Add Incarceration
 				</button>
-				<div>
+				<div v-if="currentRecordValidationObject['includeIncarceration'] === true">
 					<div v-for="(incarceration, index) in currentEligibilityRecord['Incarceration'].value" :key="index">
 						<pre>{{ incarceration["IncarcerationID"]}}: {{ incarceration.StartDate }}–{{ incarceration.EndDate }}</pre>
 						<button @click="deleteFromArray('Incarceration', index)">Delete</button>
@@ -263,7 +263,7 @@ const cancelModal = function () {
 				>
 					Add Upp Premium
 				</button>
-				<div>
+				<div v-if="currentRecordValidationObject['includeUppPremiumInformation'] === true">
 					<div v-for="(upp, index) in currentEligibilityRecord['UppPremiumInformation'].value" :key="index">
 						<pre>{{ upp.UppProgramStartDate }}–{{ upp.UppProgramEndDate }}</pre>
 						<button @click="deleteFromArray('UppPremiumInformation', index)">Delete</button>
@@ -278,7 +278,7 @@ const cancelModal = function () {
 				>
 					Add ESI Premium
 				</button>
-				<div>
+				<div v-if="currentRecordValidationObject['includeEsiPremiumInformation'] === true">
 					<div v-for="(esi, index) in currentEligibilityRecord['ESIPremiumInformation'].value" :key="index">
 						<pre>{{ esi.ESIProgramStartDate }}–{{ esi.ESIProgramEndDate }}</pre>
 						<button @click="deleteFromArray('ESIPremiumInformation', index)">Delete</button>

@@ -101,7 +101,7 @@
                             xml += tabString + '</Address>\n'
                         });
                         
-                     } else if (['Rac', 'Benefit', 'Incarceration'].includes(pathway)) {
+                     } else if (['Rac', 'Benefit', 'Incarceration', 'UppPremiumInformation', 'ESIPremiumInformation'].includes(pathway)) {
                         // standardized modal logic
                         sanitizedRecords.value[i][currentPath].forEach(rac => {
                             xml += tabString + `<${pathway}>\n`;
