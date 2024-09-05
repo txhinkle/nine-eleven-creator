@@ -3,16 +3,16 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-	upp: {
+	esi: {
 		type: Object,
 		required: true,
 	},
 });
-const newUpp = ref(JSON.parse(JSON.stringify(props.upp)));
+const newEsi = ref(JSON.parse(JSON.stringify(props.esi)));
 
 const emit = defineEmits(['submit', 'close']);
 const submit = () => {
-	emit('submit', newUpp.value);
+	emit('submit', newEsi.value);
 };
 const close = () => {
 	emit('close');
@@ -22,20 +22,20 @@ const close = () => {
 	<div class="modal">
 		<form @submit.prevent="submit">
 			<label>
-				<span>UppProgramStartDate</span>
+				<span>ESIProgramStartDate</span>
 				<input
 					type="date"
 					max="2999-12-31"
-					v-model="newUpp.UppProgramStartDate"
+					v-model="newEsi.ESIProgramStartDate"
 					required
 				/>
 			</label>
 			<label>
-				<span>UppProgramEndDate</span>
+				<span>ESIProgramEndDate</span>
 				<input
 					type="date"
 					max="2999-12-31"
-					v-model="newUpp.UppProgramEndDate"
+					v-model="newEsi.ESIProgramEndDate"
 					required
 				/>
 			</label>
@@ -43,15 +43,15 @@ const close = () => {
 				<span>BillMonth</span>
 				<input
 					type="text"
-					v-model="newUpp.BillMonth"
+					v-model="newEsi.BillMonth"
 					required
 				/>
 			</label>
 			<label>
-				<span>UppPremiumAmt</span>
+				<span>ESIPremiumAmt</span>
 				<input
 					type="number"
-					v-model="newUpp.UppPremiumAmt"
+					v-model="newEsi.ESIPremiumAmt"
 					required
 				/>
 			</label>

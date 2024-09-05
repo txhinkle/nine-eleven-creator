@@ -103,6 +103,7 @@ const close = () => {
 				<span>AddressStartDate</span>
 				<input
 					type="date"
+					max="2999-12-31"
 					v-model="newAddress.AddressStartDate"
 					required
 				/>
@@ -111,6 +112,7 @@ const close = () => {
 				<span>AddressEndDate</span>
 				<input
 					type="date"
+					max="2999-12-31"
 					v-model="newAddress.AddressEndDate"
 					required
 				/>
