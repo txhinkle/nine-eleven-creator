@@ -9,7 +9,6 @@ watch(eligibilityList, async () => {
 const sanitizedRecords = ref([])
 const errorList = ref([])
 
-// other required sets
 const removeEmptyValuesFromObjects = function (originalObject) {
     const object = {...originalObject}
     Object.keys(originalObject).forEach(attribute => {
@@ -48,7 +47,6 @@ const validateRecords = function() {
                 recordErrors.push('missing required field: ' + keys[j]);
             } 
             if(item.type === 'modal' && item.included && item.value.length) {
-                // console.log('item.value', item.value);
                 sanitizedRecord[item.path] = []
                 item.value.forEach(modalObject => {
                     modalObject = removeEmptyValuesFromObjects(modalObject)
@@ -58,10 +56,8 @@ const validateRecords = function() {
                             tempObject[key] = modalObject[key]
                         } 
                     })
-                    // console.log('item.path', item.path)
                     sanitizedRecord[item.path].push(tempObject);
                 })
-                // console.log('modal result', sanitizedRecord[item.path])
             }
         }
         if(Object.keys(sanitizedRecord).length) {
@@ -71,7 +67,6 @@ const validateRecords = function() {
     }
 }
 
-// helper functions for validate record to use
 
 export default function useValidation() {
     return {

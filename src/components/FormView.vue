@@ -4,6 +4,7 @@ import { ref, onUpdated } from 'vue';
 import AddressModal from '@/components/AddressModal.vue';
 import RacModal from './RacModal.vue';
 import BenefitModal from './BenefitModal.vue';
+import MedicareCoverageDetailsModal from './MedicareCoverageDetailsModal.vue';
 import IncarcerationModal from './IncarcerationModal.vue';
 import UppModal from './UppModal.vue';
 import EsiModal from './EsiModal.vue';
@@ -41,6 +42,8 @@ const newUpp = ref(null);
 const oldUppIndex = ref(null);
 const newEsi = ref(null);
 const oldEsiIndex = ref(null);
+const newMedicareCoverage = ref(null);
+const oldMedicareCoverageIndex = ref(null);
 
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
@@ -94,6 +97,13 @@ const submitEsi = function (esi) {
 	oldEsiIndex.value = null;
 	edit.value = false
 	newEsi.value = null
+}
+const submitMedicareCoverage = function (esi) {
+	const index = oldMedicareCoverageIndex.value;
+	insertInArray(esi, 'MedicareCoverageDetails', index);
+	oldMedicareCoverageIndex.value = null;
+	edit.value = false
+	newMedicareCoverage.value = null
 }
 
 const insertInArray = function(object, name, index) {
@@ -149,6 +159,13 @@ const addEsi = function(esi, index) {
 	newEsi.value = esi;
 	if(index !== null) {
 		oldEsiIndex.value = index;
+		edit.value = true;
+	}
+}
+const addMedicareCoverage = function(coverage, index) {
+	newMedicareCoverage.value = coverage;
+	if(index !== null) {
+		oldMedicareCoverageIndex.value = index;
 		edit.value = true;
 	}
 }
@@ -237,6 +254,25 @@ const cancelModal = function () {
 						<pre>BenefitSubType {{ benefit.BenefitSubType }} : {{ benefit.BenefitSubTypeStartDate }}–{{ benefit.BenefitSubTypeEndDate }}</pre>
 						<button @click="deleteFromArray('Benefit', index)">Delete</button>
 						<button @click="addBenefit(benefit, index)">Edit</button>
+					</div>
+				</div>
+			</div>
+			<div v-else-if="item === 'MedicareCoverageDetails' && currentEligibilityRecord[item]">
+				<button
+					v-if="currentRecordValidationObject['includeMedicareEligibility'] === true"
+					@click="addMedicareCoverage({
+						MedicareCoverageType: '',
+						MedicareCoverageStartDate: '',
+						MedicareCoverageEndDate: '',
+					}, null)"
+				>
+					Add Medicare Coverage Details
+				</button>
+				<div v-if="currentRecordValidationObject['includeMedicareEligibility'] === true">
+					<div v-for="(coverage, index) in currentEligibilityRecord['MedicareCoverageDetails'].value" :key="index">
+						<pre>Medicare: {{ coverage.MedicareCoverageType }} : {{ coverage.MedicareCoverageStartDate }}–{{ coverage.MedicareCoverageEndDate }}</pre>
+						<button @click="deleteFromArray('MedicareCoverageDetails', index)">Delete</button>
+						<button @click="addMedicareCoverage(coverage, index)">Edit</button>
 					</div>
 				</div>
 			</div>
@@ -349,6 +385,13 @@ const cancelModal = function () {
 		:esi="newEsi"
 		:edit="edit"
 		@submit="submitEsi"
+		@close="cancelModal"
+	/>
+	<MedicareCoverageDetailsModal
+		v-if="newMedicareCoverage"
+		:coverage="newMedicareCoverage"
+		:edit="edit"
+		@submit="submitMedicareCoverage"
 		@close="cancelModal"
 	/>
 </template>

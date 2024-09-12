@@ -60,12 +60,10 @@
                 tabString = tabString.substring(0, tabString.length - 4);
             addTag(key)
             tabString += '    '
-            // path.push(key)
             Object.keys(value).forEach(item => {
                 writeValue(item, value[item])
             })
             closeTag()
-            //     tabString = tabString.substring(0, tabString.length - 4);
         } else if (!['', null, undefined].includes(value)) {
             if (value === 'null') {
                 value = ''
@@ -87,11 +85,9 @@
                 prepPath(currentPathArray);
 
                 if(currentPathArray[currentPathArray.length - 2] === path[path.length - 1]) {
-                    // console.log(currentPathArray[currentPathArray.length - 2])
                     const pathway = currentPathArray[currentPathArray.length - 1]
                     if(pathway === 'Address') {
                         sanitizedRecords.value[i]['MemberData.Address'].forEach(element => {
-                            // console.log('currentPath', sanitizedRecords.value[i][currentPath])
                             xml += tabString + '<Address>\n'
                             tabString += '    '
                             Object.keys(element).forEach(attribute => {
@@ -101,7 +97,7 @@
                             xml += tabString + '</Address>\n'
                         });
                         
-                     } else if (['Rac', 'Benefit', 'Incarceration', 'UppPremiumInformation', 'ESIPremiumInformation'].includes(pathway)) {
+                     } else if (['Rac', 'Benefit', 'MedicareCoverageDetails','Incarceration', 'UppPremiumInformation', 'ESIPremiumInformation'].includes(pathway)) {
                         // standardized modal logic
                         sanitizedRecords.value[i][currentPath].forEach(rac => {
                             xml += tabString + `<${pathway}>\n`;
