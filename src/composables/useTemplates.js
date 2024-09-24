@@ -5,6 +5,8 @@ const newAddressTemplate = {
 	CityName: '',
 	StateCode: '',
 	ZipCode: '',
+    ZipCodeExtension: '',
+    CountyCode: '',
 	AddressStartDate: '',
 	AddressEndDate: '',
 };

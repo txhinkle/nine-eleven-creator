@@ -257,7 +257,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: true,
-            pattern: '\\d{9}',
+            pattern: '\\d{10}',
         },
         SpokenLanguage: {
             path: 'CaseDetails.HohDetails.SpokenLanguage',
@@ -363,7 +363,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: true,
-            pattern: '\\d{9}',
+            pattern: '\\d{10}',
         },
         FirstName: {
             path: 'MemberData.Demographics.FirstName',
@@ -699,7 +699,7 @@ const addNewRecord = () => {
             path: 'MemberData.MedicareEligibility.MedicareIdDetails.MedicareCoverageDetails',
             type: 'modal',
             value: [],
-            required: true,
+            required: false,
             included: false,
         },
         // 'MedicareCoverageType-PartA': {

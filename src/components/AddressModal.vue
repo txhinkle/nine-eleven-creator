@@ -39,7 +39,7 @@ const close = () => {
 				<input
 					type="checkbox"
 					id="mailing"
-					value="mailing"
+					value="Mailing"
 					v-model="types"
 				/>
 				<span>Mailing</span>
@@ -48,7 +48,7 @@ const close = () => {
 				<input
 					type="checkbox"
 					id="residential"
-					value="residential"
+					value="Residential"
 					v-model="types"
 				/>
 				<span>Residential</span>
@@ -98,6 +98,21 @@ const close = () => {
 					v-model="newAddress.ZipCode"
 					required
 				/>
+			</label>
+			<label>
+				<span>ZipCodeExtension</span>
+				<input
+					type="text"
+					v-model="newAddress.ZipCodeExtension"
+				/>
+			</label>
+			<label>
+				<span>County Code</span>
+				<input
+					type="text"
+					v-model="newAddress.CountyCode"
+				/>
+				<span> (not required but highly recommended)</span>
 			</label>
 			<label>
 				<span>AddressStartDate</span>
