@@ -67,12 +67,71 @@ const validateRecords = function() {
     }
 }
 
+const maxDays = {
+    '01': '31',
+    '02': '28',
+    '02l': '29',
+    '03': '31',
+    '04': '30',
+    '05': '31',
+    '06': '30',
+    '07': '31',
+    '08': '31',
+    '09': '30',
+    '10': '31',
+    '11': '30',
+    '12': '31'
+}
+
+const nextMonth = {
+    '01': '02',
+    '02': '03',
+    '03':'04',
+    '04':'05',
+    '05':'06',
+    '06' : '07',
+    '07': '08',
+    '08': '09',
+    '09':'10',
+    '10':'11',
+    '11': '12',
+    '12':'01'
+}
+
+const breakMonths = function(start, end) {
+    const startArray = start.split('-');
+    const endArray = end.split('-');
+    if(startArray[0] === endArray[0] && startArray[1] === endArray[1]) {
+        return [{
+            start,
+            end
+        }]
+    } else {
+        const result = [];
+        let currentStart = start;
+        let currentEnd = start;
+        do {
+            let lookup = currentStart.substring(5,7)    
+            if(lookup === '02' && (currentStart.substring(0,4) * 1) % 4 === 0 && (currentStart.substring(0,4) * 1) % 100 !== 0) {
+                lookup = '02l'
+            } 
+            currentEnd = (end > (currentStart.substring(0,8) + maxDays[lookup])) ? currentStart.substring(0,8) + maxDays[lookup] + '': end
+            result.push({
+                start: currentStart,
+                end: currentEnd
+            })
+            currentStart = currentStart.substring(5,7) === '12' ? (currentStart.substring(0,5) * 1 + 1) + nextMonth[currentStart.substring(5,7)] + currentStart.substring(7) : currentStart.substring(0,5) + nextMonth[currentStart.substring(5,7)] + currentStart.substring(7)
+        } while (currentEnd < end)
+        return result;
+    }
+}
 
 export default function useValidation() {
     return {
         validateRecords,
         removeEmptyValuesFromObjects,
         sanitizedRecords,
-        errorList
+        errorList,
+        breakMonths,
     }
 }

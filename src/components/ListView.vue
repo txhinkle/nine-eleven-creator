@@ -13,6 +13,11 @@ onMounted(() => {
     validateRecords();
 })
 
+const removeRecord = function (index) {
+    deleteRecord(index);
+    validateRecords();
+}
+
 </script>
 
 <template>
@@ -32,7 +37,7 @@ onMounted(() => {
                     <td><a @click="select(index)">{{ item['MemberId'].value }}</a></td>
                     <td style="max-width: 300px;"><a @click="select(index)">{{ errorList[index] }}</a></td>
                     <td>
-                        <input type="button" @click="deleteRecord(index)" value="delete" /></td>
+                        <input type="button" @click="removeRecord(index)" value="delete" /></td>
                 </tr>
             </tbody>
         </table>

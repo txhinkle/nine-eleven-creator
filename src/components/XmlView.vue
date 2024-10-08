@@ -2,7 +2,7 @@
 <script setup>
     import useValidation from '@/composables/useValidation';
     import {computed, onUpdated} from 'vue';
-    const {validateRecords, sanitizedRecords, errorList} = useValidation();
+    const {validateRecords, sanitizedRecords, errorList, breakMonths} = useValidation();
     const timestamp = Date.now();
     const date = new Date().toISOString().substring(0, 19);
     let path = [];
@@ -99,12 +99,27 @@
                         
                      } else if (['Rac', 'Benefit', 'MedicareCoverageDetails','Incarceration', 'UppPremiumInformation', 'ESIPremiumInformation'].includes(pathway)) {
                         // standardized modal logic
-                        sanitizedRecords.value[i][currentPath].forEach(rac => {
+                        let tempArray = sanitizedRecords.value[i][currentPath];
+                        if(pathway === 'Rac') {
+                            tempArray = []
+                            sanitizedRecords.value[i][currentPath].forEach(rac => {
+                                const brokenMonths = breakMonths(rac.RacBeginDate, rac.RacEndDate)
+                                brokenMonths.forEach(month => {
+                                    const tempObj = {
+                                        ...rac,
+                                        RacBeginDate: month.start,
+                                        RacEndDate: month.end
+                                    }
+                                    tempArray.push(tempObj)
+                                })
+                            })
+                        }
+                        tempArray.forEach(modelObj => {
                             xml += tabString + `<${pathway}>\n`;
                             tabString = tabString + '    ';
-                            Object.keys(rac).forEach(attribute => {
+                            Object.keys(modelObj).forEach(attribute => {
                                 prepPath(currentPathArray)
-                                writeValue(attribute, rac[attribute])
+                                writeValue(attribute, modelObj[attribute])
                             })
                                 tabString = tabString.substring(0, tabString.length - 4);
                             xml += tabString + `</${pathway}>\n`
