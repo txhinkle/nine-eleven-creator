@@ -185,6 +185,10 @@ const toggleFaq = function () {
 	showFaq.value = !showFaq.value;
 };
 
+const labelStyle = function(object) {
+	return (object.required && object.value === '') ? 'color: red;' : 'color: automatic'
+}
+
 </script>
 <template>
 	<button
@@ -195,7 +199,6 @@ const toggleFaq = function () {
 		+
 	</button>
 	<div class="section-left">
-		
 		<div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
 			<h3 v-if="item === 'ErepCaseId'">Basic Fields</h3>
 			<h3 v-else-if="item === 'MotherId' && currentEligibilityRecord['MotherId'].included">Unborn Links</h3>
@@ -210,7 +213,10 @@ const toggleFaq = function () {
 			<h3 v-else-if="item === 'Indicator' && currentEligibilityRecord['Indicator'].included">Tobacco Survey Cessation</h3>
 			<h3 v-else-if="item === 'MedicareIdType' && currentEligibilityRecord['MedicareIdType'].included">Medicare</h3>
 			<h3 v-else-if="item === 'ExemptDuplicateIndicator'">Exempt Duplicate Indicator</h3>
-			<label v-if="currentEligibilityRecord[item].included">
+			<label
+				v-if="currentEligibilityRecord[item].included"
+				:style = labelStyle(currentEligibilityRecord[item])
+			>
 				<span>{{ item.includes('-') ? item.substring(0, item.indexOf('-')) : item }}</span>
 				<span v-if="currentEligibilityRecord[item].required">*</span>
 			</label>
@@ -326,6 +332,16 @@ const toggleFaq = function () {
 					</div>
 				</div>
 			</div>
+			<select
+				v-else-if="currentEligibilityRecord[item].included && currentEligibilityRecord[item].options"
+				v-model="currentEligibilityRecord[item].value"
+			>
+				<option
+					v-for="(option, index) in currentEligibilityRecord[item].options.labels"
+					:value="currentEligibilityRecord[item].options.values[index]"
+					:key="index"
+				>{{ currentEligibilityRecord[item].options.labels[index] }}</option>
+			</select>
 			<input
 				v-else-if="currentEligibilityRecord[item].included"
 				:type="currentEligibilityRecord[item].type"

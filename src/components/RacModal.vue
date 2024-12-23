@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import useOptions from '../composables/useOptions';
 
 const props = defineProps({
 	rac: {
@@ -11,6 +12,8 @@ const props = defineProps({
 		required: false,
 	},
 });
+
+const {racOptions} = useOptions();
 
 const newRac = ref(JSON.parse(JSON.stringify(props.rac)));
 // include Booleans to turn on/off required aspect and to show/hide elements
@@ -71,11 +74,21 @@ const close = () => {
 		<form @submit.prevent="submit">
 			<label>
 				<span>RacCode</span>
-				<input
+				<!-- <input
 					type="text"
 					v-model="newRac.RacCode"
 					required
-				/>
+				/> -->
+				<select
+					v-model="newRac.RacCode"
+					required
+				>
+					<option
+						v-for="(option, index) in racOptions.labels"
+						:key="index"
+						:value="racOptions.values[index]"
+					>{{ racOptions.labels[index] }}</option>
+				</select>
 			</label>
 			<label>
 				<span>RacBeginDate</span>

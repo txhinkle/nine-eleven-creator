@@ -1,4 +1,7 @@
 import {ref} from 'vue'
+import useOptions from './useOptions';
+
+const {YNOptions} = useOptions();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
 const currentRecordSections = ref([]);
@@ -440,6 +443,7 @@ const addNewRecord = () => {
             type: 'text',
             value: '',
             required: true,
+            options: YNOptions,
             included: true,
         },
         AlienType: {
@@ -1456,6 +1460,7 @@ const addNewRecord = () => {
             path: 'MemberData.ExemptDuplicateIndicator',
             type: 'text',
             value: '',
+            options: YNOptions,
             required: true,
             included: true,
         },
