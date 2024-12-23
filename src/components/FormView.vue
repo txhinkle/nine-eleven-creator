@@ -44,6 +44,7 @@ const newEsi = ref(null);
 const oldEsiIndex = ref(null);
 const newMedicareCoverage = ref(null);
 const oldMedicareCoverageIndex = ref(null);
+const showFaq = ref(false)
 
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
@@ -178,6 +179,10 @@ const cancelModal = function () {
 	oldBenefitIndex.value = null;
 	newBenefit.value = null
 	edit.value = false
+};
+
+const toggleFaq = function () {
+	showFaq.value = !showFaq.value;
 };
 
 </script>
@@ -333,9 +338,14 @@ const cancelModal = function () {
 		<p v-else>No Records Yet, Add Record to start</p>
 	</div>
 	<div class="section-right">
-		<p>To use this form:</p>
-		<p>If you want to make a formerly populated record value empty, put 'null' as the new value</p>
-		<p>You can navigate between records on the List Tab</p>
+		<p><button @click="toggleFaq">{{ showFaq ? 'Hide' : 'Show' }} tips for using this form</button></p>
+		
+		<div class="faq"
+			v-if="showFaq"
+		>		
+			<p>If you want to make a formerly populated record value empty, put 'null' as the new value</p>
+			<p>You can navigate between records on the List Tab</p>
+		</div>
 		<div class="section-booleans">
 			<label
 				v-for="item in Object.keys(currentRecordValidationObject)" :key="item"
@@ -424,9 +434,10 @@ label {
 }
 .section-right {
 	width: 25%;
-	position: fixed;
+	position: absolute;
 	top: 15%;
 	right: 5%;
 	margin: 0;
 }
+
 </style>

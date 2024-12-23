@@ -98,6 +98,21 @@ const nextMonth = {
     '12':'01'
 }
 
+const determineOngoing = function() {
+    const todayString = new Date(Date.now())
+    let todayMonth = todayString.getMonth() + 1
+    const todayYear = todayMonth > 11 ? todayString.getFullYear() + 1 : todayString.getFullYear()
+    todayMonth = todayMonth > 11 ? todayMonth = todayMonth - 12 + '' : todayMonth + ''
+    
+    console.log('determinOngoing',todayString.getFullYear()+ '-' + todayMonth + '-' + todayString.getDate())
+    return todayYear + '-' + todayMonth + '-' + todayString.getDate()
+}
+
+const isLeapYear = function(lookup, start) {
+    return lookup === '02' && (start.substring(0,4) * 1) % 4 === 0 && (start.substring(0,4) * 1) % 100 !== 0
+
+}
+
 const breakMonths = function(start, end) {
     const startArray = start.split('-');
     const endArray = end.split('-');
@@ -112,7 +127,7 @@ const breakMonths = function(start, end) {
         let currentEnd = start;
         do {
             let lookup = currentStart.substring(5,7)    
-            if(lookup === '02' && (currentStart.substring(0,4) * 1) % 4 === 0 && (currentStart.substring(0,4) * 1) % 100 !== 0) {
+            if(isLeapYear(lookup, currentStart)) {
                 lookup = '02l'
             } 
             currentEnd = (end > (currentStart.substring(0,8) + maxDays[lookup])) ? currentStart.substring(0,8) + maxDays[lookup] + '': end
@@ -120,8 +135,11 @@ const breakMonths = function(start, end) {
                 start: currentStart,
                 end: currentEnd
             })
-            currentStart = currentStart.substring(5,7) === '12' ? (currentStart.substring(0,5) * 1 + 1) + nextMonth[currentStart.substring(5,7)] + currentStart.substring(7) : currentStart.substring(0,5) + nextMonth[currentStart.substring(5,7)] + currentStart.substring(7)
-        } while (currentEnd < end)
+            currentStart = lookup === '12' ? (currentStart.substring(0,4) * 1 + 1) + '-' + nextMonth[currentStart.substring(5,7)] + '-01' : currentStart.substring(0,5) + nextMonth[currentStart.substring(5,7)] + '-01'
+            // currentStart = lookup === '12' ? (currentStart.substring(0,5) * 1 + 1) + '-' + nextMonth[currentStart.substring(5,7)] + '-01' : currentStart.substring(0,5) + + '-' + nextMonth[currentStart.substring(5,7)] + '-01'
+            console.log('currentStart', currentStart)
+            console.log('currentEnd', currentEnd)
+        } while (currentEnd < end && currentEnd <= determineOngoing())
         return result;
     }
 }
