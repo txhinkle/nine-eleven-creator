@@ -19,7 +19,8 @@ const removeRecord = function (index) {
 }
 
 const copyRecord = function (index) {
-    incrementRecord(index)
+    incrementRecord(index);
+    validateRecords();
 }
 
 </script>

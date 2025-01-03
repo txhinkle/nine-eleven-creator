@@ -1529,16 +1529,16 @@ const selectRecord = function(index) {
 
 const incrementRecord = function(index) {
     const copyValidationObject = { ...currentRecordSections.value[index] }
-    
-    const revisedRecord = {
-        ...eligibilityList.value[index],
-        FirstName: {...eligibilityList.value[index].FirstName, value: eligibilityList.value[index].FirstName.value + 1},
-        MemberId: {...eligibilityList.value[index].MemberId, value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''},
-        'MemberId-RelationshipDetails': (eligibilityList.value[index]['MemberId-RelationshipDetails'].value !== '') ? 
+    const revisedRecord = {}
+    Object.keys(eligibilityList.value[index]).forEach(key => {
+        revisedRecord[key] = {...eligibilityList.value[index][key]}
+})
+    revisedRecord.FirstName = {...eligibilityList.value[index].FirstName, value: eligibilityList.value[index].FirstName.value + 1},
+    revisedRecord.MemberId = {...eligibilityList.value[index].MemberId, value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''},
+    revisedRecord['MemberId-RelationshipDetails'] = (eligibilityList.value[index]['MemberId-RelationshipDetails'].value !== '') ? 
             { ...eligibilityList.value[index]['MemberId-RelationshipDetails'],
                 value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''} :
             { ...eligibilityList.value[index]['MemberId-RelationshipDetails'] }
-    }
     
     currentRecordSections.value.push(copyValidationObject)
     eligibilityList.value.push(revisedRecord)
