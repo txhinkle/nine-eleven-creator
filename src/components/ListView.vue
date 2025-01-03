@@ -2,7 +2,7 @@
 import useRecord from '@/composables/useRecord';
 import useValidation from '@/composables/useValidation';
 import { onMounted } from 'vue';
-const {eligibilityList, selectRecord, deleteRecord} = useRecord();
+const {eligibilityList, selectRecord, deleteRecord, incrementRecord} = useRecord();
 const {errorList, validateRecords} = useValidation();
 const emit = defineEmits(['form'])
 const select = (index) => {
@@ -18,6 +18,10 @@ const removeRecord = function (index) {
     validateRecords();
 }
 
+const copyRecord = function (index) {
+    incrementRecord(index)
+}
+
 </script>
 
 <template>
@@ -28,6 +32,7 @@ const removeRecord = function (index) {
                     <th scope="col">Index</th>
                     <th scope="col">MemberID</th>
                     <th scope="col">Errors</th>
+                    <th scope="col">Copy</th>
                     <th scope="col">Delete</th>
                 </tr>
             </thead>
@@ -37,7 +42,11 @@ const removeRecord = function (index) {
                     <td><a @click="select(index)">{{ item['MemberId'].value }}</a></td>
                     <td style="max-width: 300px;"><a @click="select(index)">{{ errorList[index] }}</a></td>
                     <td>
-                        <input type="button" @click="removeRecord(index)" value="delete" /></td>
+                        <input type="button" @click="copyRecord(index)" value="Increment" />
+                    </td>
+                    <td>
+                        <input type="button" @click="removeRecord(index)" value="delete" />
+                    </td>
                 </tr>
             </tbody>
         </table>

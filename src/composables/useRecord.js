@@ -1519,13 +1519,31 @@ const addNewRecord = () => {
     currentEligibilityRecord.value = {...recordConfigurationBasic};
     
     eligibilityList.value.push(currentEligibilityRecord.value);
-    currentRecordSections.value.push(currentRecordValidationObject.value)
+    currentRecordSections.value.push(currentRecordValidationObject.value);
 }
 
 const selectRecord = function(index) {
     currentEligibilityRecord.value = eligibilityList.value[index];
     currentRecordValidationObject.value = currentRecordSections.value[index];
 }
+
+const incrementRecord = function(index) {
+    const copyValidationObject = { ...currentRecordSections.value[index] }
+    
+    const revisedRecord = {
+        ...eligibilityList.value[index],
+        FirstName: {...eligibilityList.value[index].FirstName, value: eligibilityList.value[index].FirstName.value + 1},
+        MemberId: {...eligibilityList.value[index].MemberId, value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''},
+        'MemberId-RelationshipDetails': (eligibilityList.value[index]['MemberId-RelationshipDetails'].value !== '') ? 
+            { ...eligibilityList.value[index]['MemberId-RelationshipDetails'],
+                value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''} :
+            { ...eligibilityList.value[index]['MemberId-RelationshipDetails'] }
+    }
+    
+    currentRecordSections.value.push(copyValidationObject)
+    eligibilityList.value.push(revisedRecord)
+    selectRecord(eligibilityList.value.length - 1)
+};
 
 const deleteRecord = function(index) {
     console.log('index', index)
@@ -1561,6 +1579,7 @@ const toggleIncluded = function(section) {
 export default function useRecord() {
     return {
         addNewRecord,
+        incrementRecord,
         eligibilityList,
         currentEligibilityRecord,
         currentRecordValidationObject,
