@@ -1535,10 +1535,16 @@ const incrementRecord = function(index) {
 })
     revisedRecord.FirstName = {...eligibilityList.value[index].FirstName, value: eligibilityList.value[index].FirstName.value + 1},
     revisedRecord.MemberId = {...eligibilityList.value[index].MemberId, value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''},
+    revisedRecord.HohMemberId = {...eligibilityList.value[index].HohMemberId, value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''},
+    revisedRecord.ErepCaseId = {...eligibilityList.value[index].ErepCaseId, value: eligibilityList.value[index].ErepCaseId.value * 1 + 1 + ''},
     revisedRecord['MemberId-RelationshipDetails'] = (eligibilityList.value[index]['MemberId-RelationshipDetails'].value !== '') ? 
             { ...eligibilityList.value[index]['MemberId-RelationshipDetails'],
                 value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''} :
             { ...eligibilityList.value[index]['MemberId-RelationshipDetails'] }
+    revisedRecord['HohMemberId-RelationshipDetails'] = (eligibilityList.value[index]['HohMemberId-RelationshipDetails'].value !== '') ? 
+            { ...eligibilityList.value[index]['HohMemberId-RelationshipDetails'],
+                value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''} :
+            { ...eligibilityList.value[index]['HohMemberId-RelationshipDetails'] }
     
     currentRecordSections.value.push(copyValidationObject)
     eligibilityList.value.push(revisedRecord)
