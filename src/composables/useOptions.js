@@ -748,9 +748,76 @@ const racOptions = {
     ]
 }
 
+const countyOptions = {
+    labels: [
+        'BEAVER',
+        'BOX ELDER',
+        'CACHE',
+        'CARBON',
+        'DAGGETT',
+        'DAVIS',
+        'DUCHESNE',
+        'EMERY',
+        'GARFIELD',
+        'GRAND',
+        'IRON',
+        'JUAB',
+        'KANE',
+        'MILLARD',
+        'MORGAN',
+        'PIUTE',
+        'RICH',
+        'SALT LAKE',
+        'SAN JUAN',
+        'SANPETE',
+        'SEVIER',
+        'SUMMIT',
+        'TOOELE',
+        'UINTAH',
+        'UTAH',
+        'WASATCH',
+        'WASHINGTON',
+        'WAYNE',
+        'WEBER',
+        'OUT OF STATE',],
+    values: [
+        'CT100',
+        'CT101',
+        'CT102',
+        'CT103',
+        'CT104',
+        'CT105',
+        'CT106',
+        'CT107',
+        'CT108',
+        'CT109',
+        'CT110',
+        'CT111',
+        'CT112',
+        'CT113',
+        'CT114',
+        'CT115',
+        'CT116',
+        'CT117',
+        'CT118',
+        'CT119',
+        'CT120',
+        'CT121',
+        'CT122',
+        'CT123',
+        'CT124',
+        'CT125',
+        'CT126',
+        'CT127',
+        'CT128',
+        'CT129',
+    ]
+}
+
 export default function useOptions () {
     return {
         YNOptions,
-        racOptions
+        racOptions,
+        countyOptions
     }
 }

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import useOptions from '../composables/useOptions';
 
 const props = defineProps({
 	address: {
@@ -7,6 +8,7 @@ const props = defineProps({
 		required: true,
 	},
 });
+const {countyOptions} = useOptions();
 const newAddress = ref(JSON.parse(JSON.stringify(props.address)));
 const types = ref([]);
 if (newAddress.value.AddressType) {
@@ -108,10 +110,15 @@ const close = () => {
 			</label>
 			<label>
 				<span>County Code</span>
-				<input
-					type="text"
-					v-model="newAddress.CountyCode"
-				/>
+				<select
+				v-model="newAddress.CountyCode"
+			>
+				<option
+					v-for="(option, index) in countyOptions.labels"
+					:value="countyOptions.values[index]"
+					:key="index"
+				>{{ countyOptions.labels[index] }}</option>
+			</select>
 				<span> (not required but highly recommended)</span>
 			</label>
 			<label>
