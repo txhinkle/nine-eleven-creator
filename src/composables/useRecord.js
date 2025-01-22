@@ -1519,6 +1519,7 @@ const addNewRecord = () => {
     currentEligibilityRecord.value = {...recordConfigurationBasic};
     
     eligibilityList.value.push(currentEligibilityRecord.value);
+    // console.log('eligibilityList.value', eligibilityList.value.length)
     currentRecordSections.value.push(currentRecordValidationObject.value);
 }
 
@@ -1582,6 +1583,35 @@ const toggleIncluded = function(section) {
     console.log('added', section);
 }
 
+const createRandomRecord = function() {
+    currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + ''
+    currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + ''
+    currentEligibilityRecord.value['MemberId'].value = currentEligibilityRecord.value['HohMemberId'].value
+    currentEligibilityRecord.value['FirstName'].value = eligibilityList.value.length  + 'first'
+    currentEligibilityRecord.value['LastName'].value = eligibilityList.value.length  + 'last'
+    currentEligibilityRecord.value['RaceCode'].value = 'UN'
+    currentEligibilityRecord.value['BirthDate'].value = '2000-01-01'
+    currentEligibilityRecord.value['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
+    currentEligibilityRecord.value['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
+    currentEligibilityRecord.value['ExemptDuplicateIndicator'].value = 'N'
+    currentEligibilityRecord.value['Address'].value.push({
+        AddressType: 'Mailing',
+        Street1: '55 N Main St',
+        CityName: 'SALT LAKE CITY',
+        StateCode: 'UT',
+        ZipCode: '84150',
+        CountyCode: 'CT117',
+    })
+    currentEligibilityRecord.value['Address'].value.push({
+        AddressType: 'Residential',
+        Street1: '55 N Main St',
+        CityName: 'SALT LAKE CITY',
+        StateCode: 'UT',
+        ZipCode: '84150',
+        CountyCode: 'CT117',
+    })
+}
+
 export default function useRecord() {
     return {
         addNewRecord,
@@ -1592,5 +1622,6 @@ export default function useRecord() {
         toggleIncluded,
         selectRecord,
         deleteRecord,
+        createRandomRecord,
     }
 }

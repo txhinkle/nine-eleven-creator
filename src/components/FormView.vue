@@ -24,6 +24,7 @@ const {
 	addNewRecord,
 	currentRecordValidationObject,
 	toggleIncluded,
+	createRandomRecord,
 } = useRecord();
 
 onUpdated(() => {
@@ -363,6 +364,13 @@ const labelStyle = function(object) {
 			<p>You can navigate between records on the List Tab</p>
 		</div>
 		<div class="section-booleans">
+			<div v-if="Object.keys(currentRecordValidationObject).length">
+				<input
+					type="button"
+					value="Populate Default Required Fields"
+					@click="createRandomRecord"
+				/>
+			</div>
 			<label
 				v-for="item in Object.keys(currentRecordValidationObject)" :key="item"
 				@click="toggleIncluded(item)"
