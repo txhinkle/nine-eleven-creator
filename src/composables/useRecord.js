@@ -1594,6 +1594,7 @@ const createRandomRecord = function() {
     currentEligibilityRecord.value['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
     currentEligibilityRecord.value['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
     currentEligibilityRecord.value['ExemptDuplicateIndicator'].value = 'N'
+    currentEligibilityRecord.value['Address'].value = []
     currentEligibilityRecord.value['Address'].value.push({
         AddressType: 'Mailing',
         Street1: '55 N Main St',
