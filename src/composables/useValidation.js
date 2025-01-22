@@ -100,11 +100,12 @@ const nextMonth = {
 
 const determineOngoing = function() {
     const todayString = new Date(Date.now())
-    let todayMonth = todayString.getMonth() + 1
+    let todayMonth = todayString.getMonth() + 2
     const todayYear = todayMonth > 11 ? todayString.getFullYear() + 1 : todayString.getFullYear()
     todayMonth = todayMonth > 11 ? todayMonth = todayMonth - 12 + '' : todayMonth + ''
+    todayMonth = todayMonth.length === 1  ? '0' + todayMonth : todayMonth
     
-    console.log('determinOngoing',todayString.getFullYear()+ '-' + todayMonth + '-' + todayString.getDate())
+    // console.log('determinOngoing',todayString.getFullYear()+ '-' + todayMonth + '-' + todayString.getDate())
     return todayYear + '-' + todayMonth + '-' + todayString.getDate()
 }
 
@@ -137,8 +138,11 @@ const breakMonths = function(start, end) {
             })
             currentStart = lookup === '12' ? (currentStart.substring(0,4) * 1 + 1) + '-' + nextMonth[currentStart.substring(5,7)] + '-01' : currentStart.substring(0,5) + nextMonth[currentStart.substring(5,7)] + '-01'
             // currentStart = lookup === '12' ? (currentStart.substring(0,5) * 1 + 1) + '-' + nextMonth[currentStart.substring(5,7)] + '-01' : currentStart.substring(0,5) + + '-' + nextMonth[currentStart.substring(5,7)] + '-01'
-            console.log('currentStart', currentStart)
-            console.log('currentEnd', currentEnd)
+            // console.log('currentStart', currentStart)
+            // console.log('currentEnd', currentEnd)
+            console.log('currentEnd', currentEnd);
+            console.log('determineOngoing()', determineOngoing())
+            console.log('less than?', currentEnd < determineOngoing())
         } while (currentEnd < end && currentEnd <= determineOngoing())
         return result;
     }

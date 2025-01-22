@@ -350,8 +350,8 @@ const labelStyle = function(object) {
 				:required="currentEligibilityRecord[item].required"
 			/>
 		</div>
-		<pre v-if="currentEligibilityRecord">{{ currentEligibilityRecord }}</pre>
-		<p v-else>No Records Yet, Add Record to start</p>
+		<!-- <pre v-if="currentEligibilityRecord">{{ currentEligibilityRecord }}</pre>
+		<p v-else>No Records Yet, Add Record to start</p> -->
 	</div>
 	<div class="section-right">
 		<p><button @click="toggleFaq">{{ showFaq ? 'Hide' : 'Show' }} tips for using this form</button></p>

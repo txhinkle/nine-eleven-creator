@@ -28,7 +28,14 @@
     const title = computed(() => {
         const dateString = date.substring(0, 10)
         const dateArray = dateString.split('-');
-        return 'EREP_MEMBER_ELIGIBILITY_IN_REALTIME_' + dateArray[1] + dateArray[2] + dateArray[0] +'.txt'
+        const hourString = (timestamp + '');
+        return 'EREP_MEMBER_ELIGIBILITY_IN_REALTIME_' 
+        + dateArray[1] 
+        + dateArray[2] 
+        + dateArray[0] 
+        + '_' 
+        + hourString
+        + '_T.txt'
     })
 
     const closeTag = function() {
@@ -100,18 +107,34 @@
                      } else if (['Rac', 'Benefit', 'MedicareCoverageDetails','Incarceration', 'UppPremiumInformation', 'ESIPremiumInformation'].includes(pathway)) {
                         // standardized modal logic
                         let tempArray = sanitizedRecords.value[i][currentPath];
-                        if(pathway === 'Rac') {
+                        if(pathway === 'Rac' || pathway === 'Benefit') {
                             tempArray = []
                             sanitizedRecords.value[i][currentPath].forEach(rac => {
-                                const brokenMonths = breakMonths(rac.RacBeginDate, rac.RacEndDate)
-                                brokenMonths.forEach(month => {
-                                    const tempObj = {
-                                        ...rac,
-                                        RacBeginDate: month.start,
-                                        RacEndDate: month.end
-                                    }
-                                    tempArray.push(tempObj)
-                                })
+                                const brokenMonths =
+                                    (pathway === 'Rac') 
+                                    ? breakMonths(rac.RacBeginDate, rac.RacEndDate) 
+                                    : breakMonths(rac.BenefitSubTypeStartDate, rac.BenefitSubTypeEndDate)
+                                if(pathway === 'Rac') {
+                                    brokenMonths.forEach(month => {
+                                        const tempObj = {
+                                            ...rac,
+                                            RacBeginDate: month.start,
+                                            RacEndDate: month.end
+                                        }
+                                        tempArray.push(tempObj)
+                                    })
+                                }
+                                else {
+                                    brokenMonths.forEach(month => {
+                                        const tempObj = {
+                                            ...rac,
+                                            BenefitSubTypeStartDate: month.start,
+                                            BenefitSubTypeEndDate: month.end
+                                        }
+                                        tempArray.push(tempObj)
+                                    })
+                                }
+                                
                             })
                         }
                         tempArray.forEach(modelObj => {

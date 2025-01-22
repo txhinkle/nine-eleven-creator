@@ -90,6 +90,7 @@ const close = () => {
 				<input
 					type="text"
 					v-model="newAddress.StateCode"
+					pattern="[A-Z]{2}"
 					required
 				/>
 			</label>
@@ -112,13 +113,13 @@ const close = () => {
 				<span>County Code</span>
 				<select
 				v-model="newAddress.CountyCode"
-			>
-				<option
-					v-for="(option, index) in countyOptions.labels"
-					:value="countyOptions.values[index]"
-					:key="index"
-				>{{ countyOptions.labels[index] }}</option>
-			</select>
+				>
+					<option
+						v-for="(option, index) in countyOptions.labels"
+						:value="countyOptions.values[index]"
+						:key="index"
+					>{{ countyOptions.labels[index] }}</option>
+				</select>
 				<span> (not required but highly recommended)</span>
 			</label>
 			<label>
