@@ -1602,6 +1602,8 @@ const createRandomRecord = function() {
         StateCode: 'UT',
         ZipCode: '84150',
         CountyCode: 'CT117',
+        AddressStartDate: '2000-01-01',
+        AddressEndDate: '2999-12-31',
     })
     currentEligibilityRecord.value['Address'].value.push({
         AddressType: 'Residential',
@@ -1610,6 +1612,8 @@ const createRandomRecord = function() {
         StateCode: 'UT',
         ZipCode: '84150',
         CountyCode: 'CT117',
+        AddressStartDate: '2000-01-01',
+        AddressEndDate: '2999-12-31',
     })
 }
 

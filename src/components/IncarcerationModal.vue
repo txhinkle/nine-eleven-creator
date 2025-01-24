@@ -1,6 +1,7 @@
 <script setup>
 
 import { ref } from 'vue';
+import useOptions from '../composables/useOptions';
 
 const props = defineProps({
 	incarceration: {
@@ -8,6 +9,7 @@ const props = defineProps({
 		required: true,
 	},
 });
+const {IncarcerationStatusOptions} = useOptions();
 const newIncarceration = ref(JSON.parse(JSON.stringify(props.incarceration)));
 
 const emit = defineEmits(['submit', 'close']);
@@ -31,11 +33,16 @@ const close = () => {
 			</label>
 			<label>
 				<span>IncarcerationStatus</span>
-				<input
-					type="text"
+				<select
 					v-model="newIncarceration.IncarcerationStatus"
 					required
-				/>
+				>
+					<option
+						v-for="(option, index) in IncarcerationStatusOptions.labels"
+						:key="index"
+						:value="IncarcerationStatusOptions.values[index]"
+					>{{ IncarcerationStatusOptions.labels[index] }}</option>
+				</select>
 			</label>
 			<label>
 				<span>StartDate</span>

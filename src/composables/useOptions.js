@@ -814,10 +814,44 @@ const countyOptions = {
     ]
 }
 
+const benefitSubTypeOptions = {
+    labels: [
+        '168: SLMB - No Benefit',
+        '172: SLMB - No Benefit',
+        '152: QI - No Benefit',
+        '153: Qualified Disabled Working Individual',
+        // '174: SLMB - No Benefit',
+        // '176: SLMB - No Benefit',
+        // '154: QI - No Benefit',
+    ],
+    values: [
+        '168',
+        '172',
+        '152',
+        '153',
+        // '174',
+        // '176',
+        // '154',
+    ]
+}
+
+const IncarcerationStatusOptions = {
+    labels: [
+        'RST1 - Active',
+        'RST2 - Inactive'
+    ],
+    values: [
+        'RST1',
+        'RST2'
+    ]
+}
+
 export default function useOptions () {
     return {
         YNOptions,
         racOptions,
-        countyOptions
+        countyOptions,
+        benefitSubTypeOptions,
+        IncarcerationStatusOptions,
     }
 }

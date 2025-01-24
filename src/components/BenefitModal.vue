@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import useOptions from '../composables/useOptions';
 
 const props = defineProps({
 	benefit: {
@@ -11,6 +12,8 @@ const props = defineProps({
 		required: false,
 	},
 });
+
+const {benefitSubTypeOptions} = useOptions();
 
 const newBenefit = ref(JSON.parse(JSON.stringify(props.benefit)));
 // include Booleans to turn on/off required aspect and to show/hide elements
@@ -71,11 +74,16 @@ const close = () => {
 		<form @submit.prevent="submit">
 			<label>
 				<span>BenefitSubType</span>
-				<input
-					type="text"
+				<select
 					v-model="newBenefit.BenefitSubType"
 					required
-				/>
+				>
+					<option
+						v-for="(option, index) in benefitSubTypeOptions.labels"
+						:key="index"
+						:value="benefitSubTypeOptions.values[index]"
+					>{{ benefitSubTypeOptions.labels[index] }}</option>
+				</select>
 			</label>
 			<label>
 				<span>BenefitSubTypeStartDate</span>
