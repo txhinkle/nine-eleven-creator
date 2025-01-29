@@ -187,7 +187,9 @@ const toggleFaq = function () {
 };
 
 const labelStyle = function(object) {
-	return (object.required && object.value === '') ? 'color: red;' : 'color: automatic'
+	return object.required && (object.value === '' || object.value?.length === 0)
+		? 'color: red;'
+		: 'color: automatic'
 }
 
 </script>
@@ -216,7 +218,7 @@ const labelStyle = function(object) {
 			<h3 v-else-if="item === 'ExemptDuplicateIndicator'">Exempt Duplicate Indicator</h3>
 			<label
 				v-if="currentEligibilityRecord[item].included"
-				:style = labelStyle(currentEligibilityRecord[item])
+				:style="labelStyle(currentEligibilityRecord[item])"
 			>
 				<span>{{ item.includes('-') ? item.substring(0, item.indexOf('-')) : item }}</span>
 				<span v-if="currentEligibilityRecord[item].required">*</span>
@@ -245,7 +247,6 @@ const labelStyle = function(object) {
 					Add Rac
 				</button>
 				<div v-if="currentEligibilityRecord['Rac'].included && currentEligibilityRecord['Rac'].value.length">
-					<label>RAC</label>
 					<div v-for="(rac, index) in currentEligibilityRecord['Rac'].value" :key="index">
 						<pre>RacCode {{ rac.RacCode }} : {{ rac.RacBeginDate }}–{{ rac.RacEndDate }}</pre>
 						<button @click="deleteFromArray('Rac', index)">Delete</button>

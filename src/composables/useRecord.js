@@ -583,14 +583,14 @@ const addNewRecord = () => {
             path: 'MemberData.MemberEligibility.Rac',
             type: 'modal',
             value: [],
-            required: false,
+            required: true,
             included: false,
         },
         Benefit: {
             path: 'MemberData.MemberEligibility.Benefit',
             type: 'modal',
             value: [],
-            required: false,
+            required: true,
             included: false,
         },
         Address: {
@@ -1496,7 +1496,7 @@ const addNewRecord = () => {
             path: 'MemberData.Inmate.Incarceration',
             type: 'modal',
             value: [],
-            required: false,
+            required: true,
             included: false,
         },
         UppPremiumInformation: {
@@ -1555,10 +1555,12 @@ const incrementRecord = function(index) {
 const deleteRecord = function(index) {
     console.log('index', index)
     eligibilityList.value.splice(index, 1)
+    currentRecordSections.value.splice(index, 1)
     if(eligibilityList.value.length) {
         selectRecord(0)
     } else {
         currentEligibilityRecord.value = {}
+        currentRecordValidationObject.value = {}
     }
 }
 
