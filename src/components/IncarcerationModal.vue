@@ -9,7 +9,7 @@ const props = defineProps({
 		required: true,
 	},
 });
-const {IncarcerationStatusOptions} = useOptions();
+const {incarcerationStatusOptions} = useOptions();
 const newIncarceration = ref(JSON.parse(JSON.stringify(props.incarceration)));
 
 const emit = defineEmits(['submit', 'close']);
@@ -38,10 +38,10 @@ const close = () => {
 					required
 				>
 					<option
-						v-for="(option, index) in IncarcerationStatusOptions.labels"
+						v-for="(option, index) in incarcerationStatusOptions.labels"
 						:key="index"
-						:value="IncarcerationStatusOptions.values[index]"
-					>{{ IncarcerationStatusOptions.labels[index] }}</option>
+						:value="incarcerationStatusOptions.values[index]"
+					>{{ incarcerationStatusOptions.labels[index] }}</option>
 				</select>
 			</label>
 			<label>

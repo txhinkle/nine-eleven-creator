@@ -1,7 +1,7 @@
 import {ref} from 'vue'
 import useOptions from './useOptions';
 
-const {YNOptions} = useOptions();
+const {YNOptions, denialClosureOptions} = useOptions();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
 const currentRecordSections = ref([]);
@@ -487,6 +487,7 @@ const addNewRecord = () => {
             value: '',
             required: false,
             included: false,
+            options: denialClosureOptions,
         },
         ApplicationDate: {
             path: 'MemberData.Demographics.EligibilityApplication.ApplicationDate',
