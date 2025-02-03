@@ -584,14 +584,14 @@ const addNewRecord = () => {
             path: 'MemberData.MemberEligibility.Rac',
             type: 'modal',
             value: [],
-            required: true,
+            required: false,
             included: false,
         },
         Benefit: {
             path: 'MemberData.MemberEligibility.Benefit',
             type: 'modal',
             value: [],
-            required: true,
+            required: false,
             included: false,
         },
         Address: {
@@ -1497,7 +1497,7 @@ const addNewRecord = () => {
             path: 'MemberData.Inmate.Incarceration',
             type: 'modal',
             value: [],
-            required: true,
+            required: false,
             included: false,
         },
         UppPremiumInformation: {
