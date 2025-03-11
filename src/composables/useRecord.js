@@ -1,7 +1,9 @@
 import {ref} from 'vue'
 import useOptions from './useOptions';
 
-const {YNOptions, denialClosureOptions, districtOfficeOptions} = useOptions();
+const {
+    YNOptions, denialClosureOptions, districtOfficeOptions, languageOptions
+} = useOptions();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
 const currentRecordSections = ref([]);
@@ -268,6 +270,7 @@ const addNewRecord = () => {
             value: '',
             required: false,
             included: true,
+            options: languageOptions,
         },
         MotherId: {
             path: 'CaseDetails.UnbornLinks.MotherId',

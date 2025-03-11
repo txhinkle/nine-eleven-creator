@@ -179,6 +179,14 @@ const cancelModal = function () {
 	oldRacIndex.value = null;
 	oldBenefitIndex.value = null;
 	newBenefit.value = null
+	newUpp.value = null
+	oldUppIndex.value = null
+	newEsi.value = null
+	oldEsiIndex.value = null
+	newMedicareCoverage.value = null
+	oldMedicareCoverageIndex.value = null
+	newIncarceration.value = null
+	oldIncarcerationIndex.value = null
 	edit.value = false
 };
 
