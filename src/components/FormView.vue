@@ -358,6 +358,7 @@ const labelStyle = function(object) {
 				v-model="currentEligibilityRecord[item].value"
 				:pattern="currentEligibilityRecord[item].pattern"
 				:required="currentEligibilityRecord[item].required"
+				@input="(currentEligibilityRecord[item].handler) ? currentEligibilityRecord[item].handler(currentEligibilityRecord[item], currentEligibilityRecord[item].value) : null"
 			/>
 		</div>
 		<!-- <pre v-if="currentEligibilityRecord">{{ currentEligibilityRecord }}</pre>

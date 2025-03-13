@@ -2,7 +2,9 @@ import {ref} from 'vue'
 import useOptions from './useOptions';
 
 const {
-    YNOptions, denialClosureOptions, districtOfficeOptions, languageOptions
+    YNOptions, denialClosureOptions, 
+    districtOfficeOptions, languageOptions,
+    raceCodeOptions,
 } = useOptions();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
@@ -405,6 +407,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: true,
+            options: raceCodeOptions,
         },
         Ssn: {
             path: 'MemberData.Demographics.Details.Ssn',
@@ -675,6 +678,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: false,
+            handler: conditionalRequirementToggle,
         },
         Id: {
             path: 'MemberData.MedicareEligibility.MedicareIdDetails.Id',
@@ -689,6 +693,10 @@ const addNewRecord = () => {
             value: '',
             required: false,
             included: false,
+            options: {
+                labels: ['1', '2','3','4', '5', '6'],
+                values: [1, 2, 3, 4, 5, 6]
+            }
         },
         IdStartDate: {
             path: 'MemberData.MedicareEligibility.MedicareIdDetails.IdStartDate',
@@ -1588,6 +1596,15 @@ const toggleIncluded = function(section) {
         }
     });
     console.log('added', section);
+}
+
+const conditionalRequirementToggle = function(item, value) {
+    if(item.path.includes('MedicareIdType') && value ==='MBI') {
+        currentEligibilityRecord.value.IdOccurrence.required = true;
+        currentRecordValidationObject.value['IdOccurrence'] = !currentRecordValidationObject.value['IdOccurrence']
+    } else {
+        currentEligibilityRecord.value.IdOccurrence.required = false;
+    }
 }
 
 const createRandomRecord = function() {

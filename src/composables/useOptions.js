@@ -2010,6 +2010,52 @@ const languageOptions = {
         'DI',
     ]
 }
+const raceCodeOptions = {
+    labels: [
+        'AI Alaska Native or American Indian- Pending',
+        'AN Alaska Native or American Indian- Not Verified',
+        'AS Asian',
+        'ASI Asian Indian',
+        'AV Alaska Native or American Indian -Verified',
+        'BL Black or African American',
+        'CH Chinese',
+        'FI Filipino',
+        'GC Guamanian or Chamorro',
+        'HI Hispanic',
+        'JA Japanese',
+        'KO Korean',
+        'NH Native Hawaiian',
+        'OA Other Asian',
+        'OPI Other Pacific Islander',
+        'PI Native Hawaiian or Other Pacific Islander',
+        'OT Other',
+        'SA Samoan',
+        'UN Undeclared',
+        'VI Vietnamese',
+        'WH White/Non-Hispanic',
+    ],
+    values: ['AI Alaska Native or American Indian- Pending',
+        'AN',
+        'AS',
+        'ASI',
+        'AV',
+        'BL',
+        'CH',
+        'FI',
+        'GC',
+        'HI',
+        'JA',
+        'KO',
+        'NH',
+        'OA',
+        'OPI',
+        'PI',
+        'OT',
+        'SA',
+        'UN',
+        'VI',
+        'WH',]
+}
 
 export default function useOptions () {
     return {
@@ -2021,5 +2067,6 @@ export default function useOptions () {
         denialClosureOptions,
         districtOfficeOptions,
         languageOptions,
+        raceCodeOptions,
     }
 }
