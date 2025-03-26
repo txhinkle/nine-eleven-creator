@@ -932,7 +932,7 @@ const denialClosureOptions = {
         'CCR912',
         'CCR913',
         'CCR915',
-        'CCR916 ',
+        'CCR916',
         'CCR1203',
         'CCR1212',
         'CCR1215',
@@ -2059,7 +2059,8 @@ const raceCodeOptions = {
         'SA',
         'UN',
         'VI',
-        'WH',]
+        'WH',
+    ]
 }
 
 const SPMIndicatorOptions = {
