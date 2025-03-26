@@ -2038,7 +2038,8 @@ const raceCodeOptions = {
         'VI Vietnamese',
         'WH White/Non-Hispanic',
     ],
-    values: ['AI Alaska Native or American Indian- Pending',
+    values: [
+        'AI',
         'AN',
         'AS',
         'ASI',
