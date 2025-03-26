@@ -13,7 +13,7 @@ const props = defineProps({
 	},
 });
 
-const {racOptions} = useOptions();
+const {racOptions, SPMIndicatorOptions, spenddownIndicatorOptions } = useOptions();
 
 const newRac = ref(JSON.parse(JSON.stringify(props.rac)));
 // include Booleans to turn on/off required aspect and to show/hide elements
@@ -75,11 +75,6 @@ const close = () => {
 		<form @submit.prevent="submit">
 			<label>
 				<span>RacCode</span>
-				<!-- <input
-					type="text"
-					v-model="newRac.RacCode"
-					required
-				/> -->
 				<select
 					v-model="newRac.RacCode"
 					required
@@ -209,12 +204,19 @@ const close = () => {
 			<div v-if="includeSpenddown">
 				<label>
 					<span>SpenddownIndicator</span>
-					<input
-						type="text"
+					<select
+						type="select"
 						v-model="newRac.Spenddown.Information.SpenddownIndicator"
 						required
-					/>
+					>
+						<option
+							v-for="(option, index) in spenddownIndicatorOptions.labels"
+							:key="index"
+							:value="spenddownIndicatorOptions.values[index]"
+						>{{ spenddownIndicatorOptions.labels[index] }}</option>
+				</select>
 				</label>
+				
 				<label>
 					<span>MetDate</span>
 					<input
@@ -407,11 +409,16 @@ const close = () => {
 			<div v-if="includeSpm">
 				<label>
 					<span>SPMIndicator</span>
-					<input
-						type="text"
-						v-model="newRac.SPMDetails.SPMIndicator"
+					<select
+						v-model="newRac.Spenddown.Information.SPMIndicator"
 						required
-					/>
+					>
+						<option
+							v-for="(option, index) in SPMIndicatorOptions.labels"
+							:key="index"
+							:value="SPMIndicatorOptions.values[index]"
+						>{{ SPMIndicatorOptions.labels[index] }}</option>
+				</select>
 				</label>
 			</div>
 			<div v-if="includeMedicareDualEligibility">

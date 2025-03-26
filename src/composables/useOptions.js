@@ -362,6 +362,8 @@ const racOptions = {
         'C76 - Family Medicaid, Adult, spenddown',
         'II9 - Qualified Medicare Beneficiary, Medicare Part B-ID',
         'IN9 - Qualified Medicare Beneficiary, Medicare not aged or disabled',
+        'D5 - Juvenile Justice System Medicaid',
+        'D6 - Juvenile Justice System CHIP',
         'ESB - Adult Expansion, age 21 to 64, 133%, ESI, adult w/ dependent children',
         'PCS - Parent Caretaker Relative Medicaid, Presumptive',
         'Q58 - Family Medicaid and QMB, Adult, 4-month spousal support',
@@ -733,6 +735,8 @@ const racOptions = {
         'C76',
         'II9',
         'IN9',
+        'D5',
+        'D6',
         'ESB',
         'PCS',
         'Q58',
@@ -2057,6 +2061,32 @@ const raceCodeOptions = {
         'WH',]
 }
 
+const SPMIndicatorOptions = {
+    labels: [
+        'SM1',
+        'SM2',
+        'SM3',
+    ],
+    values: [
+        'SM1',
+        'SM2',
+        'SM3',
+    ]
+}
+
+const spenddownIndicatorOptions = {
+    labels: [
+        'Yes - Met, but not through bills (cash, deductions e.g. insurance payment)',
+        'No - Not Met',
+        'X - Cost of Care met with Incurred Bills'
+    ],
+    values: [
+        'Y',
+        'N',
+        'X'
+    ]
+}
+
 export default function useOptions () {
     return {
         YNOptions,
@@ -2068,5 +2098,7 @@ export default function useOptions () {
         districtOfficeOptions,
         languageOptions,
         raceCodeOptions,
+        SPMIndicatorOptions,
+        spenddownIndicatorOptions,
     }
 }

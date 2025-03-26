@@ -42,3 +42,7 @@ th, td {
 input:invalid {
   background-color: lightpink;
 }
+
+/* label:has(:required) {
+  color: red;
+} */
