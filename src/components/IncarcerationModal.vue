@@ -45,6 +45,14 @@ const close = () => {
 				</select>
 			</label>
 			<label>
+				<span>FacilityNPI</span>
+				<input
+					type="tel"
+					v-model="newIncarceration.FacilityNPI"
+					pattern="[0-9]{10}"
+				/>
+			</label>
+			<label>
 				<span>StartDate</span>
 				<input
 					type="date"
