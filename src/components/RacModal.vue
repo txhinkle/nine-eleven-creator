@@ -27,7 +27,7 @@ const includeSpenddown = ref(props.edit && props.rac.Spenddown.Information.Spend
 const includeSpm = ref(props.edit && props.rac.SPMDetails.SPMIndicator !== '')
 const includeMedicareDualEligibility = ref(props.edit && props.rac.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
 const emit = defineEmits(['submit', 'close']);
-const includeSpenddownBill = ref(false)
+const includeSpenddownBill = ref(props.edit && props.rac.Spenddown.SpenddownBills.BillDetails.BillId !== '')
 
 const submit = () => {
 	emit('submit', newRac.value);
@@ -410,7 +410,7 @@ const close = () => {
 				<label>
 					<span>SPMIndicator</span>
 					<select
-						v-model="newRac.Spenddown.Information.SPMIndicator"
+						v-model="newRac.SPMDetails.SPMIndicator"
 						required
 					>
 						<option
@@ -447,21 +447,23 @@ label {
 	border-right: solid black 1px;
 	height: 50svw;
 }
-.form {
+/* .form {
 	height: 500px;
 	max-height: 500px;
-	overflow-y: scroll;
-}
+} */
 .modal {
 	z-index: 5;
 	position: fixed;
 	top: 0;
 	left: 0;
-	padding-top: 5svw;
+	padding-top: 3svw;
 	padding-left: 10svw;
+	padding-bottom: 5svw;
 	width: 100%;
 	height: 100%;
 	background-color: #bfc;
 	display: flex;
+	max-height: calc(100vh - 150px);
+    overflow-y: auto;
 }
 </style>
