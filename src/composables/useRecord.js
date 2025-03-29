@@ -4,7 +4,7 @@ import useOptions from './useOptions';
 const {
     YNOptions, denialClosureOptions, 
     districtOfficeOptions, languageOptions,
-    raceCodeOptions,
+    raceCodeOptions, relationshipCodeOptions
 } = useOptions();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
@@ -350,6 +350,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: false,
+            options: relationshipCodeOptions,
         },
         RelationshipStartDate: {
             path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipStartDate',
