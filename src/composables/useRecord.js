@@ -1546,8 +1546,16 @@ const incrementRecord = function(index) {
     const copyValidationObject = { ...currentRecordSections.value[index] }
     const revisedRecord = {}
     Object.keys(eligibilityList.value[index]).forEach(key => {
-        revisedRecord[key] = {...eligibilityList.value[index][key]}
+        if(!Array.isArray(eligibilityList.value[index][key].value)) {
+            revisedRecord[key] = {...eligibilityList.value[index][key]}
+        }
+        else {
+            revisedRecord[key] = {...eligibilityList.value[index][key]}
+            revisedRecord[key].value = [...eligibilityList.value[index][key].value]
+        }
 })
+    const midLeadingZero = eligibilityList.value[index].MemberId.value[0] === '0'
+    const hohLeadingZero = eligibilityList.value[index].MemberId.value[0] === '0'
     revisedRecord.FirstName = {...eligibilityList.value[index].FirstName, value: eligibilityList.value[index].FirstName.value + 1},
     revisedRecord.MemberId = {...eligibilityList.value[index].MemberId, value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''},
     revisedRecord.HohMemberId = {...eligibilityList.value[index].HohMemberId, value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''},
@@ -1560,7 +1568,12 @@ const incrementRecord = function(index) {
             { ...eligibilityList.value[index]['HohMemberId-RelationshipDetails'],
                 value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''} :
             { ...eligibilityList.value[index]['HohMemberId-RelationshipDetails'] }
-    
+        if(midLeadingZero) {
+            revisedRecord.MemberId.value = '0' + revisedRecord.MemberId.value
+        }
+        if(hohLeadingZero) {
+            revisedRecord.HohMemberId.value = '0' + revisedRecord.HohMemberId.value
+        }
     currentRecordSections.value.push(copyValidationObject)
     eligibilityList.value.push(revisedRecord)
     selectRecord(eligibilityList.value.length - 1)
