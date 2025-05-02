@@ -121,7 +121,10 @@ const deleteFromArray = function (arrayName, index) {
 };
 
 const addAddress = function (address, index) {
-	newAddress.value = address;
+	newAddress.value = {
+		...newAddressTemplate,
+		...address
+	};
 	if (index !== null) {
 		oldAddressIndex.value = index;
 		edit.value = true;
