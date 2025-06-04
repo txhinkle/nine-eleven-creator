@@ -54,6 +54,9 @@ const close = () => {
 </template>
 
 <style scoped>
+div, form, label, span {
+	background-color: #bfc;
+}
 label {
 	display: block;
 }
@@ -66,6 +69,5 @@ label {
 	padding: 20svw;
 	width: 100%;
 	height: 100%;
-	background-color: #bfc;
 }
 </style>

@@ -438,6 +438,9 @@ const close = () => {
 </template>
 
 <style scoped>
+div, form, label, span {
+	background-color: #bfc;
+}
 label {
 	display: block;
 }
@@ -461,7 +464,6 @@ label {
 	padding-bottom: 5svw;
 	width: 100%;
 	height: 100%;
-	background-color: #bfc;
 	display: flex;
 	max-height: calc(100vh - 150px);
     overflow-y: auto;
