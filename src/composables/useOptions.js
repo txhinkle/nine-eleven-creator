@@ -1734,6 +1734,7 @@ const languageOptions = {
         'JAVANESE - JV',
         'KANNADA - KN',
         'KAREN - LN17',
+        'Karen - KYY',
         'KASHMIRI - KS',
         'KAZAKH - KK',
         'KINYARWANDA - RW',
@@ -1911,6 +1912,7 @@ const languageOptions = {
         'JV',
         'KN',
         'LN17',
+        'KYY',
         'KS',
         'KK',
         'RW',
@@ -2176,6 +2178,17 @@ const relationshipCodeOptions = {
     ]
 }
 
+const eligibilityProgramStatusOptions = {
+    labels: [
+        'CS3 - Closed',
+        'CS4 - Open'
+    ],
+    values: [
+        'CS3',
+        'CS4'
+    ]
+}
+
 export default function useOptions () {
     return {
         YNOptions,
@@ -2190,5 +2203,6 @@ export default function useOptions () {
         SPMIndicatorOptions,
         spenddownIndicatorOptions,
         relationshipCodeOptions,
+        eligibilityProgramStatusOptions,
     }
 }

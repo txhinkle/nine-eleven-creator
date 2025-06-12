@@ -4,7 +4,8 @@ import useOptions from './useOptions';
 const {
     YNOptions, denialClosureOptions, 
     districtOfficeOptions, languageOptions,
-    raceCodeOptions, relationshipCodeOptions
+    raceCodeOptions, relationshipCodeOptions,
+    eligibilityProgramStatusOptions
 } = useOptions();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
@@ -488,6 +489,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: false,
+            options: eligibilityProgramStatusOptions
         },
         DenialClosureReason: {
             path: 'MemberData.Demographics.EligibilityApplication.DenialClosureReason',

@@ -10,6 +10,10 @@
   left: 0%;
 }
 
+.page {
+  height: 1svw;
+}
+
 nav ul {
   list-style: none;
   padding: 0;
