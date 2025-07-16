@@ -93,19 +93,7 @@
 
                 if(currentPathArray[currentPathArray.length - 2] === path[path.length - 1]) {
                     const pathway = currentPathArray[currentPathArray.length - 1]
-                    if(pathway === 'Address') {
-                        sanitizedRecords.value[i]['MemberData.Address'].forEach(element => {
-                            xml += tabString + '<Address>\n'
-                            tabString += '    '
-                            Object.keys(element).forEach(attribute => {
-                                writeValue(attribute, element[attribute]);
-                            });
-                                tabString = tabString.substring(0, tabString.length - 4);
-                            xml += tabString + '</Address>\n'
-                        });
-                        
-                     } else if (['Rac', 'Benefit', 'MedicareCoverageDetails','Incarceration', 'UppPremiumInformation', 'ESIPremiumInformation'].includes(pathway)) {
-                        // standardized modal logic
+                     if (typeof sanitizedRecords.value[i][currentPath] === 'object') {
                         let tempArray = sanitizedRecords.value[i][currentPath];
                         if(pathway === 'Rac' || pathway === 'Benefit') {
                             tempArray = []
