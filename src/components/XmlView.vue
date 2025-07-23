@@ -64,9 +64,11 @@
 
     const writeValue = function(key, value) {
         if(typeof value === 'object') {
-                tabString = tabString.substring(0, tabString.length - 4);
+            
+            tabString = tabString.substring(0, tabString.length - 4);
             addTag(key)
             tabString += '    '
+            
             Object.keys(value).forEach(item => {
                 writeValue(item, value[item])
             })
@@ -81,7 +83,6 @@
     }
 
     const actualRecords = computed(() => {
-
         for(let i = 0; i < sanitizedRecords.value.length; i++) {
             const items = Object.keys(sanitizedRecords.value[i]);
             xml += tabString + '<Eligibility>\n'
@@ -90,50 +91,53 @@
                 const currentPath = items[k]
                 const currentPathArray = currentPath.split('.')
                 prepPath(currentPathArray);
-
                 if(currentPathArray[currentPathArray.length - 2] === path[path.length - 1]) {
-                    const pathway = currentPathArray[currentPathArray.length - 1]
+                    const pathway = currentPathArray[currentPathArray.length - 1];
                      if (typeof sanitizedRecords.value[i][currentPath] === 'object') {
                         let tempArray = sanitizedRecords.value[i][currentPath];
-                        if(pathway === 'Rac' || pathway === 'Benefit') {
-                            tempArray = []
-                            sanitizedRecords.value[i][currentPath].forEach(rac => {
-                                const brokenMonths =
-                                    (pathway === 'Rac') 
-                                    ? breakMonths(rac.RacBeginDate, rac.RacEndDate) 
-                                    : breakMonths(rac.BenefitSubTypeStartDate, rac.BenefitSubTypeEndDate)
-                                if(pathway === 'Rac') {
-                                    brokenMonths.forEach(month => {
-                                        const tempObj = {
-                                            ...rac,
-                                            RacBeginDate: month.start,
-                                            RacEndDate: month.end
-                                        }
-                                        tempArray.push(tempObj)
-                                    })
-                                }
-                                else {
-                                    brokenMonths.forEach(month => {
-                                        const tempObj = {
-                                            ...rac,
-                                            BenefitSubTypeStartDate: month.start,
-                                            BenefitSubTypeEndDate: month.end
-                                        }
-                                        tempArray.push(tempObj)
-                                    })
-                                }
-                                
-                            })
-                        }
                         tempArray.forEach(modelObj => {
-                            xml += tabString + `<${pathway}>\n`;
-                            tabString = tabString + '    ';
                             Object.keys(modelObj).forEach(attribute => {
-                                prepPath(currentPathArray)
-                                writeValue(attribute, modelObj[attribute])
+                                const label = attribute.split('.').pop();
+                                if(label === 'Rac' || label === 'Benefit') {
+                                    console.log('modelObj[attribute]?', modelObj[attribute])
+                                    const eligArray = []
+                                    modelObj[attribute].forEach(rac => {
+                                        const brokenMonths =
+                                            (label === 'Rac') 
+                                            ? breakMonths(rac.RacBeginDate, rac.RacEndDate) 
+                                            : breakMonths(rac.BenefitSubTypeStartDate, rac.BenefitSubTypeEndDate)
+                                        if(label === 'Rac') {
+                                            brokenMonths.forEach(month => {
+                                                const tempObj = {
+                                                    ...rac,
+                                                    RacBeginDate: month.start,
+                                                    RacEndDate: month.end
+                                                }
+                                                eligArray.push(tempObj)
+                                            })
+                                        }
+                                        else {
+                                            brokenMonths.forEach(month => {
+                                                const tempObj = {
+                                                    ...rac,
+                                                    BenefitSubTypeStartDate: month.start,
+                                                    BenefitSubTypeEndDate: month.end
+                                                }
+                                                eligArray.push(tempObj)
+                                            })
+                                        }
+                                    modelObj[attribute] = [...eligArray];
+                                    })
+                                }
+                                prepPath(attribute.split('.'))
+                                if (!Array.isArray(modelObj[attribute])) {
+                                    writeValue(label, modelObj[attribute])
+                                } else {
+                                    Object.keys(modelObj[attribute]).forEach((obj) => {
+                                        writeValue(label, modelObj[attribute][obj])
+                                    })
+                                }
                             })
-                                tabString = tabString.substring(0, tabString.length - 4);
-                            xml += tabString + `</${pathway}>\n`
                         })
                     } else {
                         writeValue(pathway, sanitizedRecords.value[i][currentPath]);
@@ -173,8 +177,8 @@
     </div>
     
     <p v-else>No records have been added yet</p>
-    <!-- <p>---------------Sent Object:---------------------</p>
-    <pre>{{ sanitizedRecords }}</pre> -->
+    <!-- <p>---------------Sent Object:---------------------</p> -->
+    <pre>{{ sanitizedRecords }}</pre>
 </template>
 <style scoped>
     *:first-child {

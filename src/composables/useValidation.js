@@ -25,14 +25,32 @@ const removeEmptyValuesFromObjects = function (originalObject) {
     })
     return object
 }
+
+const simplifyObjects = function(dataObject) {
+    const simpleObject = {}
+    Object.keys(dataObject).forEach((key) => {
+        if(key === 'Rac' || key === 'Benefit') {
+            const tempArray = [];
+            dataObject[key].value.forEach((aspect) => {
+                tempArray.push(removeEmptyValuesFromObjects(aspect))
+            })
+            simpleObject[dataObject[key].path] = tempArray;
+        } else if(dataObject[key].value !== '' && dataObject[key].value.length) {
+            simpleObject[dataObject[key].path] = dataObject[key].value
+        }
+    })
+    return simpleObject
+}
+
 const validateRecords = function() {
+    // TODO validate memberData required fields
     sanitizedRecords.value = []
     errorList.value = []
     const list = eligibilityList.value
     for(let i = 0; i < list.length; i++) {
         const record = {...list[i]}
         const sanitizedRecord = {}
-        const recordErrors = []
+        let recordErrors = []
         const keys = Object.keys(record);
         for(let j = 0; j < keys.length; j++) {
             const item = record[keys[j]]
@@ -40,30 +58,25 @@ const validateRecords = function() {
                 recordErrors.push(keys[j] + ' cannot be null');
             } else if(!['', undefined].includes(item.value) && item.type !== 'modal' && item.included) {
                 sanitizedRecord[item.path] = item.value
-            } else if(
+            } else if( 
                 (item.type === 'modal' && item.required && item.value.length < 1)
                 || (item.type !== 'modal' && item.required && item.included)
             ) {
                 recordErrors.push('missing required field: ' + keys[j]);
-            } 
+            }
             if(item.type === 'modal' && item.included && item.value.length) {
-                sanitizedRecord[item.path] = []
-                item.value.forEach(modalObject => {
-                    modalObject = removeEmptyValuesFromObjects(modalObject)
-                    const tempObject = {}
-                    Object.keys(modalObject).forEach(key => {
-                        if(modalObject[key] !== '') {
-                            tempObject[key] = modalObject[key]
-                        } 
-                    })
-                    sanitizedRecord[item.path].push(tempObject);
-                })
+                const members = []
+                    if(item.value.length) {
+                        item.value.forEach((member) => {
+                            member = simplifyObjects(member);
+                            members.push(member)
+                        })
+                    }
+                    sanitizedRecord[item.path] = members
             }
         }
-        if(Object.keys(sanitizedRecord).length) {
             sanitizedRecords.value.push(sanitizedRecord);
             errorList.value.push(recordErrors);
-        }
     }
 }
 
@@ -105,7 +118,6 @@ const determineOngoing = function() {
     todayMonth = todayMonth > 11 ? todayMonth = todayMonth - 12 + '' : todayMonth + ''
     todayMonth = todayMonth.length === 1  ? '0' + todayMonth : todayMonth
     
-    // console.log('determinOngoing',todayString.getFullYear()+ '-' + todayMonth + '-' + todayString.getDate())
     return todayYear + '-' + todayMonth + '-' + todayString.getDate()
 }
 
@@ -138,11 +150,6 @@ const breakMonths = function(start, end) {
             })
             currentStart = lookup === '12' ? (currentStart.substring(0,4) * 1 + 1) + '-' + nextMonth[currentStart.substring(5,7)] + '-01' : currentStart.substring(0,5) + nextMonth[currentStart.substring(5,7)] + '-01'
             // currentStart = lookup === '12' ? (currentStart.substring(0,5) * 1 + 1) + '-' + nextMonth[currentStart.substring(5,7)] + '-01' : currentStart.substring(0,5) + + '-' + nextMonth[currentStart.substring(5,7)] + '-01'
-            // console.log('currentStart', currentStart)
-            // console.log('currentEnd', currentEnd)
-            console.log('currentEnd', currentEnd);
-            console.log('determineOngoing()', determineOngoing())
-            console.log('less than?', currentEnd < determineOngoing())
         } while (currentEnd < end && currentEnd <= determineOngoing())
         return result;
     }

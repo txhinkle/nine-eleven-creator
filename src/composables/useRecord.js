@@ -1,16 +1,22 @@
 import {ref} from 'vue'
 import useOptions from './useOptions';
+import useTemplates from './useTemplates';
 
 const {
     YNOptions, denialClosureOptions, 
-    districtOfficeOptions, languageOptions,
-    raceCodeOptions, relationshipCodeOptions,
+    districtOfficeOptions, 
+    languageOptions,
+    raceCodeOptions, 
     eligibilityProgramStatusOptions
 } = useOptions();
+const {CaseHeadRelationshipDetailsObject} = useTemplates();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
 const currentRecordSections = ref([]);
 const currentRecordValidationObject = ref({})
+const currentMemberValidationObject = ref({})
+const currentMemberRecord = ref({});
+const currentMemberIndex = ref(null);
 
 const optionalSections = {
     'includeUnborn': [
@@ -27,11 +33,10 @@ const optionalSections = {
     ],
     'includeCaseHeadRelationshipDetails': [
         'HohMemberId-RelationshipDetails',
-        'MemberId-RelationshipDetails',
-        'RelationshipCode',
-        'RelationshipStartDate',
-        'RelationshipEndDate'
     ],
+}
+
+const optionalMemberSections = {
     includeEligibilityApplication: [
         'EligibilityProgramStatus',
         'DenialClosureReason',
@@ -82,16 +87,6 @@ const optionalSections = {
         'IdEndDate',
         'MedicareCoverageDetails'
     ],
-    // includeMedicareCoverageDetailsPartA: [
-    //     'MedicareCoverageType-PartA',
-    //     'MedicareCoverageStartDate-PartA',
-    //     'MedicareCoverageEndDate-PartA',
-    // ],
-    // includeMedicareCoverageDetailsPartB: [
-    //     'MedicareCoverageType-PartB',
-    //     'MedicareCoverageStartDate-PartB',
-    //     'MedicareCoverageEndDate-PartB'
-    // ],
     includeMedicareBuyInPartA: [
         'FileLoadDate-PartA',
         'AccretionCode-PartA',
@@ -218,11 +213,9 @@ const optionalSections = {
     includeEsiPremiumInformation: ['ESIPremiumInformation'],
 }
 
-const addNewRecord = () => {
-    currentRecordValidationObject.value = {
-        includeUnborn: false,
-        includeChipPremium: false,
-        includeCaseHeadRelationshipDetails: false,
+const addMemberToRecord = function() {
+    const index = currentEligibilityRecord.value['MemberData'].value.length
+    currentMemberValidationObject.value = {
         includeEligibilityApplication: false,
         includeShellProgram: false,
         includeLivingArrangement: false,
@@ -235,8 +228,6 @@ const addNewRecord = () => {
         includeSsaDisability: false,
         // Medicare Sections
         includeMedicareEligibility: false,
-        // includeMedicareCoverageDetailsPartA: false,
-        // includeMedicareCoverageDetailsPartB: false,
         includeMedicareBuyInPartA: false,
         includeMedicarePartARicA: false,
         includeMedicarePartARicB: false,
@@ -250,123 +241,9 @@ const addNewRecord = () => {
         includeUppPremiumInformation: false,
         includeEsiPremiumInformation: false,
     };
-
-    const recordConfigurationBasic = {
-        ErepCaseId: {
-            path: 'CaseDetails.ErepCaseId',
-            type: 'number',
-            value: '',
-            required: true,
-            included: true,
-        },
-        HohMemberId: {
-            path: 'CaseDetails.HohDetails.HohMemberId',
-            type: 'tel',
-            value: '',
-            required: true,
-            included: true,
-            pattern: '\\d{10}',
-        },
-        SpokenLanguage: {
-            path: 'CaseDetails.HohDetails.SpokenLanguage',
-            type: 'text',
-            value: '',
-            required: false,
-            included: true,
-            options: languageOptions,
-        },
-        MotherId: {
-            path: 'CaseDetails.UnbornLinks.MotherId',
-            type: 'tel',
-            value: '',
-            required: true,
-            included: false,
-        },
-        UnbornId: {
-            path: 'CaseDetails.UnbornLinks.UnbornId',
-            type: 'tel',
-            value: '',
-            required: true,
-            included: false,
-        },
-        Chip5Percent: {
-            path: 'CaseDetails.ChipPremiumDetails.Chip5Percent',
-            type: 'tel',
-            value: '',
-            required: true,
-            included: false,
-        },
-        LateFeeAssessedAmount: {
-            path: 'CaseDetails.ChipPremiumDetails.LateFeeAssessedAmount',
-            type: 'tel',
-            value: '',
-            required: false,
-            included: false,
-        },
-        DueProcessIndicator: {
-            path: 'CaseDetails.ChipPremiumDetails.DueProcessIndicator',
-            type: 'tel',
-            value: '',
-            required: true,
-            included: false,
-        },
-        CertificationStartDate: {
-            path: 'CaseDetails.ChipPremiumDetails.CertificationStartDate',
-            type: 'date',
-            value: '',
-            required: true,
-            included: false,
-        },
-        CertificationEndDate: {
-            path: 'CaseDetails.ChipPremiumDetails.CertificationEndDate',
-            type: 'date',
-            value: '',
-            required: true,
-            included: false,
-        },
-        IssuanceDate: {
-            path: 'CaseDetails.ChipPremiumDetails.IssuanceDate',
-            type: 'date',
-            value: '',
-            required: true,
-            included: false,
-        },
-        'HohMemberId-RelationshipDetails': {
-            path: 'CaseDetails.CaseHeadRelationshipDetails.HohMemberId',
-            type: 'tel',
-            value: '',
-            required: true,
-            included: false,
-        },
-        'MemberId-RelationshipDetails': {
-            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.MemberId',
-            type: 'tel',
-            value: '',
-            required: true,
-            included: false,
-        },
-        RelationshipCode: {
-            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipCode',
-            type: 'text',
-            value: '',
-            required: true,
-            included: false,
-            options: relationshipCodeOptions,
-        },
-        RelationshipStartDate: {
-            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipStartDate',
-            type: 'date',
-            value: '',
-            required: true,
-            included: false,
-        },
-        RelationshipEndDate: {
-            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipEndDate',
-            type: 'date',
-            value: '',
-            required: true,
-            included: false,
-        },
+    currentRecordValidationObject.value.memberData.push(currentMemberValidationObject);
+    currentMemberIndex.value = index;
+    currentEligibilityRecord.value.MemberData.value.push({
         MemberId: {
             path: 'MemberData.MemberId',
             type: 'tel',
@@ -722,48 +599,6 @@ const addNewRecord = () => {
             required: false,
             included: false,
         },
-        // 'MedicareCoverageType-PartA': {
-        //     path: 'MemberData.MedicareEligibility.MedicareIdDetails.MedicareCoverageDetails.MedicareCoverageType',
-        //     type: 'text',
-        //     value: '',
-        //     required: true,
-        //     included: false,
-        // },
-        // 'MedicareCoverageStartDate-PartA': {
-        //     path: 'MemberData.MedicareEligibility.MedicareIdDetails.MedicareCoverageDetails.MedicareCoverageStartDate',
-        //     type: 'date',
-        //     value: '',
-        //     required: true,
-        //     included: false,
-        // },
-        // 'MedicareCoverageEndDate-PartA': {
-        //     path: 'MemberData.MedicareEligibility.MedicareIdDetails.MedicareCoverageDetails.MedicareCoverageEndDate',
-        //     type: 'date',
-        //     value: '',
-        //     required: false,
-        //     included: false,
-        // },
-        // 'MedicareCoverageType-PartB': {
-        //     path: 'MemberData.MedicareEligibility.MedicareIdDetails.MedicareCoverageDetails.MedicareCoverageType',
-        //     type: 'text',
-        //     value: '',
-        //     required: true,
-        //     included: false,
-        // },
-        // 'MedicareCoverageStartDate-PartB': {
-        //     path: 'MemberData.MedicareEligibility.MedicareIdDetails.MedicareCoverageDetails.MedicareCoverageStartDate',
-        //     type: 'date',
-        //     value: '',
-        //     required: true,
-        //     included: false,
-        // },
-        // 'MedicareCoverageEndDate-PartB': {
-        //     path: 'MemberData.MedicareEligibility.MedicareIdDetails.MedicareCoverageDetails.MedicareCoverageEndDate',
-        //     type: 'date',
-        //     value: '',
-        //     required: false,
-        //     included: false,
-        // },
         'FileLoadDate-PartA': {
             path: 'MemberData.MedicareEligibility.MedicareIdDetails.BuyIn.PartA.StateAgencyToCms.FileLoadDate',
             type: 'date',
@@ -1529,19 +1364,128 @@ const addNewRecord = () => {
             required: false,
             included: false,
         },
+    })
+    currentMemberRecord.value = currentEligibilityRecord.value.MemberData.value[index];
+};
 
+const addNewRecord = function() {
+    currentRecordValidationObject.value = {
+        includeUnborn: false,
+        includeChipPremium: false,
+        includeCaseHeadRelationshipDetails: false,
+        memberData: [],
+    };
+
+    const recordConfigurationBasic = {
+        ErepCaseId: {
+            path: 'CaseDetails.ErepCaseId',
+            type: 'number',
+            value: '',
+            required: true,
+            included: true,
+        },
+        HohMemberId: {
+            path: 'CaseDetails.HohDetails.HohMemberId',
+            type: 'tel',
+            value: '',
+            required: true,
+            included: true,
+            pattern: '\\d{10}',
+        },
+        SpokenLanguage: {
+            path: 'CaseDetails.HohDetails.SpokenLanguage',
+            type: 'text',
+            value: '',
+            required: false,
+            included: true,
+            options: languageOptions,
+        },
+        MotherId: {
+            path: 'CaseDetails.UnbornLinks.MotherId',
+            type: 'tel',
+            value: '',
+            required: true,
+            included: false,
+        },
+        UnbornId: {
+            path: 'CaseDetails.UnbornLinks.UnbornId',
+            type: 'tel',
+            value: '',
+            required: true,
+            included: false,
+        },
+        Chip5Percent: {
+            path: 'CaseDetails.ChipPremiumDetails.Chip5Percent',
+            type: 'tel',
+            value: '',
+            required: true,
+            included: false,
+        },
+        LateFeeAssessedAmount: {
+            path: 'CaseDetails.ChipPremiumDetails.LateFeeAssessedAmount',
+            type: 'tel',
+            value: '',
+            required: false,
+            included: false,
+        },
+        DueProcessIndicator: {
+            path: 'CaseDetails.ChipPremiumDetails.DueProcessIndicator',
+            type: 'tel',
+            value: '',
+            required: true,
+            included: false,
+        },
+        CertificationStartDate: {
+            path: 'CaseDetails.ChipPremiumDetails.CertificationStartDate',
+            type: 'date',
+            value: '',
+            required: true,
+            included: false,
+        },
+        CertificationEndDate: {
+            path: 'CaseDetails.ChipPremiumDetails.CertificationEndDate',
+            type: 'date',
+            value: '',
+            required: true,
+            included: false,
+        },
+        IssuanceDate: {
+            path: 'CaseDetails.ChipPremiumDetails.IssuanceDate',
+            type: 'date',
+            value: '',
+            required: true,
+            included: false,
+        },
+        'HohMemberId-RelationshipDetails': {
+            path: 'CaseDetails.CaseHeadRelationshipDetails',
+            type: 'modal',
+            value: [],
+            required: true,
+            included: false,
+        },
+        MemberData: {
+            path:'MemberData',
+            type: 'modal',
+            value: [],
+            required: true,
+            included: true,
+        }
     };
 
     currentEligibilityRecord.value = {...recordConfigurationBasic};
     
     eligibilityList.value.push(currentEligibilityRecord.value);
-    // console.log('eligibilityList.value', eligibilityList.value.length)
     currentRecordSections.value.push(currentRecordValidationObject.value);
+    addMemberToRecord();
 }
 
 const selectRecord = function(index) {
     currentEligibilityRecord.value = eligibilityList.value[index];
     currentRecordValidationObject.value = currentRecordSections.value[index];
+}
+
+const selectMember = function(index) {
+    console.log(index);
 }
 
 const incrementRecord = function(index) {
@@ -1581,6 +1525,10 @@ const incrementRecord = function(index) {
     selectRecord(eligibilityList.value.length - 1)
 };
 
+const incrementMemberRecords = function (index) {
+    //TODO
+}
+
 const deleteRecord = function(index) {
     console.log('index', index)
     eligibilityList.value.splice(index, 1)
@@ -1593,25 +1541,50 @@ const deleteRecord = function(index) {
     }
 }
 
+const deleteMember = function(index) {
+    //todo
+}
+
+const addCaseHeadRelationship = function() {
+    currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value.push({...CaseHeadRelationshipDetailsObject});
+}
+
 const toggleIncluded = function(section) {
     currentRecordValidationObject.value[section] = !currentRecordValidationObject.value[section];
-    
-    optionalSections[section].forEach(element => {
-        const attribute = {...currentEligibilityRecord.value[element]};
-        currentEligibilityRecord.value[element] = {
-            ...currentEligibilityRecord.value[element],
+    if(
+            section === 'includeCaseHeadRelationshipDetails' 
+            && !currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value.length
+        ) {
+                addCaseHeadRelationship();
+                currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].included = true;
+    } else {
+        optionalSections[section].forEach(element => {
+            const attribute = {...currentEligibilityRecord.value[element]};
+            currentEligibilityRecord.value[element] = {
+                ...currentEligibilityRecord.value[element],
+                included: !attribute.included
+            }
+            // if(element.includes('HohMemberId') && currentEligibilityRecord.value.HohMemberId.value) {
+            //     currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.HohMemberId.value
+            // } else if(element.includes('MemberId') && currentEligibilityRecord.value.MemberId.value) {
+            //     const elementArray = currentEligibilityRecord.value[element]['path'].split('.');
+            //     if(elementArray[elementArray.length - 1] === 'MemberId') {
+            //         currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.MemberId.value
+            //     }
+            // }
+        });
+    }
+}
+
+const toggleMemberIncludes = function (section) {
+    currentMemberValidationObject.value[section] = !currentMemberValidationObject.value[section];
+    optionalMemberSections[section].forEach(element => {
+        const attribute = {...currentMemberRecord.value[element]};
+        currentMemberRecord.value[element] = {
+            ...currentMemberRecord.value[element],
             included: !attribute.included
         }
-        if(element.includes('HohMemberId') && currentEligibilityRecord.value.HohMemberId.value) {
-            currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.HohMemberId.value
-        } else if(element.includes('MemberId') && currentEligibilityRecord.value.MemberId.value) {
-            const elementArray = currentEligibilityRecord.value[element]['path'].split('.');
-            if(elementArray[elementArray.length - 1] === 'MemberId') {
-                currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.MemberId.value
-            }
-        }
     });
-    console.log('added', section);
 }
 
 const conditionalRequirementToggle = function(item, value) {
@@ -1625,17 +1598,24 @@ const conditionalRequirementToggle = function(item, value) {
 
 const createRandomRecord = function() {
     currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + ''
-    currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + ''
-    currentEligibilityRecord.value['MemberId'].value = currentEligibilityRecord.value['HohMemberId'].value
-    currentEligibilityRecord.value['FirstName'].value = eligibilityList.value.length  + 'first'
-    currentEligibilityRecord.value['LastName'].value = eligibilityList.value.length  + 'last'
-    currentEligibilityRecord.value['RaceCode'].value = 'UN'
-    currentEligibilityRecord.value['BirthDate'].value = '2000-01-01'
-    currentEligibilityRecord.value['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
-    currentEligibilityRecord.value['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
-    currentEligibilityRecord.value['ExemptDuplicateIndicator'].value = 'N'
-    currentEligibilityRecord.value['Address'].value = []
-    currentEligibilityRecord.value['Address'].value.push({
+    currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
+    currentEligibilityRecord.value.MemberData.value.forEach((item, index) => {
+        console.log(item);
+        createRandomMemberData(index);
+    })
+};
+
+const createRandomMemberData = function(index) {
+    currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = currentEligibilityRecord.value['HohMemberId'].value
+    currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = eligibilityList.value.length  + 'first'
+    currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = eligibilityList.value.length  + 'last'
+    currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value = 'UN'
+    currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value = '2000-01-01'
+    currentEligibilityRecord.value.MemberData.value[index]['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
+    currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
+    currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value = 'N'
+    currentEligibilityRecord.value.MemberData.value[index]['Address'].value = []
+    currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
         AddressType: 'Mailing',
         Street1: '55 N Main St',
         CityName: 'SALT LAKE CITY',
@@ -1645,7 +1625,7 @@ const createRandomRecord = function() {
         AddressStartDate: '2000-01-01',
         AddressEndDate: '2999-12-31',
     })
-    currentEligibilityRecord.value['Address'].value.push({
+    currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
         AddressType: 'Residential',
         Street1: '55 N Main St',
         CityName: 'SALT LAKE CITY',
@@ -1657,16 +1637,36 @@ const createRandomRecord = function() {
     })
 }
 
-export default function useRecord() {
+const checkIdAgainstHOH = function() {
+    // looks at the memberID on unfocus - not change/update and determines if the HOH Relationship section sould be manditory.  Should this be in this file, or in useRecord?
+    // check the ID in this file, send an ID to useRecord which has a method to push a relationship object into the array with the memberID filled out
+    if(currentEligibilityRecord.value.MemberData.length > 1 
+        || (currentEligibilityRecord.value.HohMemberId !== currentMemberRecord.value.MemberId 
+            && currentMemberRecord.value.MemberId.length === 10)
+    ) {
+        if(!currentRecordValidationObject.value.includeCaseHeadRelationshipDetails) {
+            currentRecordValidationObject.value.includeCaseHeadRelationshipDetails = true;
+        }
+    }
+};
+
+export default function useRecord () {
     return {
-        addNewRecord,
+        conditionalRequirementToggle,
         incrementRecord,
+        toggleIncluded,
         eligibilityList,
         currentEligibilityRecord,
         currentRecordValidationObject,
-        toggleIncluded,
+        currentRecordSections,
+        currentMemberRecord,
         selectRecord,
         deleteRecord,
         createRandomRecord,
+        addNewRecord,
+        toggleMemberIncludes,
+        checkIdAgainstHOH,
+        optionalMemberSections,
+        currentMemberValidationObject,
     }
 }

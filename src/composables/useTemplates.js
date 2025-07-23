@@ -1,3 +1,6 @@
+import useOptions from "./useOptions";
+const {relationshipCodeOptions} = useOptions();
+
 const newAddressTemplate = {
 	Street1: '',
 	Street2: '',
@@ -159,6 +162,50 @@ const newEsiTemplate = {
     ESIPremiumAmt: '',
 }
 
+const CaseHeadRelationshipDetailsObject = {
+    'HohMemberId': {
+            name: 'HohMemberId',
+            path: 'CaseDetails.CaseHeadRelationshipDetails.HohMemberId',
+            type: 'tel',
+            value: 'test',
+            required: true,
+            included: true,
+        },
+        'MemberId': {
+            name: 'MemberId',
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.MemberId',
+            type: 'tel',
+            value: '',
+            required: true,
+            included: true,
+        },
+        RelationshipCode: {
+            name: 'RelationshipCode',
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipCode',
+            type: 'text',
+            value: '',
+            required: true,
+            included: true,
+            options: relationshipCodeOptions,
+        },
+        RelationshipStartDate: {
+            name: 'RelationshipStartDate',
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipStartDate',
+            type: 'date',
+            value: '',
+            required: true,
+            included: true,
+        },
+        RelationshipEndDate: {
+            name: 'RelationshipEndDate',
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.RelationshipEndDate',
+            type: 'date',
+            value: '',
+            required: true,
+            included: true,
+        },
+};
+
 export default function useTEmplates () {
     return {
         newAddressTemplate,
@@ -167,5 +214,6 @@ export default function useTEmplates () {
         newIncarcerationTemplate,
         newUppTemplate,
         newEsiTemplate,
+        CaseHeadRelationshipDetailsObject,
     }
 }
