@@ -8,6 +8,9 @@ const {validateRecords} = useValidation();
 const {
 	currentEligibilityRecord,
 	addNewRecord,
+	addMemberToRecord,
+	selectMember,
+	currentMemberIndex,
 	currentRecordValidationObject,
 	toggleIncluded,
 	createRandomRecord,
@@ -63,7 +66,19 @@ const labelStyle = function(object) {
 					</label>	
 				</div>
 			</div>
-			<MemberData v-else-if="item === 'MemberData'" />
+			<div v-else-if="item === 'MemberData'">
+				<div>
+					<span>
+						<a
+						v-for="(member, index) in currentEligibilityRecord['MemberData'].value" :key="index"
+						@click="selectMember(index)"
+						:style="(index === currentMemberIndex) ? 'color: red; margin-right: 10px;' : 'color: blue; margin-right: 10px;'"
+						>{{ index }}</a>
+					</span>
+				</div>
+				<input type="button" @click="addMemberToRecord" value="Add Member">
+				<MemberData  />
+			</div>
 			<select
 				v-if="currentEligibilityRecord[item].included && currentEligibilityRecord[item].options"
 				v-model="currentEligibilityRecord[item].value"

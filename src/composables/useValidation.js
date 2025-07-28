@@ -18,7 +18,7 @@ const removeEmptyValuesFromObjects = function (originalObject) {
                 delete object[attribute]
             } 
         } else {
-            if(object[attribute] === '') {
+            if(object[attribute] === '' || (Array.isArray(object[attribute]) && !object[attribute].length)) {
                 delete object[attribute]
             }
         }
@@ -34,7 +34,9 @@ const simplifyObjects = function(dataObject) {
             dataObject[key].value.forEach((aspect) => {
                 tempArray.push(removeEmptyValuesFromObjects(aspect))
             })
-            simpleObject[dataObject[key].path] = tempArray;
+            if(tempArray.length) {
+                simpleObject[dataObject[key].path] = tempArray;
+            }
         } else if(dataObject[key].value !== '' && dataObject[key].value.length) {
             simpleObject[dataObject[key].path] = dataObject[key].value
         }

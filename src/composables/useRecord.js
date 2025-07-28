@@ -1485,7 +1485,8 @@ const selectRecord = function(index) {
 }
 
 const selectMember = function(index) {
-    console.log(index);
+    currentMemberIndex.value = index;
+    currentMemberRecord.value = currentEligibilityRecord.value['MemberData'].value[index]
 }
 
 const incrementRecord = function(index) {
@@ -1530,7 +1531,6 @@ const incrementMemberRecords = function (index) {
 }
 
 const deleteRecord = function(index) {
-    console.log('index', index)
     eligibilityList.value.splice(index, 1)
     currentRecordSections.value.splice(index, 1)
     if(eligibilityList.value.length) {
@@ -1600,15 +1600,17 @@ const createRandomRecord = function() {
     currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + ''
     currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
     currentEligibilityRecord.value.MemberData.value.forEach((item, index) => {
-        console.log(item);
         createRandomMemberData(index);
     })
 };
 
 const createRandomMemberData = function(index) {
-    currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = currentEligibilityRecord.value['HohMemberId'].value
-    currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = eligibilityList.value.length  + 'first'
-    currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = eligibilityList.value.length  + 'last'
+    const dateArray = new Date().toISOString().split('');
+    const milis = (Date.now() + Math.floor(Math.random() * 10)) % 10000
+    const memId = dateArray[2] + dateArray[3] + dateArray[5] + dateArray[6]  + dateArray[8] + dateArray[9] + milis;
+    currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
+    currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'
+    currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = index  + 'last'
     currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value = 'UN'
     currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value = '2000-01-01'
     currentEligibilityRecord.value.MemberData.value[index]['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
@@ -1664,8 +1666,10 @@ export default function useRecord () {
         deleteRecord,
         createRandomRecord,
         addNewRecord,
+        addMemberToRecord,
         toggleMemberIncludes,
         checkIdAgainstHOH,
+        selectMember,
         optionalMemberSections,
         currentMemberValidationObject,
     }

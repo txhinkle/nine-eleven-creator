@@ -97,9 +97,8 @@
                         let tempArray = sanitizedRecords.value[i][currentPath];
                         tempArray.forEach(modelObj => {
                             Object.keys(modelObj).forEach(attribute => {
-                                const label = attribute.split('.').pop();
+                                const label = (attribute.includes('.')) ? attribute.split('.').pop() : attribute;
                                 if(label === 'Rac' || label === 'Benefit') {
-                                    console.log('modelObj[attribute]?', modelObj[attribute])
                                     const eligArray = []
                                     modelObj[attribute].forEach(rac => {
                                         const brokenMonths =
@@ -138,6 +137,7 @@
                                     })
                                 }
                             })
+                            closeTag();
                         })
                     } else {
                         writeValue(pathway, sanitizedRecords.value[i][currentPath]);
