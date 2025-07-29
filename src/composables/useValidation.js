@@ -44,6 +44,18 @@ const simplifyObjects = function(dataObject) {
     return simpleObject
 }
 
+const validateMemberRecords = function(member) {
+    const list = []
+    Object.keys(member).forEach((item) => {
+        if(['', undefined].includes(member[item].value) && member[item].included && member[item].required) {
+            list.push(member['MemberId'].value + ' missing required field: ' + item)
+        } else if(member[item].type === 'modal' && member[item].required && member[item].value.length < 1) {
+            list.push('missing required field: ' + item);
+        }
+    })
+    return list;
+}
+
 const validateRecords = function() {
     // TODO validate memberData required fields
     sanitizedRecords.value = []
@@ -61,7 +73,7 @@ const validateRecords = function() {
             } else if(!['', undefined].includes(item.value) && item.type !== 'modal' && item.included) {
                 sanitizedRecord[item.path] = item.value
             } else if( 
-                (item.type === 'modal' && item.required && item.value.length < 1)
+                (item.type === 'modal' && item.required && item.value.length < 1 && item.included)
                 || (item.type !== 'modal' && item.required && item.included)
             ) {
                 recordErrors.push('missing required field: ' + keys[j]);
@@ -70,6 +82,7 @@ const validateRecords = function() {
                 const members = []
                     if(item.value.length) {
                         item.value.forEach((member) => {
+                            recordErrors = [ ... recordErrors, ...validateMemberRecords(member)];
                             member = simplifyObjects(member);
                             members.push(member)
                         })

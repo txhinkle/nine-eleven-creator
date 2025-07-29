@@ -178,7 +178,6 @@
     
     <p v-else>No records have been added yet</p>
     <!-- <p>---------------Sent Object:---------------------</p> -->
-    <pre>{{ sanitizedRecords }}</pre>
 </template>
 <style scoped>
     *:first-child {

@@ -21,10 +21,10 @@ const {
 } = useTemplates()
 
 const {
-	currentRecordValidationObject,
+	// currentRecordValidationObject,
 	currentMemberValidationObject,
 	currentMemberRecord, 
-	checkIdAgainstHOH, 
+	// checkIdAgainstHOH, 
 } = useRecord();
 
 const edit = ref(false);
