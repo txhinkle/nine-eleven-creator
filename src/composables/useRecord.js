@@ -9,7 +9,7 @@ const {
     raceCodeOptions, 
     eligibilityProgramStatusOptions
 } = useOptions();
-const {CaseHeadRelationshipDetailsObject} = useTemplates();
+const {caseHeadRelationshipDetailsObject} = useTemplates();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
 const currentRecordSections = ref([]);
@@ -33,6 +33,7 @@ const optionalSections = {
     ],
     'includeCaseHeadRelationshipDetails': [
         'HohMemberId-RelationshipDetails',
+        'MemberRelationshipToHoh'
     ],
 }
 
@@ -1457,7 +1458,15 @@ const addNewRecord = function() {
             included: false,
         },
         'HohMemberId-RelationshipDetails': {
-            path: 'CaseDetails.CaseHeadRelationshipDetails',
+            name: 'HohMemberId',
+            path: 'CaseDetails.CaseHeadRelationshipDetails.HohMemberId',
+            type: 'tel',
+            value: '',
+            required: true,
+            included: false,
+        },
+        'MemberRelationshipToHoh': {
+            path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh',
             type: 'modal',
             value: [],
             required: true,
@@ -1542,38 +1551,33 @@ const deleteRecord = function(index) {
 }
 
 const deleteMember = function(index) {
+    console.log(index)
     //todo
 }
 
-const addCaseHeadRelationship = function() {
-    currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value.push({...CaseHeadRelationshipDetailsObject});
-}
+// const addCaseHeadRelationship = function() {
+//     currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value.push({...caseHeadRelationshipDetailsObject});
+// }
 
 const toggleIncluded = function(section) {
     currentRecordValidationObject.value[section] = !currentRecordValidationObject.value[section];
-    if(
-            section === 'includeCaseHeadRelationshipDetails' 
-            && !currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value.length
-        ) {
-                addCaseHeadRelationship();
-                currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].included = true;
-    } else {
-        optionalSections[section].forEach(element => {
-            const attribute = {...currentEligibilityRecord.value[element]};
-            currentEligibilityRecord.value[element] = {
-                ...currentEligibilityRecord.value[element],
-                included: !attribute.included
-            }
-            // if(element.includes('HohMemberId') && currentEligibilityRecord.value.HohMemberId.value) {
-            //     currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.HohMemberId.value
-            // } else if(element.includes('MemberId') && currentEligibilityRecord.value.MemberId.value) {
-            //     const elementArray = currentEligibilityRecord.value[element]['path'].split('.');
-            //     if(elementArray[elementArray.length - 1] === 'MemberId') {
-            //         currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.MemberId.value
-            //     }
-            // }
-        });
-    }
+    console.log('section:', section)
+    optionalSections[section].forEach(element => {
+        const attribute = {...currentEligibilityRecord.value[element]};
+        currentEligibilityRecord.value[element] = {
+            ...currentEligibilityRecord.value[element],
+            included: !attribute.included
+        }
+        // if(element.includes('HohMemberId') && currentEligibilityRecord.value.HohMemberId.value) {
+        //     currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.HohMemberId.value
+        // } else if(element.includes('MemberId') && currentEligibilityRecord.value.MemberId.value) {
+        //     const elementArray = currentEligibilityRecord.value[element]['path'].split('.');
+        //     if(elementArray[elementArray.length - 1] === 'MemberId') {
+        //         currentEligibilityRecord.value[element].value = currentEligibilityRecord.value.MemberId.value
+        //     }
+        // }
+    });
+    console.log('section:', currentRecordValidationObject.value[section])
 }
 
 const toggleMemberIncludes = function (section) {
@@ -1606,7 +1610,8 @@ const createRandomRecord = function() {
 
 const createRandomMemberData = function(index) {
     const dateArray = new Date().toISOString().split('');
-    const milis = (Date.now() + Math.floor(Math.random() * 10)) % 10000
+    let milis = (Date.now() + Math.floor(Math.random() * 10)) % 10000 + ''
+    milis = (milis.length === 4) ? milis : milis + Math.floor(Math.random() * 9)
     const memId = dateArray[2] + dateArray[3] + dateArray[5] + dateArray[6]  + dateArray[8] + dateArray[9] + milis;
     currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
     currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'

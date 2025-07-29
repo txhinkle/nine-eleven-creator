@@ -3,8 +3,10 @@ import useRecord from '@/composables/useRecord';
 import { ref, onUpdated } from 'vue';
 import MemberData from './MemberData.vue';
 import useValidation from '@/composables/useValidation';
+import HOHRelationshipModal from './HOHRelationshipModal.vue';
+import useTemplates from '@/composables/useTemplates';
 const {validateRecords} = useValidation();
-
+const {caseHeadRelationshipDetailsObject} = useTemplates();
 const {
 	currentEligibilityRecord,
 	addNewRecord,
@@ -21,7 +23,43 @@ const {
 onUpdated(() => {
 	validateRecords();
 })
-// const edit = ref(false);
+const edit = ref(false);
+const newRelationship = ref(null);
+const oldRelationshipIndex = ref(null);
+
+const insertInArray = function(object, name, index) {
+	if(index !== null) {
+		currentEligibilityRecord.value[name].value.splice(index, 1, object);
+	} else {
+		currentEligibilityRecord.value[name].value.push(object);
+	}
+}
+
+const deleteFromArray = function (arrayName, index) {
+	currentEligibilityRecord.value[arrayName].value.splice(index, 1);
+};
+
+const cancelModal = function () {
+	newRelationship.value = null;
+	oldRelationshipIndex.value = null;
+	edit.value = false
+};
+
+const addRelationship = function(relationship, index) {
+	newRelationship.value = relationship;
+	if(index !== null) {
+		oldRelationshipIndex.value = index;
+		edit.value = true;
+	}
+}
+
+const submitRelationship = function (relationship) {
+	const index = oldRelationshipIndex.value;
+	insertInArray(relationship, 'MemberRelationshipToHoh', index);
+	oldRelationshipIndex.value = null;
+	edit.value = false
+	newRelationship.value = null
+}
 
 const showFaq = ref(false);
 
@@ -59,11 +97,29 @@ const labelStyle = function(object) {
 				<span v-if="currentEligibilityRecord[item].required">*</span>
 			</label>
 			<div  v-else-if="currentEligibilityRecord[item].included && item !== 'MemberData'">
-				<div v-for="(key, index) in currentEligibilityRecord['HohMemberId-RelationshipDetails'].value" :key="index">
-					<label  v-for="thing in Object.keys(key)" :key="thing">
-						<span>{{ thing }}</span>
-						<input type="text" v-model="currentEligibilityRecord[item].value[index][thing].value" />
-					</label>	
+				<div v-if=" item === 'HohMemberId-RelationshipDetails'">
+					<label>
+						<span>HOH Member ID</span>
+						<input type="text" v-model="currentEligibilityRecord[item].value" />
+					</label>
+				</div>
+				<div
+					id="relathipship-details"
+					v-if="currentEligibilityRecord['HohMemberId-RelationshipDetails'].included"
+				>
+					<button
+						@click="addRelationship({...caseHeadRelationshipDetailsObject}, null)"
+						style="margin-top: 10px;"
+					>
+						Add Case Head Relationship Details
+					</button>
+					<div>
+						<div v-for="(relationship, index) in currentEligibilityRecord['MemberRelationshipToHoh'].value" :key="index">
+							<pre>{{ relationship.MemberId.value }}: {{ relationship.RelationshipCode.value }}</pre>
+							<button @click="deleteFromArray('MemberRelationshipToHoh', index)">Delete</button>
+							<button @click="addRelationship(relationship, index)">Edit</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div v-else-if="item === 'MemberData'">
@@ -137,6 +193,13 @@ const labelStyle = function(object) {
 			</label>
 		</div>
 	</div>
+	<HOHRelationshipModal
+		v-if="newRelationship"
+		:relationship="newRelationship"
+		:edit="edit"
+		@submit="submitRelationship"
+		@close="cancelModal"
+	/>
 </template>
 <style scoped>
 label {

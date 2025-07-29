@@ -162,15 +162,7 @@ const newEsiTemplate = {
     ESIPremiumAmt: '',
 }
 
-const CaseHeadRelationshipDetailsObject = {
-    'HohMemberId': {
-            name: 'HohMemberId',
-            path: 'CaseDetails.CaseHeadRelationshipDetails.HohMemberId',
-            type: 'tel',
-            value: 'test',
-            required: true,
-            included: true,
-        },
+const caseHeadRelationshipDetailsObject = {
         'MemberId': {
             name: 'MemberId',
             path: 'CaseDetails.CaseHeadRelationshipDetails.MemberRelationshipToHoh.MemberId',
@@ -178,6 +170,7 @@ const CaseHeadRelationshipDetailsObject = {
             value: '',
             required: true,
             included: true,
+            pattern: '\\d{10}',
         },
         RelationshipCode: {
             name: 'RelationshipCode',
@@ -214,6 +207,6 @@ export default function useTEmplates () {
         newIncarcerationTemplate,
         newUppTemplate,
         newEsiTemplate,
-        CaseHeadRelationshipDetailsObject,
+        caseHeadRelationshipDetailsObject,
     }
 }
