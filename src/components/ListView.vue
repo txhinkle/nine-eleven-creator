@@ -32,6 +32,7 @@ const copyRecord = function (index) {
                 <tr>
                     <th scope="col">Index</th>
                     <th scope="col">CaseId</th>
+                    <th scope="col">MemberIds</th>
                     <th scope="col">Errors</th>
                     <th scope="col">Copy</th>
                     <th scope="col">Delete</th>
@@ -41,10 +42,12 @@ const copyRecord = function (index) {
                 <tr v-for="(item, index) in eligibilityList" :key="index">
                     <td><a @click="select(index)">{{ index }}</a></td>
                     <td><a @click="select(index)">{{ item['ErepCaseId'].value }}</a></td>
+                    <td>
+                        <p v-for="member in item.MemberData.value" :key="member">{{ member.MemberId.value }}</p>
+                    </td>
                     <td style="max-width: 300px;">
-                        <a @click="select(index)">
-                            <p v-for="error in errorList[index]" :key="error">{{ error }}</p>
-                        </a>
+                        <p>{{ (errorList[index].caseDetail.length) ? errorList[index].caseDetail : ''}}</p>
+                        <p v-for="error in errorList[index].memberData" :key="error">{{ (error.length) ? error : '' }}</p>
                     </td>
                     <td>
                         <input type="button" @click="copyRecord(index)" value="Increment" />

@@ -1,4 +1,4 @@
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 import useOptions from './useOptions';
 import useTemplates from './useTemplates';
 
@@ -17,6 +17,17 @@ const currentRecordValidationObject = ref({})
 const currentMemberValidationObject = ref({})
 const currentMemberRecord = ref({});
 const currentMemberIndex = ref(null);
+
+const memberIdList = computed(() => {
+    const list = []
+    eligibilityList.value.forEach((record) => {
+        list.push(record.HohMemberId.value)
+        record.MemberData.value.forEach((member) => {
+            list.push(member.MemberId.value)
+        })
+    })
+    return list
+})
 
 const optionalSections = {
     'includeUnborn': [
@@ -1498,46 +1509,45 @@ const selectMember = function(index) {
     currentMemberRecord.value = currentEligibilityRecord.value['MemberData'].value[index]
 }
 
+const incrementMember = function(memberRecord) {
+    let newID = memberRecord.MemberId.value;
+    const leadingZero = newID[0] === '0'
+    do {
+        newID = (newID * 1) + 1 + ''
+        if(leadingZero) {
+            newID = '0' + newID
+        }
+    } while(memberIdList.value.includes(newID))
+    const cleanMemberRecord = {...memberRecord}
+    cleanMemberRecord.MemberId.value = newID
+    return cleanMemberRecord;
+}
+
 const incrementRecord = function(index) {
     const copyValidationObject = { ...currentRecordSections.value[index] }
-    const revisedRecord = {}
-    Object.keys(eligibilityList.value[index]).forEach(key => {
-        if(!Array.isArray(eligibilityList.value[index][key].value)) {
-            revisedRecord[key] = {...eligibilityList.value[index][key]}
-        }
-        else {
-            revisedRecord[key] = {...eligibilityList.value[index][key]}
-            revisedRecord[key].value = [...eligibilityList.value[index][key].value]
-        }
-})
-    const midLeadingZero = eligibilityList.value[index].MemberId.value[0] === '0'
-    const hohLeadingZero = eligibilityList.value[index].MemberId.value[0] === '0'
-    revisedRecord.FirstName = {...eligibilityList.value[index].FirstName, value: eligibilityList.value[index].FirstName.value + 1},
-    revisedRecord.MemberId = {...eligibilityList.value[index].MemberId, value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''},
+    const revisedRecord = JSON.parse(JSON.stringify(eligibilityList.value[index]))
+
+    const hohLeadingZero = eligibilityList.value[index].HohMemberId.value[0] === '0'
+    console.log('is ErepCaseId the same?', revisedRecord.ErepCaseId === eligibilityList.value[index].ErepCaseId);
     revisedRecord.HohMemberId = {...eligibilityList.value[index].HohMemberId, value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''},
     revisedRecord.ErepCaseId = {...eligibilityList.value[index].ErepCaseId, value: eligibilityList.value[index].ErepCaseId.value * 1 + 1 + ''},
-    revisedRecord['MemberId-RelationshipDetails'] = (eligibilityList.value[index]['MemberId-RelationshipDetails'].value !== '') ? 
-            { ...eligibilityList.value[index]['MemberId-RelationshipDetails'],
-                value: eligibilityList.value[index].MemberId.value * 1 + 1 + ''} :
-            { ...eligibilityList.value[index]['MemberId-RelationshipDetails'] }
-    revisedRecord['HohMemberId-RelationshipDetails'] = (eligibilityList.value[index]['HohMemberId-RelationshipDetails'].value !== '') ? 
-            { ...eligibilityList.value[index]['HohMemberId-RelationshipDetails'],
-                value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''} :
-            { ...eligibilityList.value[index]['HohMemberId-RelationshipDetails'] }
-        if(midLeadingZero) {
-            revisedRecord.MemberId.value = '0' + revisedRecord.MemberId.value
-        }
-        if(hohLeadingZero) {
-            revisedRecord.HohMemberId.value = '0' + revisedRecord.HohMemberId.value
-        }
-    currentRecordSections.value.push(copyValidationObject)
-    eligibilityList.value.push(revisedRecord)
+    revisedRecord['HohMemberId-RelationshipDetails'] = {... revisedRecord.HohMemberId }
+    if(hohLeadingZero) {
+        revisedRecord.HohMemberId.value = '0' + revisedRecord.HohMemberId.value
+    }
+    console.log('revisedRecord.MemberData',revisedRecord.MemberData)
+    console.log('eligibilityList.value[index].MemberData',eligibilityList.value[index].MemberData)
+    console.log('is MemberData the same?', revisedRecord.MemberData === eligibilityList.value[index].MemberData);
+    const newMembers = []
+    revisedRecord.MemberData.value.forEach((member) => {
+        newMembers.push(incrementMember(member))
+    })
+    revisedRecord.MemberData.value = newMembers;
+    currentRecordSections.value.push(copyValidationObject);
+    eligibilityList.value.push({...revisedRecord})
     selectRecord(eligibilityList.value.length - 1)
+    currentRecordValidationObject.value.memberData.push(currentMemberValidationObject);
 };
-
-const incrementMemberRecords = function (index) {
-    //TODO
-}
 
 const deleteRecord = function(index) {
     eligibilityList.value.splice(index, 1)
@@ -1550,18 +1560,12 @@ const deleteRecord = function(index) {
     }
 }
 
-const deleteMember = function(index) {
-    console.log(index)
-    //todo
+const deleteMember = function(recordIndex, memberIndex) {
+    console.log(recordIndex,memberIndex)
 }
-
-// const addCaseHeadRelationship = function() {
-//     currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value.push({...caseHeadRelationshipDetailsObject});
-// }
 
 const toggleIncluded = function(section) {
     currentRecordValidationObject.value[section] = !currentRecordValidationObject.value[section];
-    console.log('section:', section)
     optionalSections[section].forEach(element => {
         const attribute = {...currentEligibilityRecord.value[element]};
         currentEligibilityRecord.value[element] = {

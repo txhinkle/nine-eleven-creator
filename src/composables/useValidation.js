@@ -57,37 +57,58 @@ const validateMemberRecords = function(member) {
 }
 
 const validateRecords = function() {
-    // TODO validate memberData required fields
+
     sanitizedRecords.value = []
     errorList.value = []
     const list = eligibilityList.value
     for(let i = 0; i < list.length; i++) {
         const record = {...list[i]}
         const sanitizedRecord = {}
-        let recordErrors = []
+        let recordErrors = {
+            caseDetail: [],
+            memberData: {}
+        }
         const keys = Object.keys(record);
         for(let j = 0; j < keys.length; j++) {
             const item = record[keys[j]]
             if(item.required && item.value === 'null') {
-                recordErrors.push(keys[j] + ' cannot be null');
+                recordErrors.caseDetail.push(keys[j] + ' cannot be null');
             } else if(!['', undefined].includes(item.value) && item.type !== 'modal' && item.included) {
                 sanitizedRecord[item.path] = item.value
             } else if( 
                 (item.type === 'modal' && item.required && item.value.length < 1 && item.included)
                 || (item.type !== 'modal' && item.required && item.included)
             ) {
-                recordErrors.push('missing required field: ' + keys[j]);
+                recordErrors.caseDetail.push('missing required field: ' + keys[j]);
             }
             if(item.type === 'modal' && item.included && item.value.length) {
-                const members = []
+                if(item.path !== 'MemberData') {
+                    const modalValues = []
+                    if(item.value.length) {
+                        item.value.forEach((modalValue) => {
+                            recordErrors = { ... recordErrors, ...validateMemberRecords(modalValue) };
+                            modalValue = simplifyObjects(modalValue);
+                            modalValues.push(modalValue);
+                        })
+                    }
+                    sanitizedRecord[item.path] = modalValues;
+                } else {
+                    const members = []
                     if(item.value.length) {
                         item.value.forEach((member) => {
-                            recordErrors = [ ... recordErrors, ...validateMemberRecords(member)];
+                            const mid = member.MemberId.value;
+                            recordErrors = {
+                                ... recordErrors,
+                                memberData: { ...recordErrors.memberData }
+                            };
+                            recordErrors.memberData[mid] = validateMemberRecords(member);
                             member = simplifyObjects(member);
                             members.push(member)
                         })
                     }
                     sanitizedRecord[item.path] = members
+                }
+                
             }
         }
             sanitizedRecords.value.push(sanitizedRecord);
@@ -164,7 +185,6 @@ const breakMonths = function(start, end) {
                 end: currentEnd
             })
             currentStart = lookup === '12' ? (currentStart.substring(0,4) * 1 + 1) + '-' + nextMonth[currentStart.substring(5,7)] + '-01' : currentStart.substring(0,5) + nextMonth[currentStart.substring(5,7)] + '-01'
-            // currentStart = lookup === '12' ? (currentStart.substring(0,5) * 1 + 1) + '-' + nextMonth[currentStart.substring(5,7)] + '-01' : currentStart.substring(0,5) + + '-' + nextMonth[currentStart.substring(5,7)] + '-01'
         } while (currentEnd < end && currentEnd <= determineOngoing())
         return result;
     }
