@@ -18,6 +18,7 @@ const {
 	createRandomRecord,
 	currentMemberValidationObject,
 	toggleMemberIncludes,
+	deleteMember,
 } = useRecord();
 
 onUpdated(() => {
@@ -123,16 +124,24 @@ const labelStyle = function(object) {
 				</div>
 			</div>
 			<div v-else-if="item === 'MemberData'">
-				<div>
-					<span>
+				<input type="button" @click="addMemberToRecord" value="Add Member" style="margin-top: 5px;">
+				<div  v-if="currentEligibilityRecord['MemberData'].value.length > 1">
+					<p>Members</p>
+					<p v-for="(member, index) in currentEligibilityRecord['MemberData'].value" :key="index">
+						<a
+							@click="selectMember(index)"
+							:style="(index === currentMemberIndex) ? 'color: red; margin-right: 10px;' : 'color: blue; margin-right: 10px;'"
+						>{{ index + 1 }}: {{ member.MemberId.value || '' }}</a>
+						<input type="button" value="X" @click="deleteMember(index)" />
+					</p>
+					<!-- <span>
 						<a
 						v-for="(member, index) in currentEligibilityRecord['MemberData'].value" :key="index"
 						@click="selectMember(index)"
 						:style="(index === currentMemberIndex) ? 'color: red; margin-right: 10px;' : 'color: blue; margin-right: 10px;'"
 						>{{ index }}</a>
-					</span>
+					</span> -->
 				</div>
-				<input type="button" @click="addMemberToRecord" value="Add Member">
 				<MemberData  />
 			</div>
 			<select
@@ -155,9 +164,9 @@ const labelStyle = function(object) {
 			/>
 		</div>
 		<!-- <pre v-if="currentEligibilityRecord">{{ currentEligibilityRecord }}</pre> -->
-		<div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
+		<!-- <div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
 			<div v-if="currentEligibilityRecord[item].included">{{ currentEligibilityRecord[item].path }} : {{ currentEligibilityRecord[item].value }}</div>
-		</div>
+		</div> -->
 		<!-- <p v-else>No Records Yet, Add Record to start</p> -->
 	</div>
 	<div class="section-right">

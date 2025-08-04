@@ -1502,6 +1502,7 @@ const addNewRecord = function() {
 const selectRecord = function(index) {
     currentEligibilityRecord.value = eligibilityList.value[index];
     currentRecordValidationObject.value = currentRecordSections.value[index];
+    selectMember(0);
 }
 
 const selectMember = function(index) {
@@ -1560,8 +1561,13 @@ const deleteRecord = function(index) {
     }
 }
 
-const deleteMember = function(recordIndex, memberIndex) {
-    console.log(recordIndex,memberIndex)
+const deleteMember = function(memberIndex, recordIndex = null) {
+    if(recordIndex) {
+        console.log(recordIndex,memberIndex)
+    } else {
+        currentEligibilityRecord.value.MemberData.value.splice(memberIndex, 1);
+    }
+    
 }
 
 const toggleIncluded = function(section) {
@@ -1616,7 +1622,8 @@ const createRandomMemberData = function(index) {
     const dateArray = new Date().toISOString().split('');
     let milis = (Date.now() + Math.floor(Math.random() * 10)) % 10000 + ''
     milis = (milis.length === 4) ? milis : milis + Math.floor(Math.random() * 9)
-    const memId = dateArray[2] + dateArray[3] + dateArray[5] + dateArray[6]  + dateArray[8] + dateArray[9] + milis;
+    let memId = dateArray[2] + dateArray[3] + dateArray[5] + dateArray[6]  + dateArray[8] + dateArray[9] + milis + '';
+    memId = (memId.length === 10) ? memId : memId + '1'
     currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
     currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'
     currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = index  + 'last'
@@ -1679,6 +1686,7 @@ export default function useRecord () {
         toggleMemberIncludes,
         checkIdAgainstHOH,
         selectMember,
+        deleteMember,
         optionalMemberSections,
         currentMemberValidationObject,
     }
