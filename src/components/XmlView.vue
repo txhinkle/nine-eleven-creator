@@ -64,7 +64,7 @@
 
     const writeValue = function(key, value) {
         if(typeof value === 'object') {
-                tabString = tabString.substring(0, tabString.length - 4);
+            tabString = tabString.substring(0, tabString.length - 4);
             addTag(key)
             tabString += '    '
             Object.keys(value).forEach(item => {
@@ -130,7 +130,17 @@
                             tabString = tabString + '    ';
                             Object.keys(modelObj).forEach(attribute => {
                                 prepPath(currentPathArray)
-                                writeValue(attribute, modelObj[attribute])
+                                if(Array.isArray(modelObj[attribute])) {
+                                    path.push(attribute)
+                                    xml += tabString + '<' + attribute + '>\n'
+                                    tabString += '    '
+                                    modelObj[attribute].forEach((loop)=> {
+                                        Object.keys(loop).forEach((atr) => {
+                                            writeValue(atr, loop[atr]);
+                                        })
+                                    })
+                                    closeTag();
+                                } else writeValue(attribute, modelObj[attribute])
                             })
                                 tabString = tabString.substring(0, tabString.length - 4);
                             xml += tabString + `</${pathway}>\n`

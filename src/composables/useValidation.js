@@ -10,13 +10,25 @@ const sanitizedRecords = ref([])
 const errorList = ref([])
 
 const removeEmptyValuesFromObjects = function (originalObject) {
+    // array or objects could end up here
     const object = {...originalObject}
     Object.keys(originalObject).forEach(attribute => {
         if(typeof object[attribute] === 'object') {
-            object[attribute] = removeEmptyValuesFromObjects(object[attribute])
-            if(!Object.keys(object[attribute]).length) {
-                delete object[attribute]
-            } 
+            if(Array.isArray(object[attribute])) {
+                object[attribute].forEach((ob) => {
+                    if(attribute === 'Facility') {
+                        if(!ob['EndDate'].length) {
+                            ob.EndDate = 'null'
+                        }
+                    }
+                    removeEmptyValuesFromObjects(ob)
+                })
+            } else {
+                object[attribute] = removeEmptyValuesFromObjects(object[attribute])
+                if(!Object.keys(object[attribute]).length) {
+                    delete object[attribute]
+                } 
+            }
         } else {
             if(object[attribute] === '') {
                 delete object[attribute]
