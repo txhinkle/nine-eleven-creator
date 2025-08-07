@@ -157,8 +157,6 @@ const close = () => {
 			<button type="submit">Update</button>
 			<button @click="close">Cancel</button>
 		</form>
-		<pre>{{ newIncarceration }}</pre>
-		<pre>{{ currentFacilityLoop }}</pre>
 	</div>
 </template>
 

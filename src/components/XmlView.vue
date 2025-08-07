@@ -131,15 +131,16 @@
                             Object.keys(modelObj).forEach(attribute => {
                                 prepPath(currentPathArray)
                                 if(Array.isArray(modelObj[attribute])) {
-                                    path.push(attribute)
-                                    xml += tabString + '<' + attribute + '>\n'
-                                    tabString += '    '
+                                    
                                     modelObj[attribute].forEach((loop)=> {
+                                        path.push(attribute)
+                                        xml += tabString + '<' + attribute + '>\n'
+                                        tabString += '    '
                                         Object.keys(loop).forEach((atr) => {
                                             writeValue(atr, loop[atr]);
                                         })
+                                        closeTag();
                                     })
-                                    closeTag();
                                 } else writeValue(attribute, modelObj[attribute])
                             })
                                 tabString = tabString.substring(0, tabString.length - 4);
