@@ -48,7 +48,8 @@ const validateRecords = function() {
         const keys = Object.keys(record);
         for(let j = 0; j < keys.length; j++) {
             const item = record[keys[j]]
-            if(item.required && item.value === 'null') {
+            // short term solution for relationshipCode: TODO implement alternative
+            if(item.required && item.value === 'null' && keys[j] !== 'RelationshipCode') {
                 recordErrors.push(keys[j] + ' cannot be null');
             } else if(!['', undefined].includes(item.value) && item.type !== 'modal' && item.included) {
                 sanitizedRecord[item.path] = item.value
