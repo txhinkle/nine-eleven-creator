@@ -2095,7 +2095,6 @@ const spenddownIndicatorOptions = {
 
 const relationshipCodeOptions = {
     labels: [
-        'Self',
         'RA1: Alien Sponsor',
         'RA2: Spouse of an Alien Sponsor',
         'RA3: Legal Guardian',
@@ -2137,7 +2136,6 @@ const relationshipCodeOptions = {
         'RU2: Unborn - Other',
     ],
     values: [
-        'null',
         'RA1',
         'RA2',
         'RA3',

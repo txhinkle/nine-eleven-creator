@@ -21,7 +21,7 @@ const editFacilityLoop = function (index) {
 	}
 	if(!index) {
 		currentFacilityLoop.value = {
-			FacilityId: '',
+			FacilityID: '',
 			FacilityNPINumber: '',
 			StartDate: '',
 			EndDate: '',
@@ -100,7 +100,7 @@ const close = () => {
 				</label>
 				<div v-if="newIncarceration.Facility && newIncarceration.Facility.length >= 1">
 					<div v-for="(loop,index) in newIncarceration.Facility" :key="index">
-						<span>{{ loop.FacilityId}}: {{ loop.StartDate }}–{{ loop.EndDate }}</span>
+						<span>{{ loop.FacilityID}}: {{ loop.StartDate }}–{{ loop.EndDate }}</span>
 						<input
 							type="button"
 							value="edit"
@@ -115,10 +115,10 @@ const close = () => {
 						@submit.prevent="submit"
 					>
 						<label>
-							<span>FacilityId</span>
+							<span>FacilityID</span>
 							<input 
 								type="tel"
-								v-model="currentFacilityLoop.FacilityId"
+								v-model="currentFacilityLoop.FacilityID"
 								required
 							/>
 						</label>
