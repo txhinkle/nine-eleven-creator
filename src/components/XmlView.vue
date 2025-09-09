@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <script setup>
     import useValidation from '@/composables/useValidation';
-    import {computed, onUpdated} from 'vue';
+    import {computed, onUpdated, onMounted} from 'vue';
     const {validateRecords, sanitizedRecords, errorList, breakMonths} = useValidation();
     const timestamp = Date.now();
     const date = new Date().toISOString().substring(0, 19);
@@ -9,10 +9,13 @@
     let xml = ''
     let tabString = '        '
 
+    onMounted(() => {
+        validateRecords();
+    })
+
     onUpdated(() => {
         xml = ''
         path = []
-        validateRecords();
     })
 
     const errorCount = computed(() => {
@@ -64,14 +67,26 @@
 
     const writeValue = function(key, value) {
         if(typeof value === 'object') {
-            
-            tabString = tabString.substring(0, tabString.length - 4);
-            addTag(key)
-            tabString += '    '
-            
-            Object.keys(value).forEach(item => {
+            // if is array
+            if(Array.isArray(value)) {
+                value.forEach((modelObject) => {
+                    tabString = tabString.substring(0, tabString.length - 4);
+                    addTag(key)
+                    tabString += '    '
+                    Object.keys(modelObject).forEach(item => {
+                        writeValue(item, modelObject[item])
+                    })
+                    closeTag()
+                })
+            } else {
+                tabString = tabString.substring(0, tabString.length - 4);
+                addTag(key)
+                tabString += '    '
+                Object.keys(value).forEach(item => {
                 writeValue(item, value[item])
             })
+            }
+            
             closeTag()
         } else if (!['', null, undefined].includes(value)) {
             if (value === 'null') {

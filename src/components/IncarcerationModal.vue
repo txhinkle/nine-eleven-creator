@@ -9,11 +9,40 @@ const props = defineProps({
 		required: true,
 	},
 });
+
 const {incarcerationStatusOptions} = useOptions();
 const newIncarceration = ref(JSON.parse(JSON.stringify(props.incarceration)));
 
+const currentFacilityLoop = ref(null);
+
+const editFacilityLoop = function (index) {
+	if(!newIncarceration.value.Facility) {
+		newIncarceration.value.Facility = []
+	}
+	if(!index) {
+		currentFacilityLoop.value = {
+			FacilityID: '',
+			FacilityNPINumber: '',
+			StartDate: '',
+			EndDate: '',
+			FacilityRecordStatus: '',
+		}
+		newIncarceration.value.Facility.push(currentFacilityLoop.value)
+	} else {
+		currentFacilityLoop.value = newIncarceration.value.Facility[index];
+	}
+}
+const confirmFacilityLoop = function () {
+	currentFacilityLoop.value = null;
+}
+
+const deleteLoop = function (index) {
+	newIncarceration.value.Facility.splice(index, 1)
+}
+
 const emit = defineEmits(['submit', 'close']);
 const submit = () => {
+	// make sure that end date is included no matter what
 	emit('submit', newIncarceration.value);
 };
 const close = () => {
@@ -45,14 +74,6 @@ const close = () => {
 				</select>
 			</label>
 			<label>
-				<span>FacilityNPI</span>
-				<input
-					type="tel"
-					v-model="newIncarceration.FacilityNPI"
-					pattern="[0-9]{10}"
-				/>
-			</label>
-			<label>
 				<span>StartDate</span>
 				<input
 					type="date"
@@ -72,6 +93,67 @@ const close = () => {
 					required
 				/>
 			</label>
+			<div>
+				<label>
+					<span>Facility</span>
+					<input type="button" value="Add Facility Loop" @click="editFacilityLoop(null)" style="margin-left: 5px;"/>
+				</label>
+				<div v-if="newIncarceration.Facility && newIncarceration.Facility.length >= 1">
+					<div v-for="(loop,index) in newIncarceration.Facility" :key="index">
+						<span>{{ loop.FacilityID}}: {{ loop.StartDate }}–{{ loop.EndDate }}</span>
+						<input
+							type="button"
+							value="edit"
+							@click="currentFacilityLoop = newIncarceration.Facility[index]"
+							style="margin-left: 5px; margin-right: 5px;"
+						/>
+						<input type="button" value="delete" @click="deleteLoop(index)" />
+					</div>
+				</div>
+				<form
+						v-if="currentFacilityLoop"
+						@submit.prevent="submit"
+					>
+						<label>
+							<span>FacilityID</span>
+							<input 
+								type="tel"
+								v-model="currentFacilityLoop.FacilityID"
+								required
+							/>
+						</label>
+						<label>
+							<span>FacilityNPINumber</span>
+							<input 
+								type="tel"
+								v-model="currentFacilityLoop.FacilityNPINumber"
+							/>
+						</label>
+						<label>
+							<span>StartDate</span>
+							<input 
+								type="date"
+								v-model="currentFacilityLoop.StartDate"
+								required
+							/>
+						</label>
+						<label>
+							<span>EndDate</span>
+							<input 
+								type="date"
+								v-model="currentFacilityLoop.EndDate"
+							/>
+						</label>
+						<label>
+							<span>FacilityRecordStatus</span>
+							<input 
+								type="text"
+								v-model="currentFacilityLoop.FacilityRecordStatus"
+							/>
+						</label>
+						<input type="submit" @click="confirmFacilityLoop" value="Confirm Facility" style="margin-bottom: 10px;"/>
+					</form>
+			</div>
 			<button type="submit">Update</button>
 			<button @click="close">Cancel</button>
 		</form>
@@ -79,7 +161,7 @@ const close = () => {
 </template>
 
 <style scoped>
-div, form, label, span {
+div, form, label, span, p {
 	background-color: #bfc;
 }
 label {

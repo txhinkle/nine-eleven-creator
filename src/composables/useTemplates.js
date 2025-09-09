@@ -143,9 +143,9 @@ const newBenefitTemplate = {
 const newIncarcerationTemplate = {
     IncarcerationID: '',
     IncarcerationStatus: '',
-    FacilityNPI: '',
     StartDate: '',
     EndDate: '',
+    Facility: []
 }
 
 const newUppTemplate = {

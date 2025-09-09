@@ -205,7 +205,6 @@ const close = () => {
 				<label>
 					<span>SpenddownIndicator</span>
 					<select
-						type="select"
 						v-model="newRac.Spenddown.Information.SpenddownIndicator"
 						required
 					>

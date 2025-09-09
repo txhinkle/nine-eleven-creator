@@ -1,4 +1,22 @@
 ## divisions:
+// Final List of fields which will be given options
+options = [
+    Citizenship,
+    ExemptDuplicateIndicator,
+    CountyCode,
+    RacCode,
+    BenefitSubTypeCode,
+    DenialClosureReason,
+    DistrictOffice,
+    SpokenLanguage,
+    RaceCode,
+    SPMIndicator,
+    LivingArrangementType,
+    EligibilityProgramStatus,
+    RelationshipCode,
+    ServiceType, (spenddown)
+]
+
 // pair down to items that should always have the same value
 repeatFields = [
     HohMemberId

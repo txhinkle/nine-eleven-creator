@@ -1,6 +1,6 @@
 import {ref, computed} from 'vue'
 import useOptions from './useOptions';
-import useTemplates from './useTemplates';
+// import useTemplates from './useTemplates';
 
 const {
     YNOptions, denialClosureOptions, 
@@ -9,7 +9,7 @@ const {
     raceCodeOptions, 
     eligibilityProgramStatusOptions
 } = useOptions();
-const {caseHeadRelationshipDetailsObject} = useTemplates();
+// const {caseHeadRelationshipDetailsObject} = useTemplates();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
 const currentRecordSections = ref([]);
@@ -1484,7 +1484,7 @@ const addNewRecord = function() {
             included: false,
         },
         MemberData: {
-            path:'MemberData',
+            path:'',
             type: 'modal',
             value: [],
             required: true,
@@ -1613,6 +1613,7 @@ const conditionalRequirementToggle = function(item, value) {
 const createRandomRecord = function() {
     currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + ''
     currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
+    currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value = currentEligibilityRecord.value['HohMemberId'].value;
     currentEligibilityRecord.value.MemberData.value.forEach((item, index) => {
         createRandomMemberData(index);
     })
