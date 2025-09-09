@@ -111,14 +111,17 @@
                      if (typeof sanitizedRecords.value[i][currentPath] === 'object') {
                         let tempArray = sanitizedRecords.value[i][currentPath];
                         tempArray.forEach(modelObj => {
+                          tabString = tabString.substring(0, tabString.length - 4);
+                          addTag('MemberData');
+                          tabString += '    '
                             Object.keys(modelObj).forEach(attribute => {
                                 const label = (attribute.includes('.')) ? attribute.split('.').pop() : attribute;
                                 if(label === 'Rac' || label === 'Benefit') {
                                     const eligArray = []
                                     modelObj[attribute].forEach(rac => {
                                         const brokenMonths =
-                                            (label === 'Rac') 
-                                            ? breakMonths(rac.RacBeginDate, rac.RacEndDate) 
+                                            (label === 'Rac')
+                                            ? breakMonths(rac.RacBeginDate, rac.RacEndDate)
                                             : breakMonths(rac.BenefitSubTypeStartDate, rac.BenefitSubTypeEndDate)
                                         if(label === 'Rac') {
                                             brokenMonths.forEach(month => {
@@ -145,15 +148,34 @@
                                 }
                                 prepPath(attribute.split('.'))
                                 if (!Array.isArray(modelObj[attribute])) {
-                                    writeValue(label, modelObj[attribute])
+                                  writeValue(label, modelObj[attribute])
                                 } else {
-                                    Object.keys(modelObj[attribute]).forEach((obj) => {
-                                        writeValue(label, modelObj[attribute][obj])
-                                    })
+                                  Object.keys(modelObj[attribute]).forEach((obj) => {
+                                    writeValue(label, modelObj[attribute][obj])
+                                  })
                                 }
                             })
-                            closeTag();
+                          closeTag();
                         })
+                        // tempArray.forEach(modelObj => {
+                        //     Object.keys(modelObj).forEach(attribute => {
+                        //         prepPath(currentPathArray)
+                        //         if(Array.isArray(modelObj[attribute])) {
+                        //
+                        //             modelObj[attribute].forEach((loop)=> {
+                        //                 path.push(attribute)
+                        //                 xml += tabString + '<' + attribute + '>\n'
+                        //                 tabString += '    '
+                        //                 Object.keys(loop).forEach((atr) => {
+                        //                     writeValue(atr, loop[atr]);
+                        //                 })
+                        //                 closeTag();
+                        //             })
+                        //         } else writeValue(attribute, modelObj[attribute])
+                        //     })
+                        //         tabString = tabString.substring(0, tabString.length - 4);
+                        //     xml += tabString + `</${pathway}>\n`
+                        // })
                     } else {
                         writeValue(pathway, sanitizedRecords.value[i][currentPath]);
                     }
@@ -174,25 +196,26 @@
         <p>Suggested Filename: {{ title }}</p>
         <p>File Contents:</p>
        <pre>
-&lt?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt
-&ltStateEligibility xmlns="http://www.utprism.com/dws/eligibility"&gt
-    &ltHeader&gt
-        &ltTransactionId&gt{{timestamp}}&lt/TransactionId&gt
-        &ltCreationDate&gt{{date}}&lt/CreationDate&gt
-        &ltTransmissionDate&gt{{date}}&lt/TransmissionDate&gt
-        &ltMonthlyIssuanceFlag&gtN&lt/MonthlyIssuanceFlag&gt
-    &lt/Header&gt
-    &ltEligibilityDetail&gt
+&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;StateEligibility xmlns="http://www.utprism.com/dws/eligibility"&gt;
+    &lt;Header&gt;
+        &lt;TransactionId&gt;{{timestamp}}&lt;/TransactionId&gt;
+        &lt;CreationDate&gt;{{date}}&lt;/CreationDate&gt;
+        &lt;TransmissionDate&gt;{{date}}&lt;/TransmissionDate&gt;
+        &lt;MonthlyIssuanceFlag&gt;N&lt;/MonthlyIssuanceFlag&gt;
+    &lt;/Header&gt;
+    &lt;EligibilityDetail&gt;
 {{actualRecords}}
-    &lt/EligibilityDetail&gt
-    &ltTrailer&gt
-        &ltTotalEligibilityRecords&gt{{sanitizedRecords.length}}&lt/TotalEligibilityRecords&gt
-    &lt/Trailer&gt
-&lt/StateEligibility&gt</pre>
+    &lt;/EligibilityDetail&gt;
+    &lt;Trailer&gt;
+        &lt;TotalEligibilityRecords&gt;{{sanitizedRecords.length}}&lt;/TotalEligibilityRecords&gt;
+    &lt;/Trailer&gt;
+&lt;/StateEligibility&gt;</pre>
     </div>
     
     <p v-else>No records have been added yet</p>
     <!-- <p>---------------Sent Object:---------------------</p> -->
+<!--  <pre>{{sanitizedRecords}}</pre>-->
 </template>
 <style scoped>
     *:first-child {
