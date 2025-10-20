@@ -2189,6 +2189,61 @@ const eligibilityProgramStatusOptions = {
     ]
 }
 
+const livingArrangementOptions = {
+    labels: [
+        'LA1 - At Home',
+        'LA1020 - Institution',
+        'LA1016 - Temporary Absence',
+        'LAIT1 - Alcohol/Drug Rehab Center',
+        'LAIT2 - Commercial Boarding House',
+        'LAIT3 - Domestic Violence Shelter',
+        'LAIT4 - Group Home',
+        'LAIT5 - Homeless Shelter',
+        'LAIT6 - Hospital',
+        'LAIT7 - ICF/MR',
+        'LAIT8 - Non Commercial Boarding House',
+        'LAIT9 - Nursing Home',
+        'LAIT10 - Retirement Home',
+        'LAIT11 - State Hospital',
+        'LAIT12 - Utah State Development Center',
+        'LAIT13 - Halfway House',
+        'TA1020 - Boarding School - Deaf and Blind/Native American',
+        'TA10211 - Child Away From Home for School',
+        'TA3 - Incarceration',
+        'TA1022 - Job Corps',
+        'TA1023 - Medical Institution',
+        'TA1024 - Military Service',
+        'TA9 - Other',
+        'TA1025 - Parent Away From Home for School, Training, or Employment',
+    ],
+    values: [
+        'LA1',
+        'LA1020',
+        'LA1016',
+        'LAIT1',
+        'LAIT2',
+        'LAIT3',
+        'LAIT4',
+        'LAIT5',
+        'LAIT6',
+        'LAIT7',
+        'LAIT8',
+        'LAIT9',
+        'LAIT10',
+        'LAIT11',
+        'LAIT12',
+        'LAIT13',
+        'TA1020',
+        'TA10211',
+        'TA3',
+        'TA1022',
+        'TA1023',
+        'TA1024',
+        'TA9',
+        'TA1025',
+    ]
+}
+
 export default function useOptions () {
     return {
         YNOptions,
@@ -2204,5 +2259,6 @@ export default function useOptions () {
         spenddownIndicatorOptions,
         relationshipCodeOptions,
         eligibilityProgramStatusOptions,
+        livingArrangementOptions,
     }
 }

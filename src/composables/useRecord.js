@@ -5,7 +5,8 @@ const {
     YNOptions, denialClosureOptions, 
     districtOfficeOptions, languageOptions,
     raceCodeOptions, relationshipCodeOptions,
-    eligibilityProgramStatusOptions
+    eligibilityProgramStatusOptions,
+    livingArrangementOptions,
 } = useOptions();
 const eligibilityList = ref([]);
 const currentEligibilityRecord = ref({});
@@ -540,6 +541,7 @@ const addNewRecord = () => {
             value: '',
             required: true,
             included: false,
+            options: livingArrangementOptions,
         },
         'StartDate-LivingArrangement': {
             path: 'MemberData.Demographics.LivingArrangement.StartDate',
