@@ -4,10 +4,10 @@ import useOptions from './useOptions';
 
 const {
     YNOptions, denialClosureOptions, 
-    districtOfficeOptions, 
-    languageOptions,
-    raceCodeOptions, 
-    eligibilityProgramStatusOptions
+    districtOfficeOptions, languageOptions,
+    raceCodeOptions, relationshipCodeOptions,
+    eligibilityProgramStatusOptions,
+    livingArrangementOptions,
 } = useOptions();
 // const {caseHeadRelationshipDetailsObject} = useTemplates();
 const eligibilityList = ref([]);
@@ -429,6 +429,7 @@ const addMemberToRecord = function() {
             value: '',
             required: true,
             included: false,
+            options: livingArrangementOptions,
         },
         'StartDate-LivingArrangement': {
             path: 'MemberData.Demographics.LivingArrangement.StartDate',
