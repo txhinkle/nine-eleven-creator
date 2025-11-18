@@ -9,9 +9,9 @@
     let xml = ''
     let tabString = '        '
 
-    onMounted(() => {
-        validateRecords();
-    })
+    // onMounted(() => {
+    //     validateRecords();
+    // })
 
     onUpdated(() => {
         xml = ''
@@ -214,8 +214,7 @@
     </div>
     
     <p v-else>No records have been added yet</p>
-    <!-- <p>---------------Sent Object:---------------------</p> -->
-<!--  <pre>{{sanitizedRecords}}</pre>-->
+ <!-- <pre>{{sanitizedRecords}}</pre> -->
 </template>
 <style scoped>
     *:first-child {

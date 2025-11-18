@@ -24,6 +24,7 @@ const {
 onUpdated(() => {
 	validateRecords();
 })
+
 const edit = ref(false);
 const newRelationship = ref(null);
 const oldRelationshipIndex = ref(null);
@@ -163,7 +164,7 @@ const labelStyle = function(object) {
 				@input="(currentEligibilityRecord[item].handler) ? currentEligibilityRecord[item].handler(currentEligibilityRecord[item], currentEligibilityRecord[item].value) : null"
 			/>
 		</div>
-		<!-- <pre v-if="currentEligibilityRecord">{{ currentEligibilityRecord }}</pre> -->
+		<!-- <pre>{{ eligibilityList }}</pre> -->
 		<!-- <div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
 			<div v-if="currentEligibilityRecord[item].included">{{ currentEligibilityRecord[item].path }} : {{ currentEligibilityRecord[item].value }}</div>
 		</div> -->

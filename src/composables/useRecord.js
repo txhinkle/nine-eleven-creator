@@ -5,7 +5,7 @@ import useOptions from './useOptions';
 const {
     YNOptions, denialClosureOptions, 
     districtOfficeOptions, languageOptions,
-    raceCodeOptions, relationshipCodeOptions,
+    raceCodeOptions,
     eligibilityProgramStatusOptions,
     livingArrangementOptions,
 } = useOptions();
@@ -1484,8 +1484,8 @@ const addNewRecord = function() {
             required: true,
             included: false,
         },
-        MemberData: {
-            path:'',
+        'MemberData': {
+            path:'MemberData',
             type: 'modal',
             value: [],
             required: true,
