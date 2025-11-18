@@ -112,7 +112,7 @@
                         let tempArray = sanitizedRecords.value[i][currentPath];
                         tempArray.forEach(modelObj => {
                           tabString = tabString.substring(0, tabString.length - 4);
-                          addTag('MemberData');
+                        //   addTag('MemberData');
                           tabString += '    '
                             Object.keys(modelObj).forEach(attribute => {
                                 const label = (attribute.includes('.')) ? attribute.split('.').pop() : attribute;
