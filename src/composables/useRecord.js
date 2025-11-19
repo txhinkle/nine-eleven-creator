@@ -227,7 +227,7 @@ const optionalMemberSections = {
 
 const addMemberToRecord = function() {
     const index = currentEligibilityRecord.value['MemberData'].value.length
-    currentMemberValidationObject.value = {
+    const newMemberValidationObject = {
         includeEligibilityApplication: false,
         includeShellProgram: false,
         includeLivingArrangement: false,
@@ -253,7 +253,8 @@ const addMemberToRecord = function() {
         includeUppPremiumInformation: false,
         includeEsiPremiumInformation: false,
     };
-    currentRecordValidationObject.value.memberData.push(currentMemberValidationObject);
+    currentRecordValidationObject.value.memberData.push(newMemberValidationObject);
+    currentMemberValidationObject.value = currentRecordValidationObject.value.memberData[index];
     currentMemberIndex.value = index;
     currentEligibilityRecord.value.MemberData.value.push({
         MemberId: {
@@ -1508,7 +1509,8 @@ const selectRecord = function(index) {
 
 const selectMember = function(index) {
     currentMemberIndex.value = index;
-    currentMemberRecord.value = currentEligibilityRecord.value['MemberData'].value[index]
+    currentMemberRecord.value = currentEligibilityRecord.value['MemberData'].value[index];
+    currentMemberValidationObject.value = currentRecordValidationObject.value.memberData[index];
 }
 
 const incrementMember = function(memberRecord) {
