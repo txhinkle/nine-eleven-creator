@@ -49,7 +49,7 @@ const simplifyObjects = function(dataObject) {
             if(tempArray.length) {
                 simpleObject[dataObject[key].path] = tempArray;
             }
-        } else if(dataObject[key].value !== '' && dataObject[key].value.length) {
+        } else if(dataObject[key].included && dataObject[key].value !== '' && dataObject[key].value.length) {
             simpleObject[dataObject[key].path] = dataObject[key].value
         }
     })
