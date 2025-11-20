@@ -83,8 +83,8 @@
                 addTag(key)
                 tabString += '    '
                 Object.keys(value).forEach(item => {
-                writeValue(item, value[item])
-            })
+                    writeValue(item, value[item])
+                })
             }
             
             closeTag()
@@ -111,9 +111,17 @@
                      if (typeof sanitizedRecords.value[i][currentPath] === 'object') {
                         let tempArray = sanitizedRecords.value[i][currentPath];
                         tempArray.forEach(modelObj => {
-                          tabString = tabString.substring(0, tabString.length - 4);
-                        //   addTag('MemberData');
+                            if(
+                                tempArray.indexOf(modelObj) !== 0
+                                && pathway === 'MemberData'
+                                && !xml.substring(xml.length - 15).includes('</MemberData>')
+                            ) {
+                                closeTag()
+                            }
+                            tabString = tabString.substring(0, tabString.length - 4);
+
                           tabString += '    '
+                          
                             Object.keys(modelObj).forEach(attribute => {
                                 const label = (attribute.includes('.')) ? attribute.split('.').pop() : attribute;
                                 if(label === 'Rac' || label === 'Benefit') {
