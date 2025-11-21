@@ -1532,16 +1532,12 @@ const incrementRecord = function(index) {
     const revisedRecord = JSON.parse(JSON.stringify(eligibilityList.value[index]))
 
     const hohLeadingZero = eligibilityList.value[index].HohMemberId.value[0] === '0'
-    console.log('is ErepCaseId the same?', revisedRecord.ErepCaseId === eligibilityList.value[index].ErepCaseId);
     revisedRecord.HohMemberId = {...eligibilityList.value[index].HohMemberId, value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''},
     revisedRecord.ErepCaseId = {...eligibilityList.value[index].ErepCaseId, value: eligibilityList.value[index].ErepCaseId.value * 1 + 1 + ''},
     revisedRecord['HohMemberId-RelationshipDetails'] = {... revisedRecord.HohMemberId }
     if(hohLeadingZero) {
         revisedRecord.HohMemberId.value = '0' + revisedRecord.HohMemberId.value
     }
-    console.log('revisedRecord.MemberData',revisedRecord.MemberData)
-    console.log('eligibilityList.value[index].MemberData',eligibilityList.value[index].MemberData)
-    console.log('is MemberData the same?', revisedRecord.MemberData === eligibilityList.value[index].MemberData);
     const newMembers = []
     revisedRecord.MemberData.value.forEach((member) => {
         newMembers.push(incrementMember(member))
@@ -1590,7 +1586,6 @@ const toggleIncluded = function(section) {
         //     }
         // }
     });
-    console.log('section:', currentRecordValidationObject.value[section])
 }
 
 const toggleMemberIncludes = function (section) {
