@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <script setup>
     import useValidation from '@/composables/useValidation';
-    import { computed, onCreated } from 'vue';
+    import { computed, onBeforeMount } from 'vue';
     const {validateRecords, sanitizedRecords, errorList, breakMonths} = useValidation();
     const timestamp = Date.now();
     const date = new Date().toISOString().substring(0, 19);
@@ -9,7 +9,7 @@
     let xml = ''
     let tabString = '        '
 
-    onCreated(() => {
+    onBeforeMount(() => {
         validateRecords();
         xml = '';
         path = [];
