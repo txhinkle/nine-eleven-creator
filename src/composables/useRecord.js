@@ -1528,7 +1528,7 @@ const incrementMember = function(memberRecord) {
 }
 
 const incrementRecord = function(index) {
-    const copyValidationObject = { ...currentRecordSections.value[index] }
+    const copyValidationObject = JSON.parse(JSON.stringify(currentRecordSections.value[index]))
     const revisedRecord = JSON.parse(JSON.stringify(eligibilityList.value[index]))
 
     const hohLeadingZero = eligibilityList.value[index].HohMemberId.value[0] === '0'
@@ -1546,7 +1546,7 @@ const incrementRecord = function(index) {
     currentRecordSections.value.push(copyValidationObject);
     eligibilityList.value.push({...revisedRecord})
     selectRecord(eligibilityList.value.length - 1)
-    currentRecordValidationObject.value.memberData.push(currentMemberValidationObject);
+    // currentRecordValidationObject.value.memberData.push(currentMemberValidationObject);
 };
 
 const deleteRecord = function(index) {
