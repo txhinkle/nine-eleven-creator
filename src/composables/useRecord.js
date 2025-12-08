@@ -1522,8 +1522,10 @@ const incrementMember = function(memberRecord) {
             newID = '0' + newID
         }
     } while(memberIdList.value.includes(newID))
+    memberIdList.value.push(newID)
     const cleanMemberRecord = {...memberRecord}
     cleanMemberRecord.MemberId.value = newID
+    console.log('memberIdList.value',memberIdList.value)
     return cleanMemberRecord;
 }
 
