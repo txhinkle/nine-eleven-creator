@@ -1625,6 +1625,11 @@ const createRandomMemberData = function(index) {
     milis = (milis.length === 4) ? milis : milis + Math.floor(Math.random() * 9)
     let memId = dateArray[2] + dateArray[3] + dateArray[5] + dateArray[6]  + dateArray[8] + dateArray[9] + milis + '';
     memId = (memId.length === 10) ? memId : memId + '1'
+    if(memberIdList.value.includes(memId)) {
+        while(memberIdList.value.includes(memId)) {
+            memId = (memId * 1 + 1) + ''
+        }
+    }
     currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
     currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'
     currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = index  + 'last'
