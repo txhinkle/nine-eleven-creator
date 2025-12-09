@@ -177,13 +177,14 @@ const labelStyle = function(object) {
 			v-if="showFaq"
 		>		
 			<p>If you want to make a formerly populated record value empty, put 'null' as the new value</p>
-			<p>You can navigate between records on the List Tab</p>
+			<p>You can navigate between records on the Summary Tab</p>
+			<p>To generate new values for all required fields for members on this eligibility record, use the Generate Values button</p>
 		</div>
 		<div class="section-booleans">
 			<div v-if="Object.keys(currentRecordValidationObject).length">
 				<input
 					type="button"
-					value="Populate Default Required Fields"
+					value="Generate Values"
 					@click="createRandomRecord"
 				/>
 			</div>

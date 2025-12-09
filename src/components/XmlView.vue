@@ -195,29 +195,42 @@
             tabString = '        '
         }
         return xml
-    }) 
+    }); 
+    const generatedXmlString = computed(() => {
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<StateEligibility xmlns="http://www.utprism.com/dws/eligibility">
+    <Header>
+        <TransactionId>${timestamp}</TransactionId>
+        <CreationDate>${date}</CreationDate>
+        <TransmissionDate>${date}</TransmissionDate>
+        <MonthlyIssuanceFlag>N</MonthlyIssuanceFlag>
+    </Header>
+    <EligibilityDetail>
+${actualRecords.value}
+    </EligibilityDetail>
+    <Trailer>
+        <TotalEligibilityRecords>${sanitizedRecords.value.length}</TotalEligibilityRecords>
+    </Trailer>
+</StateEligibility>`;
+});
+const downloadTextFile = function() {
+    console.log("Downloading file:", generatedXmlString.value);
+    const blob = new Blob([generatedXmlString.value], { type: 'text/xml' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = title.value;
+    link.click();
+    URL.revokeObjectURL(link.href);
+};
+
 </script>
 <template>
     <div style="background-color: red; color: white;" v-if="errorCount">This XML contains errors</div>
     <div v-if="sanitizedRecords.length" >
         <p>Suggested Filename: {{ title }}</p>
+        <input type="button" @click="downloadTextFile" value="Download File"/>
         <p>File Contents:</p>
-       <pre>
-&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
-&lt;StateEligibility xmlns="http://www.utprism.com/dws/eligibility"&gt;
-    &lt;Header&gt;
-        &lt;TransactionId&gt;{{timestamp}}&lt;/TransactionId&gt;
-        &lt;CreationDate&gt;{{date}}&lt;/CreationDate&gt;
-        &lt;TransmissionDate&gt;{{date}}&lt;/TransmissionDate&gt;
-        &lt;MonthlyIssuanceFlag&gt;N&lt;/MonthlyIssuanceFlag&gt;
-    &lt;/Header&gt;
-    &lt;EligibilityDetail&gt;
-{{actualRecords}}
-    &lt;/EligibilityDetail&gt;
-    &lt;Trailer&gt;
-        &lt;TotalEligibilityRecords&gt;{{sanitizedRecords.length}}&lt;/TotalEligibilityRecords&gt;
-    &lt;/Trailer&gt;
-&lt;/StateEligibility&gt;</pre>
+       <pre>{{ generatedXmlString }}</pre>
     </div>
     
     <p v-else>No records have been added yet</p>

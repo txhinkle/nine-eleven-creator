@@ -14,7 +14,7 @@ const updateView = function(view) {
   <nav>
     <ul>
       <li @click="updateView('form')">Form</li>
-      <li @click="updateView('list')">List</li>
+      <li @click="updateView('list')">Summary</li>
       <li @click="updateView('xml')">XML</li>
     </ul>
   </nav>
@@ -27,19 +27,3 @@ const updateView = function(view) {
     <XmlView v-else-if="currentView==='xml'" />
   </main>
 </template>
-
-<style scoped>
-nav {
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  padding: 5% 0 0 5%;
-  background-color: rgb(240, 235, 242, 1);
-  width: 100%;
-  z-index: 2;
-}
-
-li {
-  padding: 0 3px 0 3px;
-}
-</style>

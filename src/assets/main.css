@@ -1,13 +1,27 @@
 * {
-  background-color: rgb(240, 235, 242);
+  background-color: #efeded;
 }
-
 #app {
   width: 100%;
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
   left: 0%;
+  background-color: #efeded;
+}
+
+nav {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  padding: 5% 0 0 5%;
+  background-color: #4472c4;
+  width: 100%;
+  z-index: 2;
+}
+
+main div {
+  background-color: #efeded;
 }
 
 .page {
@@ -18,12 +32,15 @@ nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  background-color: #4472c4;
 }
 nav li {
   display: inline;
+  padding: 2px 25px;
   border: solid;
-  border-width: 1px 1px 0 1px;
+  border-width: 2px 2px 0 2px;
   margin: 0 5px 0 0;
+  background-color: #efeded;
 }
 
 nav li a {
