@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <script setup>
     import useValidation from '@/composables/useValidation';
-    import { computed, onBeforeMount } from 'vue';
+    import { computed, onBeforeMount, ref } from 'vue';
     const {validateRecords, sanitizedRecords, errorList, breakMonths} = useValidation();
     const timestamp = Date.now();
     const date = new Date().toISOString().substring(0, 19);
@@ -13,7 +13,6 @@
         validateRecords();
         xml = '';
         path = [];
-       
     });
 
 
@@ -196,8 +195,8 @@
         }
         return xml
     }); 
-    const generatedXmlString = computed(() => {
-  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    let generatedXmlString = ref(
+`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <StateEligibility xmlns="http://www.utprism.com/dws/eligibility">
     <Header>
         <TransactionId>${timestamp}</TransactionId>
@@ -211,10 +210,8 @@ ${actualRecords.value}
     <Trailer>
         <TotalEligibilityRecords>${sanitizedRecords.value.length}</TotalEligibilityRecords>
     </Trailer>
-</StateEligibility>`;
-});
+</StateEligibility>`);
 const downloadTextFile = function() {
-    console.log("Downloading file:", generatedXmlString.value);
     const blob = new Blob([generatedXmlString.value], { type: 'text/xml' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);

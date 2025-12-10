@@ -572,7 +572,7 @@ const addMemberToRecord = function() {
             value: '',
             required: true,
             included: false,
-            handler: conditionalRequirementToggle,
+            // handler: conditionalRequirementToggle,
         },
         Id: {
             path: 'MemberData.MedicareEligibility.MedicareIdDetails.Id',
@@ -1534,12 +1534,12 @@ const incrementRecord = function(index) {
     const revisedRecord = JSON.parse(JSON.stringify(eligibilityList.value[index]))
 
     const hohLeadingZero = eligibilityList.value[index].HohMemberId.value[0] === '0'
-    revisedRecord.HohMemberId = {...eligibilityList.value[index].HohMemberId, value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''},
-    revisedRecord.ErepCaseId = {...eligibilityList.value[index].ErepCaseId, value: eligibilityList.value[index].ErepCaseId.value * 1 + 1 + ''},
-    revisedRecord['HohMemberId-RelationshipDetails'] = {... revisedRecord.HohMemberId }
+    revisedRecord.HohMemberId = {...eligibilityList.value[index].HohMemberId, value: eligibilityList.value[index].HohMemberId.value * 1 + 1 + ''}
+    revisedRecord.ErepCaseId = {...eligibilityList.value[index].ErepCaseId, value: eligibilityList.value[index].ErepCaseId.value * 1 + 1 + ''}
     if(hohLeadingZero) {
         revisedRecord.HohMemberId.value = '0' + revisedRecord.HohMemberId.value
     }
+    revisedRecord['HohMemberId-RelationshipDetails'].value = revisedRecord.HohMemberId.value
     const newMembers = []
     revisedRecord.MemberData.value.forEach((member) => {
         newMembers.push(incrementMember(member))
@@ -1601,8 +1601,9 @@ const toggleMemberIncludes = function (section) {
     });
 }
 
-const conditionalRequirementToggle = function(item, value) {
-    if(item.path.includes('MedicareIdType') && value ==='MBI') {
+const conditionalRequirementToggle = function(path, value) {
+    // Adjust to shape of MemberData for future use
+    if(path.path.includes('MedicareIdType') && value ==='MBI') {
         currentEligibilityRecord.value.IdOccurrence.required = true;
         currentRecordValidationObject.value['IdOccurrence'] = !currentRecordValidationObject.value['IdOccurrence']
     } else {

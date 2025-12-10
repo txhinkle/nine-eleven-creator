@@ -59,7 +59,7 @@ const copyRecord = function (index) {
             </tbody>
         </table>
         <p v-else>No records</p>
-        <pre>{{ errorList }}</pre>
+        <!-- <pre>{{ errorList }}</pre> -->
     </div>
 </template>
 <style scoped>

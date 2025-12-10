@@ -1,6 +1,6 @@
 import useRecord from "./useRecord"
 import {ref, watch} from 'vue'
-const { eligibilityList} = useRecord()
+const { eligibilityList } = useRecord()
 
 watch(eligibilityList, async () => {
 	sanitizedRecords.value = [];
@@ -63,13 +63,16 @@ const validateMemberRecords = function(member) {
             list.push(member['MemberId'].value + ' missing required field: ' + item)
         } else if(member[item].type === 'modal' && member[item].required && member[item].value.length < 1) {
             list.push('missing required field: ' + item);
-        }
+        } 
+        // else if(item.includes('MedicareIdType') && item.value === 'MBI') {
+        //     // console.log('path?', member[item].path)
+        //     conditionalRequirementToggle(item, member[item].value);
+        // }
     })
     return list;
 }
 
 const validateRecords = function() {
-
     sanitizedRecords.value = []
     errorList.value = []
     const list = eligibilityList.value

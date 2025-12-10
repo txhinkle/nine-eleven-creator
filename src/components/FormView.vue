@@ -106,7 +106,7 @@ const labelStyle = function(object) {
 					</label>
 				</div>
 				<div
-					id="relathipship-details"
+					id="relationship-details"
 					v-if="currentEligibilityRecord['HohMemberId-RelationshipDetails'].included"
 				>
 					<button
@@ -164,7 +164,7 @@ const labelStyle = function(object) {
 				@input="(currentEligibilityRecord[item].handler) ? currentEligibilityRecord[item].handler(currentEligibilityRecord[item], currentEligibilityRecord[item].value) : null"
 			/>
 		</div>
-		<!-- <pre>{{ eligibilityList }}</pre> -->
+		<!-- <pre>{{ currentEligibilityRecord }}</pre> -->
 		<!-- <div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
 			<div v-if="currentEligibilityRecord[item].included">{{ currentEligibilityRecord[item].path }} : {{ currentEligibilityRecord[item].value }}</div>
 		</div> -->
