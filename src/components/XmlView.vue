@@ -19,8 +19,16 @@
     const errorCount = computed(() => {
         let count = 0;
         for(let i = 0; i < errorList.value.length; i++) {
-            if(errorList.value[i].length) {
+            if(errorList.value[i].caseDetail.length) {
                 count++
+            }
+            const members = Object.keys(errorList.value[i].memberData)
+            if(members.length) {
+                for(let j = 0; j < members.length; j++) {
+                    if(errorList.value[i].memberData[members[j]].length) {
+                        count++;
+                    }
+                }
             }
         }
         return count;

@@ -2242,6 +2242,19 @@ const livingArrangementOptions = {
         'TA9',
         'TA1025',
     ]
+};
+
+const genderOptions = {
+    labels: [
+        'Female',
+        'Male',
+        'Unknown'
+    ],
+    values: [
+        'F',
+        'M',
+        'U'
+    ]
 }
 
 export default function useOptions () {
@@ -2260,5 +2273,6 @@ export default function useOptions () {
         relationshipCodeOptions,
         eligibilityProgramStatusOptions,
         livingArrangementOptions,
+        genderOptions,
     }
 }

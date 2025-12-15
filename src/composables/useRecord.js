@@ -8,6 +8,7 @@ const {
     raceCodeOptions,
     eligibilityProgramStatusOptions,
     livingArrangementOptions,
+    genderOptions,
 } = useOptions();
 // const {caseHeadRelationshipDetailsObject} = useTemplates();
 const eligibilityList = ref([]);
@@ -335,6 +336,7 @@ const addMemberToRecord = function() {
             value: '',
             required: true,
             included: true,
+            options: genderOptions
         },
         Citizenship: {
             path: 'MemberData.Demographics.Details.Citizenship',
