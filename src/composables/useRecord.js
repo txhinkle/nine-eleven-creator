@@ -1645,6 +1645,8 @@ const createRandomMemberData = function(index) {
     currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
         AddressType: 'Mailing',
         Street1: '55 N Main St',
+        Street2: '',
+        Street3: '',
         CityName: 'SALT LAKE CITY',
         StateCode: 'UT',
         ZipCode: '84150',
@@ -1655,6 +1657,8 @@ const createRandomMemberData = function(index) {
     currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
         AddressType: 'Residential',
         Street1: '55 N Main St',
+        Street2: '',
+        Street3: '',
         CityName: 'SALT LAKE CITY',
         StateCode: 'UT',
         ZipCode: '84150',

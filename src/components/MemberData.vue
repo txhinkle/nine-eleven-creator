@@ -10,7 +10,7 @@ import IncarcerationModal from './IncarcerationModal.vue';
 import UppModal from './UppModal.vue';
 import EsiModal from './EsiModal.vue';
 import useTemplates from '@/composables/useTemplates';
-
+import useOptions from '@/composables/useOptions'
 
 const {
 	newAddressTemplate,
@@ -27,6 +27,8 @@ const {
 	// checkIdAgainstHOH, 
 } = useRecord();
 
+const { addressByCounty } = useOptions();
+
 const edit = ref(false);
 const newAddress = ref(null);
 const oldAddressIndex = ref(null);
@@ -42,6 +44,7 @@ const newEsi = ref(null);
 const oldEsiIndex = ref(null);
 const newMedicareCoverage = ref(null);
 const oldMedicareCoverageIndex = ref(null);
+const countyAddress = ref(null);
 
 const submitAddress = function ({ addressTypes, address }) {
 	const index = oldAddressIndex.value;
@@ -61,6 +64,27 @@ const submitAddress = function ({ addressTypes, address }) {
 	newAddress.value = null;
 	edit.value = false
 };
+
+const selectCounty = function () {
+	const address = {
+            Street1: addressByCounty[countyAddress.value].Street1,
+            Street2: addressByCounty[countyAddress.value].Street2,
+            Street3: addressByCounty[countyAddress.value].Street3,
+            CityName: addressByCounty[countyAddress.value].CityName,
+            StateCode: addressByCounty[countyAddress.value].StateCode,
+            ZipCode: addressByCounty[countyAddress.value].ZipCode,
+            ZipCodeExtension: addressByCounty[countyAddress.value].ZipCodeExtension,
+            CountyCode: addressByCounty[countyAddress.value].CountyCode,
+            AddressStartDate: addressByCounty[countyAddress.value].AddressStartDate,
+            AddressEndDate: addressByCounty[countyAddress.value].AddressEndDate,
+        }
+	submitAddress({
+		addressTypes: ['Residential', 'Mailing'], 
+		address
+	})
+	countyAddress.value = null;
+	// console.log('addressByCounty[countyAddress.value]', addressByCounty[countyAddress.value])
+}
 const submitRac = function (rac) {
 	const index = oldRacIndex.value;
 	insertInArray(rac, 'Rac', index);
@@ -226,8 +250,22 @@ const labelStyle = function(object) {
 				<button
 					@click="addAddress({ ...newAddressTemplate }, null)"
 					:disabled="newAddress"
+					style="margin-top: 12px;"
 				>
-					Add Address
+					Input Address
+				</button>
+				<p>OR</p>
+				<select v-model="countyAddress">
+					<option
+						v-for="(option, index) in Object.keys(addressByCounty)"
+						:key="index"
+						:value="option"
+					>{{ option }}</option>
+				</select>
+				<button
+					@click="selectCounty"
+				>
+					Add Address by County
 				</button>
 			</div>
             <!-- <div v-else-if="item === 'MemberId'">
