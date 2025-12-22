@@ -3,10 +3,12 @@ import useRecord from '@/composables/useRecord';
 import { ref, onUpdated } from 'vue';
 import MemberData from './MemberData.vue';
 import useValidation from '@/composables/useValidation';
-import HOHRelationshipModal from './HOHRelationshipModal.vue';
 import useTemplates from '@/composables/useTemplates';
+import useModal from '@/composables/useModal'
+
 const {validateRecords} = useValidation();
 const {caseHeadRelationshipDetailsObject} = useTemplates();
+const { setModal } = useModal()
 const {
 	currentEligibilityRecord,
 	addNewRecord,
@@ -25,43 +27,50 @@ onUpdated(() => {
 	validateRecords();
 })
 
-const edit = ref(false);
-const newRelationship = ref(null);
-const oldRelationshipIndex = ref(null);
+// const edit = ref(false);
+// const newRelationship = ref(null);
+// const oldRelationshipIndex = ref(null);
 
-const insertInArray = function(object, name, index) {
-	if(index !== null) {
-		currentEligibilityRecord.value[name].value.splice(index, 1, object);
-	} else {
-		currentEligibilityRecord.value[name].value.push(object);
-	}
-}
+// const insertInArray = function(object, name, index) {
+// 	if(index !== null) {
+// 		currentEligibilityRecord.value[name].value.splice(index, 1, object);
+// 	} else {
+// 		currentEligibilityRecord.value[name].value.push(object);
+// 	}
+// }
 
 const deleteFromArray = function (arrayName, index) {
 	currentEligibilityRecord.value[arrayName].value.splice(index, 1);
 };
 
-const cancelModal = function () {
-	newRelationship.value = null;
-	oldRelationshipIndex.value = null;
-	edit.value = false
-};
+// const cancelModal = function () {
+// 	newRelationship.value = null;
+// 	oldRelationshipIndex.value = null;
+// 	edit.value = false
+// };
 
 const addRelationship = function(relationship, index) {
-	newRelationship.value = relationship;
-	if(index !== null) {
-		oldRelationshipIndex.value = index;
-		edit.value = true;
-	}
+	// newRelationship.value = relationship;
+	// if(index !== null) {
+	// 	oldRelationshipIndex.value = index;
+	// 	edit.value = true;
+	// }
+	// currentModal.value = {
+	// 	name: 'MemberRelationshipToHoh',
+	// 	object: relationship,
+	// 	index,
+	// 	edit: (index) ? true : false
+	// }
+	setModal('MemberRelationshipToHoh', relationship, !!index, index)
 }
 
-const submitRelationship = function (relationship) {
-	const index = oldRelationshipIndex.value;
-	insertInArray(relationship, 'MemberRelationshipToHoh', index);
-	oldRelationshipIndex.value = null;
-	edit.value = false
-	newRelationship.value = null
-}
+// const submitRelationship = function (relationship) {
+// 	const index = oldRelationshipIndex.value;
+// 	insertInArray(relationship, 'MemberRelationshipToHoh', index);
+// 	oldRelationshipIndex.value = null;
+// 	edit.value = false
+// 	newRelationship.value = null
+// }
 
 const showFaq = ref(false);
 
@@ -204,13 +213,6 @@ const labelStyle = function(object) {
 			</label>
 		</div>
 	</div>
-	<HOHRelationshipModal
-		v-if="newRelationship"
-		:relationship="newRelationship"
-		:edit="edit"
-		@submit="submitRelationship"
-		@close="cancelModal"
-	/>
 </template>
 <style scoped>
 label {
