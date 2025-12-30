@@ -2311,8 +2311,8 @@ const addressByCounty = {
             ZipCode: '84501',
             ZipCodeExtension: '',
             CountyCode: 'CT103',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     "DAGGETT": 
         {
@@ -2325,8 +2325,8 @@ const addressByCounty = {
             ZipCode: '84046',
             ZipCodeExtension: '',
             CountyCode: 'CT104',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     "DAVIS": 
         {
@@ -2339,8 +2339,8 @@ const addressByCounty = {
             ZipCode: '84025',
             ZipCodeExtension: '',
             CountyCode: 'CT105',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     "DUCHESNE": 
         {
@@ -2353,8 +2353,8 @@ const addressByCounty = {
             ZipCode: '84021',
             ZipCodeExtension: '',
             CountyCode: 'CT106',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     "EMERY": 
         {
@@ -2367,8 +2367,8 @@ const addressByCounty = {
             ZipCode: '84513',
             ZipCodeExtension: '',
             CountyCode: 'CT107',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     "GARFIELD": 
         {
@@ -2381,8 +2381,8 @@ const addressByCounty = {
             ZipCode: '84759',
             ZipCodeExtension: '',
             CountyCode: 'CT108',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     "GRAND": 
         {
@@ -2395,8 +2395,8 @@ const addressByCounty = {
             ZipCode: '84532',
             ZipCodeExtension: '',
             CountyCode: 'CT109',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     "IRON": 
         {
@@ -2409,8 +2409,8 @@ const addressByCounty = {
             ZipCode: '84761',
             ZipCodeExtension: '',
             CountyCode: 'CT110',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "JUAB": 
@@ -2424,8 +2424,8 @@ const addressByCounty = {
             ZipCode: '84648',
             ZipCodeExtension: '',
             CountyCode: 'CT111',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     "KANE": 
         {
@@ -2438,8 +2438,8 @@ const addressByCounty = {
             ZipCode: '84741',
             ZipCodeExtension: '',
             CountyCode: 'CT112',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "MILLARD": 
@@ -2453,8 +2453,8 @@ const addressByCounty = {
             ZipCode: '84624',
             ZipCodeExtension: '',
             CountyCode: 'CT113',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "MORGAN": 
@@ -2468,8 +2468,8 @@ const addressByCounty = {
             ZipCode: '84050',
             ZipCodeExtension: '',
             CountyCode: 'CT114',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "PIUTE": 
@@ -2483,8 +2483,8 @@ const addressByCounty = {
             ZipCode: '84740',
             ZipCodeExtension: '',
             CountyCode: 'CT115',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "RICH": 
@@ -2498,8 +2498,8 @@ const addressByCounty = {
             ZipCode: '84064',
             ZipCodeExtension: '',
             CountyCode: 'CT116',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "SALT LAKE": 
@@ -2528,8 +2528,8 @@ const addressByCounty = {
             ZipCode: '84535',
             ZipCodeExtension: '',
             CountyCode: 'CT118',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "SANPETE": 
@@ -2543,8 +2543,8 @@ const addressByCounty = {
             ZipCode: '84642',
             ZipCodeExtension: '',
             CountyCode: 'CT119',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "SEVIER": 
@@ -2558,8 +2558,8 @@ const addressByCounty = {
             ZipCode: '84701',
             ZipCodeExtension: '',
             CountyCode: 'CT120',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "SUMMIT": 
@@ -2573,8 +2573,8 @@ const addressByCounty = {
             ZipCode: '84017',
             ZipCodeExtension: '',
             CountyCode: 'CT121',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "TOOELE": 
@@ -2588,8 +2588,8 @@ const addressByCounty = {
             ZipCode: '84074',
             ZipCodeExtension: '',
             CountyCode: 'CT122',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "UINTAH": 
@@ -2603,8 +2603,8 @@ const addressByCounty = {
             ZipCode: '84078',
             ZipCodeExtension: '',
             CountyCode: 'CT123',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "UTAH": 
@@ -2618,8 +2618,8 @@ const addressByCounty = {
             ZipCode: '84601',
             ZipCodeExtension: '',
             CountyCode: 'CT124',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "WASATCH": 
@@ -2633,8 +2633,8 @@ const addressByCounty = {
             ZipCode: '84032',
             ZipCodeExtension: '',
             CountyCode: 'CT125',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "WASHINGTON": 
@@ -2648,8 +2648,8 @@ const addressByCounty = {
             ZipCode: '84770',
             ZipCodeExtension: '',
             CountyCode: 'CT126',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "WAYNE": 
@@ -2663,8 +2663,8 @@ const addressByCounty = {
             ZipCode: '84747',
             ZipCodeExtension: '',
             CountyCode: 'CT127',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "WEBER": 
@@ -2678,8 +2678,8 @@ const addressByCounty = {
             ZipCode: '84401',
             ZipCodeExtension: '',
             CountyCode: 'CT128',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
     
     "OUT OF STATE": 
@@ -2693,8 +2693,8 @@ const addressByCounty = {
             ZipCode: '32399',
             ZipCodeExtension: '',
             CountyCode: 'CT129',
-            AddressStartDate: '01/01/2024',
-            AddressEndDate: '12/31/2999',
+            AddressStartDate: '2024-01-01',
+            AddressEndDate: '2999-12-31',
         },
 }
 
