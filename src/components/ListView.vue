@@ -65,16 +65,5 @@ const copyRecord = function (index) {
 *{
     margin-top: 5%;
 }
-table {
-    border-top: solid 1px black;
-}
 
-p {
-    margin-top: 1%;
-}
-
-a {
-    color: blue;
-    text-decoration: underline;
-}
 </style>

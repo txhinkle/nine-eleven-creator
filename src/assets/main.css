@@ -1,5 +1,6 @@
 * {
-  background-color: #efeded;
+  background-color: black;
+  color: white;
 }
 #app {
   width: 100%;
@@ -7,7 +8,7 @@
   padding: 2rem;
   font-weight: normal;
   left: 0%;
-  background-color: #efeded;
+  /* background-color: #efeded; */
 }
 
 nav {
@@ -20,8 +21,12 @@ nav {
   z-index: 2;
 }
 
-main div {
+/* main div {
   background-color: #efeded;
+} */
+
+input[type=button] {
+  color: white;
 }
 
 .page {
@@ -40,7 +45,7 @@ nav li {
   border: solid;
   border-width: 2px 2px 0 2px;
   margin: 0 5px 0 0;
-  background-color: #efeded;
+  background-color: black;
 }
 
 nav li a {
@@ -50,17 +55,35 @@ nav li a {
 table {
   border-collapse: collapse;
   table-layout: fixed;
+  border-top: solid 1px #eeffee;
 }
 
 tr {
-  border-bottom: 1pt solid black;
+  border-bottom: 1pt solid #eeffee;
   width: 100%;
-  border-right: 1pt solid black;
+  border-right: 1pt solid #eeffee;
 }
 
 th, td {
-  border-left: 1pt solid black;
+  border-left: 1pt solid #eeffee;
   padding: 2px;
+}
+
+p {
+    margin-top: 1%;
+}
+
+a {
+    color: blue;
+    text-decoration: underline;
+}
+
+input {
+  color: black;
+}
+
+select {
+  color: black;
 }
 
 input:valid, select {
@@ -71,6 +94,20 @@ input:invalid {
   background-color: lightpink;
 }
 
-/* label:has(:required) {
-  color: red;
-} */
+label {
+	display: block;
+}
+
+.modal {
+	z-index: 5;
+	width: 100%;
+	height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.modal button {
+  margin: 2px 12px 2px 0;
+  padding: 0 12px 0 12px;
+  border: solid 1px #eeddee;
+}

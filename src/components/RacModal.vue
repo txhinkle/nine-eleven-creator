@@ -439,34 +439,12 @@ const close = () => {
 </template>
 
 <style scoped>
-div, form, label, span {
-	background-color: #bfc;
-}
-label {
-	display: block;
-}
+
 .radios {
 	margin-right: 20px;
 	padding-right: 10px;
 	border-right: solid black 1px;
 	height: 50svw;
 }
-/* .form {
-	height: 500px;
-	max-height: 500px;
-} */
-.modal {
-	z-index: 5;
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding-top: 2svw;
-	padding-left: 10svw;
-	padding-bottom: 15svw;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	max-height: calc(100vh - 150px);
-    overflow-y: auto;
-}
+
 </style>

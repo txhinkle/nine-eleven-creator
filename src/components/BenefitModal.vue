@@ -9,6 +9,8 @@ const {
 	cancelModal,
 } = useModal();
 
+const { benefitSubTypeOptions } = useOptions();
+
 // include Booleans to turn on/off required aspect and to show/hide elements
 const includePregnancy = ref(currentModal.value.edit && currentModal.value.object.benefit.Pregnancy.PregnancyStatus !== '');
 const includeIncome = ref(currentModal.value.edit && currentModal.value.object.benefit.Countable.Income !== '')
@@ -33,36 +35,36 @@ const close = () => {
 	<div class="modal">
 		<div class="radios">
 			<label>
-				<span>Include Pregnancy</span>
 				<input type="checkbox" v-model="includePregnancy" />
+				<span>Include Pregnancy</span>
 			</label>
 			<label>
-				<span>Include Income</span>
 				<input type="checkbox" v-model="includeIncome" />
+				<span>Include Income</span>
 			</label>
 			<label>
-				<span>Include MemberIdsForAssistance</span>
 				<input type="checkbox" v-model="includeAssistance" />
+				<span>Include MemberIdsForAssistance</span>
 			</label>
 			<label>
-				<span>Include CopayExempt</span>
 				<input type="checkbox" v-model="includeCopayExemptDetails" />
+				<span>Include CopayExempt</span>
 			</label>
 			<label>
-				<span>Include PatientLiability</span>
 				<input type="checkbox" v-model="includePatientLiability" />
+				<span>Include PatientLiability</span>
 			</label>
 			<label>
-				<span>Include Spenddown</span>
 				<input type="checkbox" v-model="includeSpenddown" />
+				<span>Include Spenddown</span>
 			</label>
 			<label>
-				<span>Include SPM</span>
 				<input type="checkbox" v-model="includeSpm" />
+				<span>Include SPM</span>
 			</label>
 			<label>
-				<span>Include includeMedicareDualEligibility</span>
 				<input type="checkbox" v-model="includeMedicareDualEligibility" />
+				<span>Include includeMedicareDualEligibility</span>
 			</label>
 		</div>
 		<form @submit.prevent="submit">
@@ -419,30 +421,11 @@ const close = () => {
 </template>
 
 <style scoped>
-div, form, label, span {
-	background-color: #bfc;
-}
-label {
-	display: block;
-}
+
 .radios {
 	margin-right: 20px;
 	padding-right: 10px;
-	border-right: solid black 1px;
+	border-right: solid #eeddee 1px;
 	height: 50svw;
-}
-.modal {
-	z-index: 5;
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding-top: 3svw;
-	padding-left: 10svw;
-	padding-bottom: 5svw;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	max-height: calc(100vh - 150px);
-    overflow-y: auto;
 }
 </style>

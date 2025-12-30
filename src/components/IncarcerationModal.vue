@@ -159,21 +159,3 @@ const deleteLoop = function (index) {
 	</div>
 </template>
 
-<style scoped>
-div, form, label, span, p {
-	background-color: #bfc;
-}
-label {
-	display: block;
-}
-
-.modal {
-	z-index: 5;
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding: 20svw;
-	width: 100%;
-	height: 100%;
-}
-</style>

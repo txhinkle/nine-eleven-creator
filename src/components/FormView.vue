@@ -169,9 +169,6 @@ const labelStyle = function(object) {
 	</div>
 </template>
 <style scoped>
-label {
-	display: block;
-}
 
 .section {
 	display: inline-block;

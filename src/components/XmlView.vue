@@ -244,7 +244,7 @@ const downloadTextFile = function() {
         margin-top: 5%;
     }
     pre {
-        border: 1px solid black;
+        border: 1px solid #eeddee;
         padding: 2px;
         width: 90%;
     }

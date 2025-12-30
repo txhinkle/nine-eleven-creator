@@ -324,9 +324,7 @@ const labelStyle = function(object) {
 	
 </template>
 <style scoped>
-label {
-	display: block;
-}
+
 .address {
 	outline: 1px;
 }

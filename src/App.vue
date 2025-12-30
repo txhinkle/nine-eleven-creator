@@ -24,9 +24,9 @@ const updateView = function(view) {
 const tabStyles = computed(() => {
   const tab = currentView.value;
   const styles = {
-    form: 'color: black;',
-    list: 'color: black;',
-    xml: 'color: black;',
+    form: 'color: white;',
+    list: 'color: white;',
+    xml: 'color: white;',
   }
   if(eligibilityList.value.length) {
     styles[tab] = 'color: red'
@@ -105,5 +105,6 @@ const tabStyles = computed(() => {
 	font-size: larger;
 	margin-left: 50svw;
 	padding: 10px 15px;
+  color: black;
 }
 </style>
