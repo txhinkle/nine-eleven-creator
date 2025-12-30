@@ -27,7 +27,7 @@ const copyRecord = function (index) {
 
 <template>
     <div>
-        <table v-if="eligibilityList.length">
+        <table>
             <thead>
                 <tr>
                     <th scope="col">Index</th>
@@ -46,8 +46,8 @@ const copyRecord = function (index) {
                         <p v-for="member in item.MemberData.value" :key="member">{{ member.MemberId.value }}</p>
                     </td>
                     <td style="max-width: 300px;">
-                        <p>{{ (errorList[index].caseDetail.length) ? errorList[index].caseDetail : ''}}</p>
-                        <p v-for="error in errorList[index].memberData" :key="error">{{ (error.length) ? error : '' }}</p>
+                        <p>{{ (errorList[index]?.caseDetail.length) ? errorList[index].caseDetail : ''}}</p>
+                        <p v-for="error in errorList[index]?.memberData" :key="error">{{ (error.length) ? error : '' }}</p>
                     </td>
                     <td>
                         <input type="button" @click="copyRecord(index)" value="Increment" />
@@ -58,7 +58,6 @@ const copyRecord = function (index) {
                 </tr>
             </tbody>
         </table>
-        <p v-else>No records</p>
         <!-- <pre>{{ errorList }}</pre> -->
     </div>
 </template>

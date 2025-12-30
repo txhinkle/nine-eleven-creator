@@ -1,8 +1,10 @@
 import {ref} from 'vue'
 import useRecord from '@/composables/useRecord';
-
-const {currentEligibilityRecord} = useRecord();
+import useValidation from '@/composables/useValidation';
+// consider importing useValidation and adding the validateRecord into the cancel/submit functions
+const {currentEligibilityRecord, currentMemberRecord} = useRecord();
 const currentModal = ref(null);
+const { validateRecords } = useValidation();
 
 const setModal = function (name, object = null, edit = null, index = null) {
     currentModal.value = {
@@ -11,20 +13,32 @@ const setModal = function (name, object = null, edit = null, index = null) {
         edit,
         index
     }
+    console.log(currentModal.value)
 }
 
 const insertInArray = function() {
+    
     const index = currentModal.value.index
     const object = currentModal.value.object
+    const memberData = currentModal.value.name !== 'MemberRelationshipToHoh'
 	if(index !== null) {
-		currentEligibilityRecord.value[currentModal.value.name].value.splice(index, 1, object);
+        if(memberData) {
+            currentMemberRecord.value[currentModal.value.name].value.splice(index, 1, object);
+        } else {
+            currentEligibilityRecord.value[currentModal.value.name].value.splice(index, 1, object);
+        }        
 	} else {
-		currentEligibilityRecord.value[currentModal.value.name].value.push(object);
+        if(memberData) {
+            currentMemberRecord.value[currentModal.value.name].value.push(object);
+        } else {
+            currentEligibilityRecord.value[currentModal.value.name].value.push(object);
+        }
 	}
 }
 
 const cancelModal = function () {
-    currentModal.value = null
+    currentModal.value = null;
+    validateRecords();
 }
 
 const submitObject = function () {
@@ -33,7 +47,7 @@ const submitObject = function () {
     } else {
         insertInArray();
     }
-    currentModal.value = null;
+    cancelModal();
 }
 
 export default function useModal () {

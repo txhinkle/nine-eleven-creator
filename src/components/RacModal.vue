@@ -1,39 +1,41 @@
 <script setup>
 import { ref } from 'vue';
 import useOptions from '../composables/useOptions';
+import useModal from '../composables/useModal'
 
-const props = defineProps({
-	rac: {
-		type: Object,
-		required: true,
-	},
-	edit: {
-		type: Boolean,
-		required: false,
-	},
-});
+const {
+	currentModal,
+	submitObject,
+	cancelModal,
+} = useModal();
 
 const {racOptions, SPMIndicatorOptions, spenddownIndicatorOptions } = useOptions();
 
-const newRac = ref(JSON.parse(JSON.stringify(props.rac)));
 // include Booleans to turn on/off required aspect and to show/hide elements
-const includePregnancy = ref(props.edit && props.rac.Pregnancy.PregnancyStatus !== '');
-const includeIncome = ref(props.edit && props.rac.Countable.Income !== '');
-const includeAssistance = ref(props.edit && props.rac.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
-const includeCopayExemptDetails = ref(props.edit && props.rac.CopayExemptDetails.CopayExemptIndicator !== '')
-const includePatientLiability = ref(props.edit && props.rac.PatientLiability.Amount !== '')
-const includeSpenddown = ref(props.edit && props.rac.Spenddown.Information.SpenddownIndicator !== '')
+// will be included in edit if entered and then toggled off previously
+const toggleIncluded = function(key) {
+	console.log('fill me in', key)
+	// turn the includes into an object so that the keys are strings?
+	// then you can turn them on and off and also use this to empty out the value
+	// alternatively, you could pull in the sanitizedRecord and check the value there
+}
+const includePregnancy = ref(currentModal.value.edit && currentModal.value.object.Pregnancy.PregnancyStatus !== '');
+// this is the only one that I fixed at all
+const includeIncome = ref(currentModal.value.object.Countable.Income !== '' );
+const includeAssistance = ref(currentModal.value.edit && currentModal.object.value.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
+const includeCopayExemptDetails = ref(currentModal.value.edit && currentModal.value.object.CopayExemptDetails.CopayExemptIndicator !== '')
+const includePatientLiability = ref(currentModal.value.edit && currentModal.value.object.PatientLiability.Amount !== '')
+const includeSpenddown = ref(currentModal.value.edit && currentModal.value.object.Spenddown.Information.SpenddownIndicator !== '')
 // spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
-const includeSpm = ref(props.edit && props.rac.SPMDetails.SPMIndicator !== '')
-const includeMedicareDualEligibility = ref(props.edit && props.rac.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
-const emit = defineEmits(['submit', 'close']);
-const includeSpenddownBill = ref(props.edit && props.rac.Spenddown.SpenddownBills.BillDetails.BillId !== '')
+const includeSpm = ref(currentModal.value.edit && currentModal.value.object.SPMDetails.SPMIndicator !== '')
+const includeMedicareDualEligibility = ref(currentModal.value.edit && currentModal.value.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
+const includeSpenddownBill = ref(currentModal.value.edit && currentModal.value.object.Spenddown.SpenddownBills.BillDetails.BillId !== '')
 
 const submit = () => {
-	emit('submit', newRac.value);
+	submitObject();
 };
 const close = () => {
-	emit('close');
+	cancelModal();
 };
 </script>
 <template>
@@ -76,7 +78,7 @@ const close = () => {
 			<label>
 				<span>RacCode</span>
 				<select
-					v-model="newRac.RacCode"
+					v-model="currentModal.object.RacCode"
 					required
 				>
 					<option
@@ -92,7 +94,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newRac.RacBeginDate"
+					v-model="currentModal.object.RacBeginDate"
 					required
 				/>
 			</label>
@@ -102,7 +104,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newRac.RacEndDate"
+					v-model="currentModal.object.RacEndDate"
 					required
 				/>
 			</label>
@@ -112,7 +114,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newRac.RacIssuanceDate"
+					v-model="currentModal.object.RacIssuanceDate"
 					required
 				/>
 			</label>
@@ -121,7 +123,7 @@ const close = () => {
 					<span>PregnancyStatus</span>
 					<input
 						type="text"
-						v-model="newRac.Pregnancy.PregnancyStatus"
+						v-model="currentModal.object.Pregnancy.PregnancyStatus"
 						required
 					/>
 				</label>
@@ -131,7 +133,7 @@ const close = () => {
 						type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-						v-model="newRac.Pregnancy.PregnancyStartDate"
+						v-model="currentModal.object.Pregnancy.PregnancyStartDate"
 					/>
 				</label>
 				<label>
@@ -140,7 +142,7 @@ const close = () => {
 						type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-						v-model="newRac.Pregnancy.PregnancyDueDate"
+						v-model="currentModal.object.Pregnancy.PregnancyDueDate"
 					/>
 				</label>
 				<label>
@@ -149,7 +151,7 @@ const close = () => {
 						type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-						v-model="newRac.Pregnancy.PregnancyEndDate"
+						v-model="currentModal.object.Pregnancy.PregnancyEndDate"
 					/>
 				</label>
 			</div>
@@ -158,7 +160,7 @@ const close = () => {
 					<span>Income</span>
 					<input
 						type="text"
-						v-model="newRac.Countable.Income"
+						v-model="currentModal.object.Countable.Income"
 						required
 					/>
 				</label>
@@ -168,7 +170,7 @@ const close = () => {
 					<span>ContributingMemberId</span>
 					<input
 						type="text"
-						v-model="newRac.MemberIdsForAssistanceUnit.ContributingMemberId"
+						v-model="currentModal.object.MemberIdsForAssistanceUnit.ContributingMemberId"
 						required
 					/>
 				</label>
@@ -176,7 +178,7 @@ const close = () => {
 					<span>RelationshipCode</span>
 					<input
 						type="text"
-						v-model="newRac.MemberIdsForAssistanceUnit.RelationshipCode"
+						v-model="currentModal.object.MemberIdsForAssistanceUnit.RelationshipCode"
 						required
 					/>
 				</label>
@@ -186,7 +188,7 @@ const close = () => {
 					<span>CopayExemptIndicator</span>
 					<input
 						type="text"
-						v-model="newRac.CopayExemptDetails.CopayExemptIndicator"
+						v-model="currentModal.object.CopayExemptDetails.CopayExemptIndicator"
 						required
 					/>
 				</label>
@@ -196,7 +198,7 @@ const close = () => {
 					<span>Amount</span>
 					<input
 						type="text"
-						v-model="newRac.PatientLiability.Amount"
+						v-model="currentModal.object.PatientLiability.Amount"
 						required
 					/>
 				</label>
@@ -205,7 +207,7 @@ const close = () => {
 				<label>
 					<span>SpenddownIndicator</span>
 					<select
-						v-model="newRac.Spenddown.Information.SpenddownIndicator"
+						v-model="currentModal.object.Spenddown.Information.SpenddownIndicator"
 						required
 					>
 						<option
@@ -222,14 +224,14 @@ const close = () => {
 						type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-						v-model="newRac.Spenddown.Information.MetDate"
+						v-model="currentModal.object.Spenddown.Information.MetDate"
 					/>
 				</label>
 				<label>
 					<span>Amount</span>
 					<input
 						type="text"
-						v-model="newRac.Spenddown.Information.Amount"
+						v-model="currentModal.object.Spenddown.Information.Amount"
 						required
 					/>
 				</label>
@@ -242,7 +244,7 @@ const close = () => {
 						<span>BillId</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillId"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillId"
 							required
 						/>
 					</label>
@@ -250,7 +252,7 @@ const close = () => {
 						<span>BillAccountNumber</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillAccountNumber"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillAccountNumber"
 							required
 						/>
 					</label>
@@ -260,7 +262,7 @@ const close = () => {
 							type="date"
 						min="1900-01-01"
 						max="2999-12-31"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillStartDate"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillStartDate"
 							required
 						/>
 					</label>
@@ -270,7 +272,7 @@ const close = () => {
 							type="date"
 						min="1900-01-01"
 						max="2999-12-31"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillEndDate"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillEndDate"
 							required
 						/>
 					</label>
@@ -278,7 +280,7 @@ const close = () => {
 						<span>ServiceType</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.ServiceType"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.ServiceType"
 							required
 						/>
 					</label>
@@ -286,14 +288,14 @@ const close = () => {
 						<span>PrescriptionNumber</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.PrescriptionNumber"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.PrescriptionNumber"
 						/>
 					</label>
 					<label>
 						<span>ErepCurrentUsedAmount</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.ErepCurrentUsedAmount"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.ErepCurrentUsedAmount"
 							required
 						/>
 					</label>
@@ -301,7 +303,7 @@ const close = () => {
 						<span>TotalBill</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.TotalBill"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.TotalBill"
 							required
 						/>
 					</label>
@@ -309,7 +311,7 @@ const close = () => {
 						<span>BillingProviderName</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderName"
 							required
 						/>
 					</label>
@@ -317,7 +319,7 @@ const close = () => {
 						<span>BillingProviderStreet1</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet1"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet1"
 							required
 						/>
 					</label>
@@ -325,21 +327,21 @@ const close = () => {
 						<span>BillingProviderStreet2</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet2"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet2"
 						/>
 					</label>
 					<label>
 						<span>BillingProviderStreet3</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet3"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet3"
 						/>
 					</label>
 					<label>
 						<span>BillingProviderCityName</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderCityName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderCityName"
 							required
 						/>
 					</label>
@@ -347,7 +349,7 @@ const close = () => {
 						<span>BillingProviderStateCode</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderStateCode"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderStateCode"
 							required
 						/>
 					</label>
@@ -355,7 +357,7 @@ const close = () => {
 						<span>BillingProviderZipCode</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCode"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCode"
 							required
 						/>
 					</label>
@@ -363,28 +365,28 @@ const close = () => {
 						<span>BillingProviderZipCodeExtension</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCodeExtension"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCodeExtension"
 						/>
 					</label>
 					<label>
 						<span>BillingProviderCountyCode</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BillingProviderCountyCode"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderCountyCode"
 						/>
 					</label>
 					<label>
 						<span>BilledPersonSuffix</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BilledPersonSuffix"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BilledPersonSuffix"
 						/>
 					</label>
 					<label>
 						<span>BilledPersonFirstName</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BilledPersonFirstName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BilledPersonFirstName"
 							required
 						/>
 					</label>
@@ -392,14 +394,14 @@ const close = () => {
 						<span>BilledPersonMiddleName</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BilledPersonMiddleName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BilledPersonMiddleName"
 						/>
 					</label>
 					<label>
 						<span>BilledPersonLastName</span>
 						<input
 							type="text"
-							v-model="newRac.Spenddown.SpenddownBills.BillDetails.BilledPersonLastName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BilledPersonLastName"
 							required
 						/>
 					</label>
@@ -409,7 +411,7 @@ const close = () => {
 				<label>
 					<span>SPMIndicator</span>
 					<select
-						v-model="newRac.SPMDetails.SPMIndicator"
+						v-model="currentModal.object.SPMDetails.SPMIndicator"
 						required
 					>
 						<option
@@ -425,7 +427,7 @@ const close = () => {
 					<span>MedicareDualEligibilityStatusCode</span>
 					<input
 						type="text"
-						v-model="newRac.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode"
+						v-model="currentModal.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode"
 						required
 					/>
 				</label>
@@ -458,9 +460,9 @@ label {
 	position: fixed;
 	top: 0;
 	left: 0;
-	padding-top: 3svw;
+	padding-top: 2svw;
 	padding-left: 10svw;
-	padding-bottom: 5svw;
+	padding-bottom: 15svw;
 	width: 100%;
 	height: 100%;
 	display: flex;

@@ -1,21 +1,17 @@
 <script setup>
+import useModal from '../composables/useModal'
 
-import { ref } from 'vue';
+const {
+	currentModal,
+	submitObject,
+	cancelModal,
+} = useModal();
 
-const props = defineProps({
-	esi: {
-		type: Object,
-		required: true,
-	},
-});
-const newEsi = ref(JSON.parse(JSON.stringify(props.esi)));
-
-const emit = defineEmits(['submit', 'close']);
 const submit = () => {
-	emit('submit', newEsi.value);
+	submitObject();
 };
 const close = () => {
-	emit('close');
+	cancelModal();
 };
 </script>
 <template>
@@ -27,7 +23,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newEsi.ESIProgramStartDate"
+					v-model="currentModal.object.ESIProgramStartDate"
 					required
 				/>
 			</label>
@@ -37,7 +33,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newEsi.ESIProgramEndDate"
+					v-model="currentModal.object.ESIProgramEndDate"
 					required
 				/>
 			</label>
@@ -45,7 +41,7 @@ const close = () => {
 				<span>BillMonth</span>
 				<input
 					type="text"
-					v-model="newEsi.BillMonth"
+					v-model="currentModal.object.BillMonth"
 					required
 				/>
 			</label>
@@ -53,7 +49,7 @@ const close = () => {
 				<span>ESIPremiumAmt</span>
 				<input
 					type="number"
-					v-model="newEsi.ESIPremiumAmt"
+					v-model="currentModal.object.ESIPremiumAmt"
 					required
 				/>
 			</label>

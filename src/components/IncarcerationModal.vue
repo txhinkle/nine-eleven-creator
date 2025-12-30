@@ -2,22 +2,29 @@
 
 import { ref } from 'vue';
 import useOptions from '../composables/useOptions';
+import useModal from '../composables/useModal'
 
-const props = defineProps({
-	incarceration: {
-		type: Object,
-		required: true,
-	},
-});
+const {
+	currentModal,
+	submitObject,
+	cancelModal,
+} = useModal();
+
+const submit = () => {
+	submitObject();
+};
+const close = () => {
+	cancelModal();
+};
 
 const {incarcerationStatusOptions} = useOptions();
-const newIncarceration = ref(JSON.parse(JSON.stringify(props.incarceration)));
+
 
 const currentFacilityLoop = ref(null);
 
 const editFacilityLoop = function (index) {
-	if(!newIncarceration.value.Facility) {
-		newIncarceration.value.Facility = []
+	if(!currentModal.value.object.Facility) {
+		currentModal.value.object.Facility = []
 	}
 	if(!index) {
 		currentFacilityLoop.value = {
@@ -27,9 +34,9 @@ const editFacilityLoop = function (index) {
 			EndDate: '',
 			FacilityRecordStatus: '',
 		}
-		newIncarceration.value.Facility.push(currentFacilityLoop.value)
+		currentModal.value.object.Facility.push(currentFacilityLoop.value)
 	} else {
-		currentFacilityLoop.value = newIncarceration.value.Facility[index];
+		currentFacilityLoop.value = currentModal.value.object.Facility[index];
 	}
 }
 const confirmFacilityLoop = function () {
@@ -37,17 +44,9 @@ const confirmFacilityLoop = function () {
 }
 
 const deleteLoop = function (index) {
-	newIncarceration.value.Facility.splice(index, 1)
+	currentModal.value.object.Facility.splice(index, 1)
 }
 
-const emit = defineEmits(['submit', 'close']);
-const submit = () => {
-	// make sure that end date is included no matter what
-	emit('submit', newIncarceration.value);
-};
-const close = () => {
-	emit('close');
-};
 </script>
 <template>
 	<div class="modal">
@@ -56,14 +55,14 @@ const close = () => {
 				<span>IncarcerationID</span>
 				<input
 					type="text"
-					v-model="newIncarceration.IncarcerationID"
+					v-model="currentModal.object.IncarcerationID"
 					required
 				/>
 			</label>
 			<label>
 				<span>IncarcerationStatus</span>
 				<select
-					v-model="newIncarceration.IncarcerationStatus"
+					v-model="currentModal.object.IncarcerationStatus"
 					required
 				>
 					<option
@@ -79,7 +78,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newIncarceration.StartDate"
+					v-model="currentModal.object.StartDate"
 					required
 				/>
 			</label>
@@ -89,7 +88,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newIncarceration.EndDate"
+					v-model="currentModal.object.EndDate"
 					required
 				/>
 			</label>
@@ -98,13 +97,13 @@ const close = () => {
 					<span>Facility</span>
 					<input type="button" value="Add Facility Loop" @click="editFacilityLoop(null)" style="margin-left: 5px;"/>
 				</label>
-				<div v-if="newIncarceration.Facility && newIncarceration.Facility.length >= 1">
-					<div v-for="(loop,index) in newIncarceration.Facility" :key="index">
+				<div v-if="currentModal.object.Facility && currentModal.object.Facility.length >= 1">
+					<div v-for="(loop,index) in currentModal.object.Facility" :key="index">
 						<span>{{ loop.FacilityID}}: {{ loop.StartDate }}–{{ loop.EndDate }}</span>
 						<input
 							type="button"
 							value="edit"
-							@click="currentFacilityLoop = newIncarceration.Facility[index]"
+							@click="currentFacilityLoop = currentModal.object.Facility[index]"
 							style="margin-left: 5px; margin-right: 5px;"
 						/>
 						<input type="button" value="delete" @click="deleteLoop(index)" />

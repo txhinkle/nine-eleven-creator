@@ -7,16 +7,7 @@ const {
 	submitObject,
 	cancelModal,
 } = useModal();
-// const props = defineProps({
-// 	relationship: {
-// 		type: Object,
-// 		required: true,
-// 	},
-// });
 
-// const currentModal.object = ref(JSON.parse(JSON.stringify(props.relationship)));
-
-// const emit = defineEmits(['submit', 'close']);
 const submit = () => {
 	submitObject();
 };

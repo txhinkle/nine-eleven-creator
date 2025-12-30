@@ -1,39 +1,32 @@
 <script setup>
 import { ref } from 'vue';
 import useOptions from '../composables/useOptions';
+import useModal from '../composables/useModal'
 
-const props = defineProps({
-	benefit: {
-		type: Object,
-		required: true,
-	},
-	edit: {
-		type: Boolean,
-		required: false,
-	},
-});
+const {
+	currentModal,
+	submitObject,
+	cancelModal,
+} = useModal();
 
-const {benefitSubTypeOptions} = useOptions();
-
-const newBenefit = ref(JSON.parse(JSON.stringify(props.benefit)));
 // include Booleans to turn on/off required aspect and to show/hide elements
-const includePregnancy = ref(props.edit && props.benefit.Pregnancy.PregnancyStatus !== '');
-const includeIncome = ref(props.edit && props.benefit.Countable.Income !== '')
-const includeAssistance = ref(props.edit && props.benefit.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
-const includeCopayExemptDetails = ref(props.edit && props.benefit.CopayExemptDetails.CopayExemptIndicator !== '')
-const includePatientLiability = ref(props.edit && props.benefit.PatientLiability.Amount !== '')
-const includeSpenddown = ref(props.edit && props.benefit.Spenddown.Information.SpenddownIndicator !== '')
+const includePregnancy = ref(currentModal.value.edit && currentModal.value.object.benefit.Pregnancy.PregnancyStatus !== '');
+const includeIncome = ref(currentModal.value.edit && currentModal.value.object.benefit.Countable.Income !== '')
+const includeAssistance = ref(currentModal.value.edit && currentModal.value.object.benefit.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
+const includeCopayExemptDetails = ref(currentModal.value.edit && currentModal.value.object.benefit.CopayExemptDetails.CopayExemptIndicator !== '')
+const includePatientLiability = ref(currentModal.value.edit && currentModal.value.object.benefit.PatientLiability.Amount !== '')
+const includeSpenddown = ref(currentModal.value.edit && currentModal.value.object.benefit.Spenddown.Information.SpenddownIndicator !== '')
 // spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
-const includeSpm = ref(props.edit && props.benefit.SPMDetails.SPMIndicator !== '')
-const includeMedicareDualEligibility = ref(props.edit && props.benefit.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
-const includeSpenddownBill = ref(props.edit && props.benefit.Spenddown.SpenddownBills.BillDetails.BillId !== '')
-const emit = defineEmits(['submit', 'close']);
+const includeSpm = ref(currentModal.value.edit && currentModal.value.object.benefit.SPMDetails.SPMIndicator !== '')
+const includeMedicareDualEligibility = ref(currentModal.value.edit && currentModal.value.object.benefit.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
+const includeSpenddownBill = ref(currentModal.value.edit && currentModal.value.object.benefit.Spenddown.SpenddownBills.BillDetails.BillId !== '')
+
 
 const submit = () => {
-	emit('submit', newBenefit.value);
+	submitObject();
 };
 const close = () => {
-	emit('close');
+	cancelModal();
 };
 </script>
 <template>
@@ -76,7 +69,7 @@ const close = () => {
 			<label>
 				<span>BenefitSubType</span>
 				<select
-					v-model="newBenefit.BenefitSubType"
+					v-model="currentModal.object.BenefitSubType"
 					required
 				>
 					<option
@@ -92,7 +85,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newBenefit.BenefitSubTypeStartDate"
+					v-model="currentModal.object.BenefitSubTypeStartDate"
 					required
 				/>
 			</label>
@@ -102,7 +95,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newBenefit.BenefitSubTypeEndDate"
+					v-model="currentModal.object.BenefitSubTypeEndDate"
 					required
 				/>
 			</label>
@@ -112,7 +105,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newBenefit.BenefitSubTypeIssuanceDate"
+					v-model="currentModal.object.BenefitSubTypeIssuanceDate"
 					required
 				/>
 			</label>
@@ -121,7 +114,7 @@ const close = () => {
 					<span>PregnancyStatus</span>
 					<input
 						type="text"
-						v-model="newBenefit.Pregnancy.PregnancyStatus"
+						v-model="currentModal.object.Pregnancy.PregnancyStatus"
 						required
 					/>
 				</label>
@@ -131,7 +124,7 @@ const close = () => {
 						type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-						v-model="newBenefit.Pregnancy.PregnancyStartDate"
+						v-model="currentModal.object.Pregnancy.PregnancyStartDate"
 					/>
 				</label>
 				<label>
@@ -140,7 +133,7 @@ const close = () => {
 						type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-						v-model="newBenefit.Pregnancy.PregnancyDueDate"
+						v-model="currentModal.object.Pregnancy.PregnancyDueDate"
 					/>
 				</label>
 				<label>
@@ -149,7 +142,7 @@ const close = () => {
 						type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-						v-model="newBenefit.Pregnancy.PregnancyEndDate"
+						v-model="currentModal.object.Pregnancy.PregnancyEndDate"
 					/>
 				</label>
 			</div>
@@ -158,7 +151,7 @@ const close = () => {
 					<span>Income</span>
 					<input
 						type="text"
-						v-model="newBenefit.Countable.Income"
+						v-model="currentModal.object.Countable.Income"
 						required
 					/>
 				</label>
@@ -168,14 +161,14 @@ const close = () => {
 					<span>ContributingMemberId</span>
 					<input
 						type="text"
-						v-model="newBenefit.MemberIdsForAssistanceUnit.ContributingMemberId"
+						v-model="currentModal.object.MemberIdsForAssistanceUnit.ContributingMemberId"
 					/>
 				</label>
 				<label>
 					<span>RelationshipCode</span>
 					<input
 						type="text"
-						v-model="newBenefit.MemberIdsForAssistanceUnit.RelationshipCode"
+						v-model="currentModal.object.MemberIdsForAssistanceUnit.RelationshipCode"
 					/>
 				</label>
 			</div>
@@ -184,7 +177,7 @@ const close = () => {
 					<span>CopayExemptIndicator</span>
 					<input
 						type="text"
-						v-model="newBenefit.CopayExemptDetails.CopayExemptIndicator"
+						v-model="currentModal.object.CopayExemptDetails.CopayExemptIndicator"
 						required
 					/>
 				</label>
@@ -194,7 +187,7 @@ const close = () => {
 					<span>Amount</span>
 					<input
 						type="text"
-						v-model="newBenefit.PatientLiability.Amount"
+						v-model="currentModal.object.PatientLiability.Amount"
 						required
 					/>
 				</label>
@@ -204,7 +197,7 @@ const close = () => {
 					<span>SpenddownIndicator</span>
 					<input
 						type="text"
-						v-model="newBenefit.Spenddown.Information.SpenddownIndicator"
+						v-model="currentModal.object.Spenddown.Information.SpenddownIndicator"
 						required
 					/>
 				</label>
@@ -214,14 +207,14 @@ const close = () => {
 						type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-						v-model="newBenefit.Spenddown.Information.MetDate"
+						v-model="currentModal.object.Spenddown.Information.MetDate"
 					/>
 				</label>
 				<label>
 					<span>Amount</span>
 					<input
 						type="text"
-						v-model="newBenefit.Spenddown.Information.Amount"
+						v-model="currentModal.object.Spenddown.Information.Amount"
 						required
 					/>
 				</label>
@@ -234,7 +227,7 @@ const close = () => {
 						<span>BillId</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillId"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillId"
 							required
 						/>
 					</label>
@@ -242,7 +235,7 @@ const close = () => {
 						<span>BillAccountNumber</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillAccountNumber"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillAccountNumber"
 							required
 						/>
 					</label>
@@ -252,7 +245,7 @@ const close = () => {
 							type="date"
 						min="1900-01-01"
 						max="2999-12-31"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillStartDate"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillStartDate"
 							required
 						/>
 					</label>
@@ -262,7 +255,7 @@ const close = () => {
 							type="date"
 						min="1900-01-01"
 						max="2999-12-31"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillEndDate"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillEndDate"
 							required
 						/>
 					</label>
@@ -270,7 +263,7 @@ const close = () => {
 						<span>ServiceType</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.ServiceType"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.ServiceType"
 							required
 						/>
 					</label>
@@ -278,14 +271,14 @@ const close = () => {
 						<span>PrescriptionNumber</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.PrescriptionNumber"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.PrescriptionNumber"
 						/>
 					</label>
 					<label>
 						<span>ErepCurrentUsedAmount</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.ErepCurrentUsedAmount"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.ErepCurrentUsedAmount"
 							required
 						/>
 					</label>
@@ -293,7 +286,7 @@ const close = () => {
 						<span>TotalBill</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.TotalBill"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.TotalBill"
 							required
 						/>
 					</label>
@@ -301,7 +294,7 @@ const close = () => {
 						<span>BillingProviderName</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderName"
 							required
 						/>
 					</label>
@@ -309,7 +302,7 @@ const close = () => {
 						<span>BillingProviderStreet1</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet1"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet1"
 							required
 						/>
 					</label>
@@ -317,7 +310,7 @@ const close = () => {
 						<span>BillingProviderStreet2</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet2"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet2"
 							required
 						/>
 					</label>
@@ -325,7 +318,7 @@ const close = () => {
 						<span>BillingProviderStreet3</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet3"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderStreet3"
 							required
 						/>
 					</label>
@@ -333,7 +326,7 @@ const close = () => {
 						<span>BillingProviderCityName</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderCityName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderCityName"
 							required
 						/>
 					</label>
@@ -341,7 +334,7 @@ const close = () => {
 						<span>BillingProviderStateCode</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderStateCode"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderStateCode"
 							required
 						/>
 					</label>
@@ -349,7 +342,7 @@ const close = () => {
 						<span>BillingProviderZipCode</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCode"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCode"
 							required
 						/>
 					</label>
@@ -357,28 +350,28 @@ const close = () => {
 						<span>BillingProviderZipCodeExtension</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCodeExtension"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderZipCodeExtension"
 						/>
 					</label>
 					<label>
 						<span>BillingProviderCountyCode</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BillingProviderCountyCode"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BillingProviderCountyCode"
 						/>
 					</label>
 					<label>
 						<span>BilledPersonSuffix</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BilledPersonSuffix"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BilledPersonSuffix"
 						/>
 					</label>
 					<label>
 						<span>BilledPersonFirstName</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BilledPersonFirstName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BilledPersonFirstName"
 							required
 						/>
 					</label>
@@ -386,14 +379,14 @@ const close = () => {
 						<span>BilledPersonMiddleName</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BilledPersonMiddleName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BilledPersonMiddleName"
 						/>
 					</label>
 					<label>
 						<span>BilledPersonLastName</span>
 						<input
 							type="text"
-							v-model="newBenefit.Spenddown.SpenddownBills.BillDetails.BilledPersonLastName"
+							v-model="currentModal.object.Spenddown.SpenddownBills.BillDetails.BilledPersonLastName"
 							required
 						/>
 					</label>
@@ -404,7 +397,7 @@ const close = () => {
 					<span>SPMIndicator</span>
 					<input
 						type="text"
-						v-model="newBenefit.SPMDetails.SPMIndicator"
+						v-model="currentModal.object.SPMDetails.SPMIndicator"
 						required
 					/>
 				</label>
@@ -414,7 +407,7 @@ const close = () => {
 					<span>MedicareDualEligibilityStatusCode</span>
 					<input
 						type="text"
-						v-model="newBenefit.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode"
+						v-model="currentModal.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode"
 						required
 					/>
 				</label>

@@ -1,21 +1,18 @@
 <script setup>
 
-import { ref } from 'vue';
+import useModal from '../composables/useModal'
 
-const props = defineProps({
-	upp: {
-		type: Object,
-		required: true,
-	},
-});
-const newUpp = ref(JSON.parse(JSON.stringify(props.upp)));
+const {
+	currentModal,
+	submitObject,
+	cancelModal,
+} = useModal();
 
-const emit = defineEmits(['submit', 'close']);
 const submit = () => {
-	emit('submit', newUpp.value);
+	submitObject();
 };
 const close = () => {
-	emit('close');
+	cancelModal();
 };
 </script>
 <template>
@@ -27,7 +24,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newUpp.UppProgramStartDate"
+					v-model="currentModal.object.UppProgramStartDate"
 					required
 				/>
 			</label>
@@ -37,7 +34,7 @@ const close = () => {
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newUpp.UppProgramEndDate"
+					v-model="currentModal.object.UppProgramEndDate"
 					required
 				/>
 			</label>
@@ -45,7 +42,7 @@ const close = () => {
 				<span>BillMonth</span>
 				<input
 					type="text"
-					v-model="newUpp.BillMonth"
+					v-model="currentModal.object.BillMonth"
 					required
 				/>
 			</label>
@@ -53,7 +50,7 @@ const close = () => {
 				<span>UppPremiumAmt</span>
 				<input
 					type="number"
-					v-model="newUpp.UppPremiumAmt"
+					v-model="currentModal.object.UppPremiumAmt"
 					required
 				/>
 			</label>

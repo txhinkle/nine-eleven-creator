@@ -11,7 +11,6 @@ const {caseHeadRelationshipDetailsObject} = useTemplates();
 const { setModal } = useModal()
 const {
 	currentEligibilityRecord,
-	addNewRecord,
 	addMemberToRecord,
 	selectMember,
 	currentMemberIndex,
@@ -27,50 +26,13 @@ onUpdated(() => {
 	validateRecords();
 })
 
-// const edit = ref(false);
-// const newRelationship = ref(null);
-// const oldRelationshipIndex = ref(null);
-
-// const insertInArray = function(object, name, index) {
-// 	if(index !== null) {
-// 		currentEligibilityRecord.value[name].value.splice(index, 1, object);
-// 	} else {
-// 		currentEligibilityRecord.value[name].value.push(object);
-// 	}
-// }
-
 const deleteFromArray = function (arrayName, index) {
 	currentEligibilityRecord.value[arrayName].value.splice(index, 1);
 };
 
-// const cancelModal = function () {
-// 	newRelationship.value = null;
-// 	oldRelationshipIndex.value = null;
-// 	edit.value = false
-// };
-
 const addRelationship = function(relationship, index) {
-	// newRelationship.value = relationship;
-	// if(index !== null) {
-	// 	oldRelationshipIndex.value = index;
-	// 	edit.value = true;
-	// }
-	// currentModal.value = {
-	// 	name: 'MemberRelationshipToHoh',
-	// 	object: relationship,
-	// 	index,
-	// 	edit: (index) ? true : false
-	// }
 	setModal('MemberRelationshipToHoh', relationship, !!index, index)
 }
-
-// const submitRelationship = function (relationship) {
-// 	const index = oldRelationshipIndex.value;
-// 	insertInArray(relationship, 'MemberRelationshipToHoh', index);
-// 	oldRelationshipIndex.value = null;
-// 	edit.value = false
-// 	newRelationship.value = null
-// }
 
 const showFaq = ref(false);
 
@@ -87,13 +49,6 @@ const labelStyle = function(object) {
 
 </script>
 <template>
-	<button
-		@click="addNewRecord"
-		id="record-button"
-		style="z-index: 2;"
-	>
-		+
-	</button>
 	<div class="section-left">
 		<div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
 			<h3 v-if="item === 'ErepCaseId'">Basic Fields</h3>
@@ -177,7 +132,6 @@ const labelStyle = function(object) {
 		<!-- <div v-for="item in Object.keys(currentEligibilityRecord)" :key="item">
 			<div v-if="currentEligibilityRecord[item].included">{{ currentEligibilityRecord[item].path }} : {{ currentEligibilityRecord[item].value }}</div>
 		</div> -->
-		<!-- <p v-else>No Records Yet, Add Record to start</p> -->
 	</div>
 	<div class="section-right">
 		<p><button @click="toggleFaq">{{ showFaq ? 'Hide' : 'Show' }} tips for using this form</button></p>
@@ -217,16 +171,6 @@ const labelStyle = function(object) {
 <style scoped>
 label {
 	display: block;
-}
-
-#record-button {
-	position: fixed;
-	top: 2%;
-	border-radius: 50%;
-	background-color: lightgreen;
-	font-size: larger;
-	margin-left: 50svw;
-	padding: 10px 15px;
 }
 
 .section {
