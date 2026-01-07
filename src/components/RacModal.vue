@@ -42,36 +42,36 @@ const close = () => {
 	<div class="modal">
 		<div class="radios">
 			<label>
-				<span>Include Pregnancy</span>
 				<input type="checkbox" v-model="includePregnancy" />
+				<span>Include Pregnancy</span>
 			</label>
 			<label>
-				<span>Include Income</span>
 				<input type="checkbox" v-model="includeIncome" />
+				<span>Include Income</span>
 			</label>
 			<label>
-				<span>Include MemberIdsForAssistance</span>
 				<input type="checkbox" v-model="includeAssistance" />
+				<span>Include MemberIdsForAssistance</span>
 			</label>
 			<label>
-				<span>Include CopayExempt</span>
 				<input type="checkbox" v-model="includeCopayExemptDetails" />
+				<span>Include CopayExempt</span>
 			</label>
 			<label>
-				<span>Include PatientLiability</span>
 				<input type="checkbox" v-model="includePatientLiability" />
+				<span>Include PatientLiability</span>
 			</label>
 			<label>
-				<span>Include Spenddown</span>
 				<input type="checkbox" v-model="includeSpenddown" />
+				<span>Include Spenddown</span>
 			</label>
 			<label>
-				<span>Include SPM</span>
 				<input type="checkbox" v-model="includeSpm" />
+				<span>Include SPM</span>
 			</label>
 			<label>
-				<span>Include includeMedicareDualEligibility</span>
 				<input type="checkbox" v-model="includeMedicareDualEligibility" />
+				<span>Include includeMedicareDualEligibility</span>
 			</label>
 		</div>
 		<form @submit.prevent="submit">
