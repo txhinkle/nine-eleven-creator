@@ -3,20 +3,13 @@ import FormView from './components/FormView.vue'
 import ListView from './components/ListView.vue'
 import XmlView from './components/XmlView.vue'
 import { ref, computed } from 'vue';
-import HOHRelationshipModal from './components/HOHRelationshipModal.vue';
-import RacModal from './components/RacModal.vue';
-import BenefitModal from './components/BenefitModal.vue';
-import MedicareCoverageDetailsModal from './components/MedicareCoverageDetailsModal.vue';
-import IncarcerationModal from './components/IncarcerationModal.vue';
-import UppModal from './components/UppModal.vue';
-import EsiModal from './components/EsiModal.vue';
 import useRecord from './composables/useRecord';
 // import useTemplates from '@/composables/useTemplates';
 import useModal from '@/composables/useModal'
 
 const currentView = ref('form')
 const {currentModal} = useModal();
-const { addNewRecord, eligibilityList } = useRecord();
+const { eligibilityList, addNewRecord } = useRecord();
 
 const updateView = function(view) {
   currentView.value = view
@@ -24,9 +17,9 @@ const updateView = function(view) {
 const tabStyles = computed(() => {
   const tab = currentView.value;
   const styles = {
-    form: 'color: white;',
-    list: 'color: white;',
-    xml: 'color: white;',
+    form: 'color: #dedede;',
+    list: 'color: #dedede;',
+    xml: 'color: #dedede;',
   }
   if(eligibilityList.value.length) {
     styles[tab] = 'color: red'
@@ -54,7 +47,6 @@ const tabStyles = computed(() => {
     <div id="records" v-if="eligibilityList.length">
       <div
         id="form"
-        v-if="!currentModal"
       >
         <FormView v-if="currentView==='form'" />
         <ListView
@@ -62,32 +54,6 @@ const tabStyles = computed(() => {
           @form="updateView('form')"
         />
         <XmlView v-else-if="currentView==='xml'" />
-      </div>
-      <div
-        id="modal"
-        v-else
-      >
-        <HOHRelationshipModal
-          v-if="currentModal.name === 'MemberRelationshipToHoh'"
-        />
-        <RacModal
-          v-if="currentModal.name === 'Rac'"
-        />
-        <BenefitModal
-          v-if="currentModal.name === 'Benefit'"
-        />
-        <IncarcerationModal
-          v-if="currentModal.name === 'Incarceration'"
-        />
-        <UppModal
-          v-if="currentModal.name === 'UppPremiumInformation'"
-        />
-        <EsiModal
-          v-if="currentModal.name === 'ESIPremiumInformation'"
-        />
-        <MedicareCoverageDetailsModal
-          v-if="currentModal.name === 'MedicareCoverageDetails'"
-        />
       </div>
     </div>
     <div id="no-records" v-else style="margin-top: 10svh;">

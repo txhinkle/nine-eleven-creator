@@ -1,38 +1,32 @@
 <script setup>
 import { ref, computed } from 'vue';
 import useOptions from '../composables/useOptions';
+import useModal from '../composables/useModal'
 
-const props = defineProps({
-	address: {
-		type: Object,
-		required: true,
-	},
-});
+const {
+	currentModal,
+	submitAddress,
+	cancelModal,
+} = useModal();
+
 const {countyOptions} = useOptions();
-const newAddress = ref(JSON.parse(JSON.stringify(props.address)));
 const types = ref([]);
-if (newAddress.value.AddressType) {
-	types.value.push(newAddress.value.AddressType);
+if (currentModal.value.object.AddressType) {
+	types.value.push(currentModal.value.object.AddressType);
 }
-
 const checkType = computed(() => {
 	if(types.value.length) {
 		return true;
 	}
 	return false
 })
-const emit = defineEmits(['submit', 'close']);
+
 const submit = () => {
-	if(types.value.length) {
-		emit('submit', {
-		addressTypes: types.value,
-		address: newAddress.value,
-	});
+	if(checkType.value) {
+		submitAddress({addressTypes: types.value, address: currentModal.value.object});
 	}
 };
-const close = () => {
-	emit('close');
-};
+
 </script>
 <template>
 	<div class="modal">
@@ -56,63 +50,72 @@ const close = () => {
 				<span>Residential</span>
 			</label>
 			<label>
+				<input
+					type="checkbox"
+					id="guardian"
+					value="Guardian"
+					v-model="types"
+				/>
+				<span>Guardian</span>
+			</label>
+			<label class="input-grid">
 				<span>Street1</span>
 				<input
 					type="text"
-					v-model="newAddress.Street1"
+					v-model="currentModal.object.Street1"
 					required
 				/>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>Street2</span>
 				<input
 					type="text"
-					v-model="newAddress.Street2"
+					v-model="currentModal.object.Street2"
 				/>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>Street3</span>
 				<input
 					type="text"
-					v-model="newAddress.Street3"
+					v-model="currentModal.object.Street3"
 				/>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>CityName</span>
 				<input
 					type="text"
-					v-model="newAddress.CityName"
+					v-model="currentModal.object.CityName"
 					required
 				/>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>StateCode</span>
 				<input
 					type="text"
-					v-model="newAddress.StateCode"
+					v-model="currentModal.object.StateCode"
 					pattern="[A-Z]{2}"
 					required
 				/>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>ZipCode</span>
 				<input
 					type="text"
-					v-model="newAddress.ZipCode"
+					v-model="currentModal.object.ZipCode"
 					required
 				/>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>ZipCodeExtension</span>
 				<input
 					type="text"
-					v-model="newAddress.ZipCodeExtension"
+					v-model="currentModal.object.ZipCodeExtension"
 				/>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>County Code</span>
 				<select
-				v-model="newAddress.CountyCode"
+				v-model="currentModal.object.CountyCode"
 				>
 					<option
 						v-for="(option, index) in countyOptions.labels"
@@ -122,28 +125,28 @@ const close = () => {
 				</select>
 				<span> (not required but highly recommended)</span>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>AddressStartDate</span>
 				<input
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newAddress.AddressStartDate"
+					v-model="currentModal.object.AddressStartDate"
 					required
 				/>
 			</label>
-			<label>
+			<label class="input-grid">
 				<span>AddressEndDate</span>
 				<input
 					type="date"
 					min="1900-01-01"
 					max="2999-12-31"
-					v-model="newAddress.AddressEndDate"
+					v-model="currentModal.object.AddressEndDate"
 					required
 				/>
 			</label>
-			<button type="submit">Update</button>
-			<button @click="close">Cancel</button>
+			<button type="submit" >Update</button>
+			<button @click="cancelModal">Cancel</button>
 			<div v-if="!checkType">Please select one or more address types</div>
 		</form>
 	</div>

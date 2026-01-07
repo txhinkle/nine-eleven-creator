@@ -1,6 +1,7 @@
 * {
-  background-color: black;
-  color: white;
+  background-color: #222222;
+  color: #dedede;
+  font-family: sans-serif;
 }
 #app {
   width: 100%;
@@ -26,7 +27,7 @@ nav {
 } */
 
 input[type=button] {
-  color: white;
+  color: #dedede;
 }
 
 .page {
@@ -45,7 +46,7 @@ nav li {
   border: solid;
   border-width: 2px 2px 0 2px;
   margin: 0 5px 0 0;
-  background-color: black;
+  background-color: #222222;
 }
 
 nav li a {
@@ -74,7 +75,7 @@ p {
 }
 
 a {
-    color: blue;
+    color: #4b79f8;
     text-decoration: underline;
 }
 
@@ -87,7 +88,7 @@ select {
 }
 
 input:valid, select {
-  background-color: white;
+  background-color: #eeeeee;
 }
 
 input:invalid {
@@ -96,6 +97,12 @@ input:invalid {
 
 label {
 	display: block;
+  margin-bottom: 0.5svh;
+  margin-top: 0.5svh;
+}
+
+label.input-grid > input, label.input-grid > select {
+  float: right;
 }
 
 .modal {

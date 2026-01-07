@@ -2,7 +2,6 @@
 import {ref} from 'vue'
 import useRecord from '@/composables/useRecord';
 // import useMemberData from '@/composables/useMemberData';
-import AddressModal from '@/components/AddressModal.vue';
 import useTemplates from '@/composables/useTemplates';
 import useOptions from '@/composables/useOptions'
 import useModal from '@/composables/useModal'
@@ -31,24 +30,24 @@ const newAddress = ref(null);
 const oldAddressIndex = ref(null);
 const countyAddress = ref(null);
 
-const submitAddress = function ({ addressTypes, address }) {
-	const index = oldAddressIndex.value;
+// const submitAddress = function ({ addressTypes, address }) {
+// 	const index = oldAddressIndex.value;
 	
-	addressTypes.forEach((type) => {
-		const addy = {
-			AddressType: type,
-			...address,
-		};
-		addy.AddressType = type;
-		currentMemberRecord.value['Address'].value.push(addy);
-	});
-	if (index !== null) {
-		currentMemberRecord.value['Address'].value.splice(index, 1);
-		oldAddressIndex.value = null;
-	}
-	newAddress.value = null;
-	edit.value = false
-};
+// 	addressTypes.forEach((type) => {
+// 		const addy = {
+// 			AddressType: type,
+// 			...address,
+// 		};
+// 		addy.AddressType = type;
+// 		currentMemberRecord.value['Address'].value.push(addy);
+// 	});
+// 	if (index !== null) {
+// 		currentMemberRecord.value['Address'].value.splice(index, 1);
+// 		oldAddressIndex.value = null;
+// 	}
+// 	newAddress.value = null;
+// 	edit.value = false
+// };
 
 const selectCounty = function () {
 	if(countyAddress.value) {
@@ -64,14 +63,25 @@ const selectCounty = function () {
             AddressStartDate: addressByCounty[countyAddress.value].AddressStartDate,
             AddressEndDate: addressByCounty[countyAddress.value].AddressEndDate,
         }
-		submitAddress({
-			addressTypes: ['Residential', 'Mailing'], 
-			address
-		})
+		// setModal(null, null, null, null)
+		// submitAddress({
+		// 	addressTypes: ['Residential', 'Mailing'], 
+		// 	address
+		// })
+		const countyTypes = ['Mailing', 'Residential']
+		countyTypes.forEach((type) => {
+			const addy = {
+				AddressType: type,
+				...address,
+			};
+			addy.AddressType = type;
+			currentMemberRecord.value['Address'].value.push(addy);
+		});
+	// if (currentModal.value.index !== null) {
+	// 	currentMemberRecord.value['Address'].value.splice(currentModal.value.index, 1);
+	// }
 		countyAddress.value = null;
 	}
-	
-	// console.log('addressByCounty[countyAddress.value]', addressByCounty[countyAddress.value])
 }
 
 const addAddress = function (address, index) {
@@ -79,10 +89,12 @@ const addAddress = function (address, index) {
 		...newAddressTemplate,
 		...address
 	};
+	const itemIndex = index || null
 	if (index !== null) {
 		oldAddressIndex.value = index;
 		edit.value = true;
 	}
+	setModal('Address', newAddress.value, edit.value, itemIndex)
 };
 const addRac = function (rac, index) {
 	setModal('Rac', rac, !!index, index);
@@ -105,11 +117,9 @@ const addMedicareCoverage = function(coverage, index) {
 	setModal('MedicareCoverageDetails', coverage, !!index, index);
 }
 
-const cancelModal = function () {
-	newAddress.value = null;
-	oldAddressIndex.value = null;
-	edit.value = false
-};
+// const setCurrentModal = function(name, modObject, index) {
+// 	setModal(name, modObject, !!index, index)
+// }
 
 const deleteFromArray = function (arrayName, index) {
 	currentMemberRecord.value[arrayName].value.splice(index, 1);
@@ -123,7 +133,7 @@ const labelStyle = function(object) {
 
 </script>
 <template>
-<div class="section-left">
+	<div>
 		<div v-for="item in Object.keys(currentMemberRecord)" :key="item">
 			<h3 v-if="item === 'MemberId'">Member Data</h3>
 			<h3 v-else-if="item === 'FosterCareParentName' && currentMemberRecord['FosterCareParentName'].included">Foster Care</h3>
@@ -297,30 +307,6 @@ const labelStyle = function(object) {
 		</div>
 		<!-- <pre>{{ currentMemberRecord }}</pre> -->
 	</div>
-	<div class="section-right">
-		<!-- <div class="section-booleans">
-			<div v-if="Object.keys(currentMemberValidationObject).length">
-				<input
-					type="button"
-					value="Populate Default Required Fields"
-					@click="createRandomRecord"
-				/>
-			</div>
-			<label
-				v-for="item in Object.keys(currentMemberValidationObject)" :key="item"
-				@click="toggleMemberIncludes(item)"
-			>
-				<input type="checkbox" v-model="currentMemberValidationObject[item]"/>
-				<span>{{ item }}</span>
-			</label>
-		</div> -->
-	</div>
-	<AddressModal
-		v-if="newAddress"
-		:address="newAddress"
-		@submit="submitAddress"
-		@close="cancelModal"
-	/>
 	
 </template>
 <style scoped>

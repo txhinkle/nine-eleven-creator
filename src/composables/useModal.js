@@ -13,7 +13,6 @@ const setModal = function (name, object = null, edit = null, index = null) {
         edit,
         index
     }
-    console.log(currentModal.value)
 }
 
 const insertInArray = function() {
@@ -49,12 +48,26 @@ const submitObject = function () {
     }
     cancelModal();
 }
-
+const submitAddress = function ({addressTypes, address}) {
+    addressTypes.forEach((type) => {
+		const addy = {
+			AddressType: type,
+			...address,
+		};
+		addy.AddressType = type;
+		currentMemberRecord.value['Address'].value.push(addy);
+	});
+	if (currentModal.value.index !== null) {
+		currentMemberRecord.value['Address'].value.splice(currentModal.value.index, 1);
+	}
+    cancelModal();
+}
 export default function useModal () {
     return {
         currentModal,
         submitObject,
         cancelModal,
-        setModal
+        setModal,
+        submitAddress
     };
 }
