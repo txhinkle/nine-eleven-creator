@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import useOptions from '../composables/useOptions';
 import useModal from '../composables/useModal'
+import useTemplates from '../composables/useTemplates'
 
 const {
 	currentModal,
@@ -10,22 +11,49 @@ const {
 } = useModal();
 
 const { benefitSubTypeOptions } = useOptions();
+const {newBenefitTemplate} = useTemplates();
 
 // include Booleans to turn on/off required aspect and to show/hide elements
-const includePregnancy = ref(currentModal.value.edit && currentModal.value.object.benefit.Pregnancy.PregnancyStatus !== '');
-const includeIncome = ref(currentModal.value.edit && currentModal.value.object.benefit.Countable.Income !== '')
-const includeAssistance = ref(currentModal.value.edit && currentModal.value.object.benefit.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
-const includeCopayExemptDetails = ref(currentModal.value.edit && currentModal.value.object.benefit.CopayExemptDetails.CopayExemptIndicator !== '')
-const includePatientLiability = ref(currentModal.value.edit && currentModal.value.object.benefit.PatientLiability.Amount !== '')
-const includeSpenddown = ref(currentModal.value.edit && currentModal.value.object.benefit.Spenddown.Information.SpenddownIndicator !== '')
+const includePregnancy = ref(currentModal.value.edit && currentModal.value.object.Pregnancy.PregnancyStatus !== '');
+const includeIncome = ref(currentModal.value.edit && currentModal.value.object.Countable.Income !== '')
+const includeAssistance = ref(currentModal.value.edit && currentModal.value.object.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
+const includeCopayExemptDetails = ref(currentModal.value.edit && currentModal.value.object.CopayExemptDetails.CopayExemptIndicator !== '')
+const includePatientLiability = ref(currentModal.value.edit && currentModal.value.object.PatientLiability.Amount !== '')
+const includeSpenddown = ref(currentModal.value.edit && currentModal.value.object.Spenddown.Information.SpenddownIndicator !== '')
 // spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
-const includeSpm = ref(currentModal.value.edit && currentModal.value.object.benefit.SPMDetails.SPMIndicator !== '')
-const includeMedicareDualEligibility = ref(currentModal.value.edit && currentModal.value.object.benefit.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
-const includeSpenddownBill = ref(currentModal.value.edit && currentModal.value.object.benefit.Spenddown.SpenddownBills.BillDetails.BillId !== '')
+const includeSpm = ref(currentModal.value.edit && currentModal.value.object.SPMDetails.SPMIndicator !== '')
+const includeMedicareDualEligibility = ref(currentModal.value.edit && currentModal.value.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
+const includeSpenddownBill = ref(currentModal.value.edit && currentModal.value.object.Spenddown.SpenddownBills.BillDetails.BillId !== '')
 
+
+const clearNotIncluded = function() {
+	// use this to clear unincluded fields prior to submittingObject
+	const includes = [
+		{path: 'Pregnancy', obj: currentModal.value.object.Pregnancy, boolean: includePregnancy.value},
+		{path: 'Countable', obj: currentModal.value.object.Countable, boolean: includeIncome.value},
+		{path: 'MemberIdsForAssistanceUnit', obj: currentModal.value.object.MemberIdsForAssistanceUnit, boolean: includeAssistance.value},
+		{path: 'CopayExemptDetails', obj: currentModal.value.object.CopayExemptDetails, boolean: includeCopayExemptDetails.value},
+		{path: 'PatientLiability', obj: currentModal.value.object.PatientLiability, boolean: includePatientLiability.value},
+		{path: 'Spenddown', obj: currentModal.value.object.Spenddown, boolean: includeSpenddown.value},
+		{path: 'SPMDetails', obj: currentModal.value.object.SPMDetails, boolean: includeSpm.value},
+		{path: 'MedicareDualEligibilityStatusCode', obj: currentModal.value.object.MedicareDualEligibilityStatusCode, boolean: includeMedicareDualEligibility.value},
+		{path: 'SpenddownBills', obj: currentModal.value.object.Spenddown.SpenddownBills, boolean: includeSpenddownBill.value},
+	]
+	includes.forEach((incl) => {
+		if(!incl.boolean) {
+			if(incl.path === 'SpenddownBills' && includeSpenddown.value === true) {
+				incl.obj = newBenefitTemplate[incl.path]
+			} else {
+				currentModal.value.object[incl.path] = newBenefitTemplate[incl.path]
+			}
+			
+		}
+	});
+	submitObject()
+}
 
 const submit = () => {
-	submitObject();
+	clearNotIncluded();
 };
 const close = () => {
 	cancelModal();

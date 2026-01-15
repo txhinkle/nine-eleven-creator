@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import useOptions from '../composables/useOptions';
-import useModal from '../composables/useModal'
+import useModal from '../composables/useModal';
+import useTemplates from '../composables/useTemplates'
 
 const {
 	currentModal,
@@ -9,31 +10,54 @@ const {
 	cancelModal,
 } = useModal();
 
+const {newRacTemplate} = useTemplates();
+
 const {racOptions, SPMIndicatorOptions, spenddownIndicatorOptions } = useOptions();
 
 // include Booleans to turn on/off required aspect and to show/hide elements
 // will be included in edit if entered and then toggled off previously
-const toggleIncluded = function(key) {
-	console.log('fill me in', key)
-	// turn the includes into an object so that the keys are strings?
-	// then you can turn them on and off and also use this to empty out the value
-	// alternatively, you could pull in the sanitizedRecord and check the value there
+
+const clearNotIncluded = function() {
+	// use this to clear unincluded fields prior to submittingObject
+	const includes = [
+		{path: 'Pregnancy', obj: currentModal.value.object.Pregnancy, boolean: includePregnancy.value},
+		{path: 'Countable', obj: currentModal.value.object.Countable, boolean: includeIncome.value},
+		{path: 'MemberIdsForAssistanceUnit', obj: currentModal.value.object.MemberIdsForAssistanceUnit, boolean: includeAssistance.value},
+		{path: 'CopayExemptDetails', obj: currentModal.value.object.CopayExemptDetails, boolean: includeCopayExemptDetails.value},
+		{path: 'PatientLiability', obj: currentModal.value.object.PatientLiability, boolean: includePatientLiability.value},
+		{path: 'Spenddown', obj: currentModal.value.object.Spenddown, boolean: includeSpenddown.value},
+		{path: 'SPMDetails', obj: currentModal.value.object.SPMDetails, boolean: includeSpm.value},
+		{path: 'MedicareDualEligibilityStatusCode', obj: currentModal.value.object.MedicareDualEligibilityStatusCode, boolean: includeMedicareDualEligibility.value},
+		{path: 'SpenddownBills', obj: currentModal.value.object.Spenddown.SpenddownBills, boolean: includeSpenddownBill.value},
+	]
+	includes.forEach((incl) => {
+		if(!incl.boolean) {
+			if(incl.path === 'SpenddownBills' && includeSpenddown.value === true) {
+				currentModal.value.object[incl.path] = newRacTemplate[incl.path]
+			} else {
+				currentModal.value.object[incl.path] = newRacTemplate[incl.path]
+			}
+		}
+	});
+	submitObject()
 }
-const includePregnancy = ref(currentModal.value.edit && currentModal.value.object.Pregnancy.PregnancyStatus !== '');
-// this is the only one that I fixed at all
-const includeIncome = ref(currentModal.value.object.Countable.Income !== '' );
-const includeAssistance = ref(currentModal.value.edit && currentModal.object.value.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
-const includeCopayExemptDetails = ref(currentModal.value.edit && currentModal.value.object.CopayExemptDetails.CopayExemptIndicator !== '')
-const includePatientLiability = ref(currentModal.value.edit && currentModal.value.object.PatientLiability.Amount !== '')
-const includeSpenddown = ref(currentModal.value.edit && currentModal.value.object.Spenddown.Information.SpenddownIndicator !== '')
-// spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
-const includeSpm = ref(currentModal.value.edit && currentModal.value.object.SPMDetails.SPMIndicator !== '')
-const includeMedicareDualEligibility = ref(currentModal.value.edit && currentModal.value.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
-const includeSpenddownBill = ref(currentModal.value.edit && currentModal.value.object.Spenddown.SpenddownBills.BillDetails.BillId !== '')
 
 const submit = () => {
-	submitObject();
+	clearNotIncluded();
 };
+
+const includePregnancy = ref(currentModal.value.object.Pregnancy.PregnancyStatus !== '');
+const includeIncome = ref(currentModal.value.object.Countable.Income !== '' );
+const includeAssistance = ref(currentModal.value.object.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
+const includeCopayExemptDetails = ref(currentModal.value.object.CopayExemptDetails.CopayExemptIndicator !== '')
+const includePatientLiability = ref(currentModal.value.object.PatientLiability.Amount !== '')
+const includeSpenddown = ref(currentModal.value.object.Spenddown.Information.SpenddownIndicator !== '')
+// spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
+const includeSpm = ref(currentModal.value.object.SPMDetails.SPMIndicator !== '')
+const includeMedicareDualEligibility = ref(currentModal.value.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
+const includeSpenddownBill = ref(currentModal.value.object.Spenddown.SpenddownBills.BillDetails.BillId !== '')
+
+
 const close = () => {
 	cancelModal();
 };

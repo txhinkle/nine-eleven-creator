@@ -113,7 +113,7 @@ const submit = () => {
 				/>
 			</label>
 			<label class="input-grid">
-				<span>County Code</span>
+				<span>CountyCode*</span>
 				<select
 				v-model="currentModal.object.CountyCode"
 				>
@@ -123,7 +123,6 @@ const submit = () => {
 						:key="index"
 					>{{ countyOptions.labels[index] }}</option>
 				</select>
-				<span> (not required but highly recommended)</span>
 			</label>
 			<label class="input-grid">
 				<span>AddressStartDate</span>
@@ -148,8 +147,7 @@ const submit = () => {
 			<button type="submit" >Update</button>
 			<button @click="cancelModal">Cancel</button>
 			<div v-if="!checkType">Please select one or more address types</div>
+			<span style="font-size:x-small;">*not required but highly recommended</span>
 		</form>
 	</div>
 </template>
-
-
