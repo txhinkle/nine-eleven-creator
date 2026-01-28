@@ -574,7 +574,7 @@ const addMemberToRecord = function() {
             value: '',
             required: true,
             included: false,
-            // handler: conditionalRequirementToggle,
+            handler: conditionalRequirementToggle,
         },
         Id: {
             path: 'MemberData.MedicareEligibility.MedicareIdDetails.Id',
@@ -591,7 +591,7 @@ const addMemberToRecord = function() {
             included: false,
             options: {
                 labels: ['1', '2','3','4', '5', '6'],
-                values: [1, 2, 3, 4, 5, 6]
+                values: ['1', '2','3','4', '5', '6']
             }
         },
         IdStartDate: {
@@ -1604,17 +1604,19 @@ const toggleMemberIncludes = function (section) {
 }
 
 const conditionalRequirementToggle = function(path, value) {
-    // Adjust to shape of MemberData for future use
+
     if(path.path.includes('MedicareIdType') && value ==='MBI') {
-        currentEligibilityRecord.value.IdOccurrence.required = true;
-        currentRecordValidationObject.value['IdOccurrence'] = !currentRecordValidationObject.value['IdOccurrence']
+        currentMemberRecord.value.IdOccurrence.required = true;
+        // currentMemberValidationObject.value['IdOccurrence'] = true
     } else {
-        currentEligibilityRecord.value.IdOccurrence.required = false;
+        // currentEligibilityRecord.value['IdOccurrence'].required = false;
+        currentMemberRecord.value.IdOccurrence.required = false;
+        // currentMemberValidationObject.value['IdOccurrence'] = false
     }
 }
 
 const createRandomRecord = function() {
-    currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + ''
+    currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + '';
     currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
     currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value = currentEligibilityRecord.value['HohMemberId'].value;
     currentEligibilityRecord.value.MemberData.value.forEach((item, index) => {

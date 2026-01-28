@@ -1,10 +1,11 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onUpdated} from 'vue'
 import useRecord from '@/composables/useRecord';
 // import useMemberData from '@/composables/useMemberData';
 import useTemplates from '@/composables/useTemplates';
 import useOptions from '@/composables/useOptions'
 import useModal from '@/composables/useModal'
+import useValidation from '@/composables/useValidation';
 
 const {
 	newAddressTemplate,
@@ -13,6 +14,7 @@ const {
 	newIncarcerationTemplate,
 	newUppTemplate,
 } = useTemplates()
+const {validateRecords} = useValidation();
 
 const {
 	// currentRecordValidationObject,
@@ -29,6 +31,10 @@ const edit = ref(false);
 const newAddress = ref(null);
 const oldAddressIndex = ref(null);
 const countyAddress = ref(null);
+
+onUpdated(() => {
+	validateRecords();
+})
 
 // const submitAddress = function ({ addressTypes, address }) {
 // 	const index = oldAddressIndex.value;
