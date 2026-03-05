@@ -1616,8 +1616,12 @@ const conditionalRequirementToggle = function(path, value) {
 }
 
 const createRandomRecord = function() {
-    currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + '';
-    currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
+    currentEligibilityRecord.value['ErepCaseId'].value 
+        ? currentEligibilityRecord.value['ErepCaseId'].value 
+        : currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + '';
+    currentEligibilityRecord.value['HohMemberId'].value
+        ? currentEligibilityRecord.value['HohMemberId'].value
+        : currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
     currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value = currentEligibilityRecord.value['HohMemberId'].value;
     currentEligibilityRecord.value.MemberData.value.forEach((item, index) => {
         createRandomMemberData(index);
@@ -1635,39 +1639,57 @@ const createRandomMemberData = function(index) {
             memId = (memId * 1 + 1) + ''
         }
     }
-    currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
-    currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'
-    currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = index  + 'last'
-    currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value = 'UN'
-    currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value = '2000-01-01'
-    currentEligibilityRecord.value.MemberData.value[index]['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
-    currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
-    currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value = 'N'
-    currentEligibilityRecord.value.MemberData.value[index]['Address'].value = []
-    currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
-        AddressType: 'Mailing',
-        Street1: '55 N Main St',
-        Street2: '',
-        Street3: '',
-        CityName: 'SALT LAKE CITY',
-        StateCode: 'UT',
-        ZipCode: '84150',
-        CountyCode: 'CT117',
-        AddressStartDate: '2000-01-01',
-        AddressEndDate: '2999-12-31',
-    })
-    currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
-        AddressType: 'Residential',
-        Street1: '55 N Main St',
-        Street2: '',
-        Street3: '',
-        CityName: 'SALT LAKE CITY',
-        StateCode: 'UT',
-        ZipCode: '84150',
-        CountyCode: 'CT117',
-        AddressStartDate: '2000-01-01',
-        AddressEndDate: '2999-12-31',
-    })
+    currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
+    currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'
+    currentEligibilityRecord.value.MemberData.value[index]['LastName'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['LastName'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = index  + 'last'
+    currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value = 'UN'
+    currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value = '2000-01-01'
+    currentEligibilityRecord.value.MemberData.value[index]['Gender'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['Gender'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
+    currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
+    currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value = 'N'
+    if (!currentEligibilityRecord.value.MemberData.value[index]['Address'].value) {
+        currentEligibilityRecord.value.MemberData.value[index]['Address'].value = []
+        currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
+            AddressType: 'Mailing',
+            Street1: '55 N Main St',
+            Street2: '',
+            Street3: '',
+            CityName: 'SALT LAKE CITY',
+            StateCode: 'UT',
+            ZipCode: '84150',
+            CountyCode: 'CT117',
+            AddressStartDate: '2000-01-01',
+            AddressEndDate: '2999-12-31',
+        })
+        currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
+            AddressType: 'Residential',
+            Street1: '55 N Main St',
+            Street2: '',
+            Street3: '',
+            CityName: 'SALT LAKE CITY',
+            StateCode: 'UT',
+            ZipCode: '84150',
+            CountyCode: 'CT117',
+            AddressStartDate: '2000-01-01',
+            AddressEndDate: '2999-12-31',
+        })
+    }
 }
 
 const checkIdAgainstHOH = function() {
