@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onUpdated} from 'vue'
 import useRecord from '@/composables/useRecord';
 // import useMemberData from '@/composables/useMemberData';
 import AddressModal from '@/components/AddressModal.vue';
@@ -10,7 +10,15 @@ import IncarcerationModal from './IncarcerationModal.vue';
 import UppModal from './UppModal.vue';
 import EsiModal from './EsiModal.vue';
 import useTemplates from '@/composables/useTemplates';
-import useOptions from '@/composables/useOptions'
+import useOptions from '@/composables/useOptions';
+import useValidation from '@/composables/useValidation';
+
+
+const {validateRecords} = useValidation();
+
+onUpdated(() => {
+	validateRecords();
+})
 
 const {
 	newAddressTemplate,
