@@ -218,6 +218,7 @@ const labelStyle = function(object) {
 	top: 10%;
 	width: 85%;
 	padding-bottom: 1svw;
+	padding-top: 1svw;
 }
 .section-right {
 	width: 25%;
