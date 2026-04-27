@@ -2,14 +2,8 @@
 import {ref, onUpdated} from 'vue'
 import useRecord from '@/composables/useRecord';
 // import useMemberData from '@/composables/useMemberData';
-import AddressModal from '@/components/AddressModal.vue';
-import RacModal from './RacModal.vue';
-import BenefitModal from './BenefitModal.vue';
-import MedicareCoverageDetailsModal from './MedicareCoverageDetailsModal.vue';
-import IncarcerationModal from './IncarcerationModal.vue';
-import UppModal from './UppModal.vue';
-import EsiModal from './EsiModal.vue';
 import useTemplates from '@/composables/useTemplates';
+<<<<<<< HEAD
 import useOptions from '@/composables/useOptions';
 import useValidation from '@/composables/useValidation';
 
@@ -19,6 +13,11 @@ const {validateRecords} = useValidation();
 onUpdated(() => {
 	validateRecords();
 })
+=======
+import useOptions from '@/composables/useOptions'
+import useModal from '@/composables/useModal'
+import useValidation from '@/composables/useValidation';
+>>>>>>> modals
 
 const {
 	newAddressTemplate,
@@ -27,6 +26,7 @@ const {
 	newIncarcerationTemplate,
 	newUppTemplate,
 } = useTemplates()
+const {validateRecords} = useValidation();
 
 const {
 	// currentRecordValidationObject,
@@ -35,46 +35,41 @@ const {
 	// checkIdAgainstHOH, 
 } = useRecord();
 
+const { setModal } = useModal()
+
 const { addressByCounty } = useOptions();
 
 const edit = ref(false);
 const newAddress = ref(null);
 const oldAddressIndex = ref(null);
-const newRac = ref(null);
-const oldRacIndex = ref(null);
-const newBenefit = ref(null);
-const oldBenefitIndex = ref(null);
-const newIncarceration = ref(null);
-const oldIncarcerationIndex = ref(null)
-const newUpp = ref(null);
-const oldUppIndex = ref(null);
-const newEsi = ref(null);
-const oldEsiIndex = ref(null);
-const newMedicareCoverage = ref(null);
-const oldMedicareCoverageIndex = ref(null);
 const countyAddress = ref(null);
 
-const submitAddress = function ({ addressTypes, address }) {
-	const index = oldAddressIndex.value;
+onUpdated(() => {
+	validateRecords();
+})
+
+// const submitAddress = function ({ addressTypes, address }) {
+// 	const index = oldAddressIndex.value;
 	
-	addressTypes.forEach((type) => {
-		const addy = {
-			AddressType: type,
-			...address,
-		};
-		addy.AddressType = type;
-		currentMemberRecord.value['Address'].value.push(addy);
-	});
-	if (index !== null) {
-		currentMemberRecord.value['Address'].value.splice(index, 1);
-		oldAddressIndex.value = null;
-	}
-	newAddress.value = null;
-	edit.value = false
-};
+// 	addressTypes.forEach((type) => {
+// 		const addy = {
+// 			AddressType: type,
+// 			...address,
+// 		};
+// 		addy.AddressType = type;
+// 		currentMemberRecord.value['Address'].value.push(addy);
+// 	});
+// 	if (index !== null) {
+// 		currentMemberRecord.value['Address'].value.splice(index, 1);
+// 		oldAddressIndex.value = null;
+// 	}
+// 	newAddress.value = null;
+// 	edit.value = false
+// };
 
 const selectCounty = function () {
-	const address = {
+	if(countyAddress.value) {
+		const address = {
             Street1: addressByCounty[countyAddress.value].Street1,
             Street2: addressByCounty[countyAddress.value].Street2,
             Street3: addressByCounty[countyAddress.value].Street3,
@@ -86,60 +81,24 @@ const selectCounty = function () {
             AddressStartDate: addressByCounty[countyAddress.value].AddressStartDate,
             AddressEndDate: addressByCounty[countyAddress.value].AddressEndDate,
         }
-	submitAddress({
-		addressTypes: ['Residential', 'Mailing'], 
-		address
-	})
-	countyAddress.value = null;
-	// console.log('addressByCounty[countyAddress.value]', addressByCounty[countyAddress.value])
-}
-const submitRac = function (rac) {
-	const index = oldRacIndex.value;
-	insertInArray(rac, 'Rac', index);
-	oldRacIndex.value = null;
-	edit.value = false
-	newRac.value = null
-}
-const submitBenefit = function (benefit) {
-	const index = oldBenefitIndex.value;
-	insertInArray(benefit, 'Benefit', index);
-	oldBenefitIndex.value = null;
-	edit.value = false
-	newBenefit.value = null
-}
-const submitIncarceration = function (incarceration) {
-	const index = oldIncarcerationIndex.value;
-	insertInArray(incarceration, 'Incarceration', index);
-	oldIncarcerationIndex.value = null;
-	edit.value = false
-	newIncarceration.value = null
-}
-const submitUpp = function (upp) {
-	const index = oldUppIndex.value;
-	insertInArray(upp, 'UppPremiumInformation', index);
-	oldUppIndex.value = null;
-	edit.value = false
-	newUpp.value = null
-}
-const submitEsi = function (esi) {
-	const index = oldEsiIndex.value;
-	insertInArray(esi, 'ESIPremiumInformation', index);
-	oldEsiIndex.value = null;
-	edit.value = false
-	newEsi.value = null
-}
-const submitMedicareCoverage = function (esi) {
-	const index = oldMedicareCoverageIndex.value;
-	insertInArray(esi, 'MedicareCoverageDetails', index);
-	oldMedicareCoverageIndex.value = null;
-	edit.value = false
-	newMedicareCoverage.value = null
-}
-const insertInArray = function(object, name, index) {
-	if(index !== null) {
-		currentMemberRecord.value[name].value.splice(index, 1, object);
-	} else {
-		currentMemberRecord.value[name].value.push(object);
+		// setModal(null, null, null, null)
+		// submitAddress({
+		// 	addressTypes: ['Residential', 'Mailing'], 
+		// 	address
+		// })
+		const countyTypes = ['Mailing', 'Residential']
+		countyTypes.forEach((type) => {
+			const addy = {
+				AddressType: type,
+				...address,
+			};
+			addy.AddressType = type;
+			currentMemberRecord.value['Address'].value.push(addy);
+		});
+	// if (currentModal.value.index !== null) {
+	// 	currentMemberRecord.value['Address'].value.splice(currentModal.value.index, 1);
+	// }
+		countyAddress.value = null;
 	}
 }
 
@@ -148,73 +107,37 @@ const addAddress = function (address, index) {
 		...newAddressTemplate,
 		...address
 	};
+	const itemIndex = index || null
 	if (index !== null) {
 		oldAddressIndex.value = index;
 		edit.value = true;
 	}
+	setModal('Address', newAddress.value, edit.value, itemIndex)
 };
 const addRac = function (rac, index) {
-	newRac.value = rac;
-	if(index !== null) {
-		oldRacIndex.value = index
-		edit.value = true;
-	} 
+	setModal('Rac', rac, !!index, index);
 };
 const addBenefit = function (benefit, index) {
-	newBenefit.value = benefit;
-	if(index !== null) {
-		oldBenefitIndex.value = index;
-		edit.value = true;
-	}
+	setModal('Benefit', benefit, !!index, index);
 }
 const addIncarceration = function(incarceration, index) {
-	newIncarceration.value = incarceration;
-	if(index !== null) {
-		oldIncarcerationIndex.value = index;
-		edit.value = true;
-	}
+	setModal('Incarceration', incarceration, !!index, index);
 }
 
 const addUpp = function(upp, index) {
-	newUpp.value = upp;
-	if(index !== null) {
-		oldUppIndex.value = index;
-		edit.value = true;
-	}
+	setModal('UppPremiumInformation', upp, !!index, index);
 }
 
 const addEsi = function(esi, index) {
-	newEsi.value = esi;
-	if(index !== null) {
-		oldEsiIndex.value = index;
-		edit.value = true;
-	}
+	setModal('ESIPremiumInformation', esi, !!index, index);
 }
 const addMedicareCoverage = function(coverage, index) {
-	newMedicareCoverage.value = coverage;
-	if(index !== null) {
-		oldMedicareCoverageIndex.value = index;
-		edit.value = true;
-	}
+	setModal('MedicareCoverageDetails', coverage, !!index, index);
 }
 
-const cancelModal = function () {
-	newAddress.value = null;
-	oldAddressIndex.value = null;
-	newRac.value = null;
-	oldRacIndex.value = null;
-	oldBenefitIndex.value = null;
-	newBenefit.value = null
-	newUpp.value = null
-	oldUppIndex.value = null
-	newEsi.value = null
-	oldEsiIndex.value = null
-	newMedicareCoverage.value = null
-	oldMedicareCoverageIndex.value = null
-	newIncarceration.value = null
-	oldIncarcerationIndex.value = null
-	edit.value = false
-};
+// const setCurrentModal = function(name, modObject, index) {
+// 	setModal(name, modObject, !!index, index)
+// }
 
 const deleteFromArray = function (arrayName, index) {
 	currentMemberRecord.value[arrayName].value.splice(index, 1);
@@ -228,7 +151,7 @@ const labelStyle = function(object) {
 
 </script>
 <template>
-<div class="section-left">
+	<div>
 		<div v-for="item in Object.keys(currentMemberRecord)" :key="item">
 			<h3 v-if="item === 'MemberId'">Member Data</h3>
 			<h3 v-else-if="item === 'FosterCareParentName' && currentMemberRecord['FosterCareParentName'].included">Foster Care</h3>
@@ -401,79 +324,11 @@ const labelStyle = function(object) {
 			/>
 		</div>
 		<!-- <pre>{{ currentMemberRecord }}</pre> -->
-		<!-- <p v-else>No Records Yet, Add Record to start</p> -->
 	</div>
-	<div class="section-right">
-		<!-- <div class="section-booleans">
-			<div v-if="Object.keys(currentMemberValidationObject).length">
-				<input
-					type="button"
-					value="Populate Default Required Fields"
-					@click="createRandomRecord"
-				/>
-			</div>
-			<label
-				v-for="item in Object.keys(currentMemberValidationObject)" :key="item"
-				@click="toggleMemberIncludes(item)"
-			>
-				<input type="checkbox" v-model="currentMemberValidationObject[item]"/>
-				<span>{{ item }}</span>
-			</label>
-		</div> -->
-	</div>
-	<AddressModal
-		v-if="newAddress"
-		:address="newAddress"
-		@submit="submitAddress"
-		@close="cancelModal"
-	/>
-	<RacModal
-		v-if="newRac"
-		:rac="newRac"
-		:edit="edit"
-		@submit="submitRac"
-		@close="cancelModal"
-	/>
-	<BenefitModal
-		v-if="newBenefit"
-		:benefit="newBenefit"
-		:edit="edit"
-		@submit="submitBenefit"
-		@close="cancelModal"
-	/>
-	<IncarcerationModal
-		v-if="newIncarceration"
-		:incarceration="newIncarceration"
-		:edit="edit"
-		@submit="submitIncarceration"
-		@close="cancelModal"
-	/>
-	<UppModal
-		v-if="newUpp"
-		:upp="newUpp"
-		:edit="edit"
-		@submit="submitUpp"
-		@close="cancelModal"
-	/>
-	<EsiModal
-		v-if="newEsi"
-		:esi="newEsi"
-		:edit="edit"
-		@submit="submitEsi"
-		@close="cancelModal"
-	/>
-	<MedicareCoverageDetailsModal
-		v-if="newMedicareCoverage"
-		:coverage="newMedicareCoverage"
-		:edit="edit"
-		@submit="submitMedicareCoverage"
-		@close="cancelModal"
-	/>
+	
 </template>
 <style scoped>
-label {
-	display: block;
-}
+
 .address {
 	outline: 1px;
 }

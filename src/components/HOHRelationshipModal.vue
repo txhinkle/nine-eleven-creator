@@ -1,46 +1,41 @@
 <script setup>
+// import { ref } from 'vue';
+import useModal from '../composables/useModal'
 
-import { ref } from 'vue';
+const {
+	currentModal,
+	submitObject,
+	cancelModal,
+} = useModal();
 
-
-const props = defineProps({
-	relationship: {
-		type: Object,
-		required: true,
-	},
-});
-
-const newRelationship = ref(JSON.parse(JSON.stringify(props.relationship)));
-
-const emit = defineEmits(['submit', 'close']);
 const submit = () => {
-	emit('submit', newRelationship.value);
+	submitObject();
 };
 const close = () => {
-	emit('close');
+	cancelModal();
 };
 </script>
 <template>
 	<div class="modal">
 		<form @submit.prevent="submit">
-			<label v-for="attribute in Object.keys(newRelationship)" :key="attribute">
+			<label v-for="attribute in Object.keys(currentModal.object)" :key="attribute">
 				<span>{{ attribute }}: </span>
-				<select v-if="newRelationship[attribute].options"
-					v-model="newRelationship[attribute].value"
+				<select v-if="currentModal.object[attribute].options"
+					v-model="currentModal.object[attribute].value"
 				>
 					<option
-						v-for="(option, index) in newRelationship[attribute].options.labels"
+						v-for="(option, index) in currentModal.object[attribute].options.labels"
 						:key="index"
-						:value="newRelationship[attribute].options.values[index]"
-						:required="newRelationship[attribute].required"
-					>{{ newRelationship[attribute].options.labels[index] }}</option>
+						:value="currentModal.object[attribute].options.values[index]"
+						:required="currentModal.object[attribute].required"
+					>{{ currentModal.object[attribute].options.labels[index] }}</option>
 				</select>
 				<input
 					v-else
-					:type="newRelationship[attribute].type"
-					v-model="newRelationship[attribute].value"
-					:required="newRelationship[attribute].required"
-					:pattern="newRelationship[attribute].pattern"
+					:type="currentModal.object[attribute].type"
+					v-model="currentModal.object[attribute].value"
+					:required="currentModal.object[attribute].required"
+					:pattern="currentModal.object[attribute].pattern"
 				/>
 			</label>
 			<button type="submit">Update</button>
@@ -49,22 +44,3 @@ const close = () => {
 	</div>
 </template>
 
-<style scoped>
-div, form, label, span {
-	background-color: #bfc;
-	padding-left: 5px;
-}
-label {
-	display: block;
-}
-
-.modal {
-	z-index: 5;
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding: 20svw;
-	width: 100%;
-	height: 100%;
-}
-</style>

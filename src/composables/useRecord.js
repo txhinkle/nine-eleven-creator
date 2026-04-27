@@ -574,7 +574,7 @@ const addMemberToRecord = function() {
             value: '',
             required: true,
             included: false,
-            // handler: conditionalRequirementToggle,
+            handler: conditionalRequirementToggle,
         },
         Id: {
             path: 'MemberData.MedicareEligibility.MedicareIdDetails.Id',
@@ -590,8 +590,8 @@ const addMemberToRecord = function() {
             required: false,
             included: false,
             options: {
-                labels: ['1', '2','3','4', '5', '6'],
-                values: ['1', '2','3','4', '5', '6']
+                labels: ['0 - HICN only', '1', '2','3','4', '5', '6'],
+                values: ['0','1', '2','3','4', '5', '6']
             }
         },
         IdStartDate: {
@@ -1564,13 +1564,10 @@ const deleteRecord = function(index) {
     }
 }
 
-const deleteMember = function(memberIndex, recordIndex = null) {
-    if(recordIndex) {
-        console.log(recordIndex,memberIndex)
-    } else {
-        currentEligibilityRecord.value.MemberData.value.splice(memberIndex, 1);
-    }
-    
+const deleteMember = function(memberIndex) {
+    currentEligibilityRecord.value.MemberData.value.splice(memberIndex, 1);
+    currentMemberIndex.value = 0;
+    currentMemberRecord.value = currentEligibilityRecord.value.MemberData.value[0];
 }
 
 const toggleIncluded = function(section) {
@@ -1604,18 +1601,22 @@ const toggleMemberIncludes = function (section) {
 }
 
 const conditionalRequirementToggle = function(path, value) {
-    // Adjust to shape of MemberData for future use
+
     if(path.path.includes('MedicareIdType') && value ==='MBI') {
-        currentEligibilityRecord.value.IdOccurrence.required = true;
-        currentRecordValidationObject.value['IdOccurrence'] = !currentRecordValidationObject.value['IdOccurrence']
+        currentMemberRecord.value.IdOccurrence.required = true;
+        // currentMemberValidationObject.value['IdOccurrence'] = true
     } else {
         currentEligibilityRecord.value.IdOccurrence.required = false;
     }
 }
 
 const createRandomRecord = function() {
-    currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + ''
-    currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
+    currentEligibilityRecord.value['ErepCaseId'].value 
+        ? currentEligibilityRecord.value['ErepCaseId'].value 
+        : currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + '';
+    currentEligibilityRecord.value['HohMemberId'].value
+        ? currentEligibilityRecord.value['HohMemberId'].value
+        : currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
     currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value = currentEligibilityRecord.value['HohMemberId'].value;
     currentEligibilityRecord.value.MemberData.value.forEach((item, index) => {
         createRandomMemberData(index);
@@ -1633,39 +1634,57 @@ const createRandomMemberData = function(index) {
             memId = (memId * 1 + 1) + ''
         }
     }
-    currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
-    currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'
-    currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = index  + 'last'
-    currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value = 'UN'
-    currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value = '2000-01-01'
-    currentEligibilityRecord.value.MemberData.value[index]['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
-    currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
-    currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value = 'N'
-    currentEligibilityRecord.value.MemberData.value[index]['Address'].value = []
-    currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
-        AddressType: 'Mailing',
-        Street1: '55 N Main St',
-        Street2: '',
-        Street3: '',
-        CityName: 'SALT LAKE CITY',
-        StateCode: 'UT',
-        ZipCode: '84150',
-        CountyCode: 'CT117',
-        AddressStartDate: '2000-01-01',
-        AddressEndDate: '2999-12-31',
-    })
-    currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
-        AddressType: 'Residential',
-        Street1: '55 N Main St',
-        Street2: '',
-        Street3: '',
-        CityName: 'SALT LAKE CITY',
-        StateCode: 'UT',
-        ZipCode: '84150',
-        CountyCode: 'CT117',
-        AddressStartDate: '2000-01-01',
-        AddressEndDate: '2999-12-31',
-    })
+    currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
+    currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'
+    currentEligibilityRecord.value.MemberData.value[index]['LastName'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['LastName'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['LastName'].value = index  + 'last'
+    currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['RaceCode'].value = 'UN'
+    currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['BirthDate'].value = '2000-01-01'
+    currentEligibilityRecord.value.MemberData.value[index]['Gender'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['Gender'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
+    currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
+    currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value
+        ? currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value
+        : currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value = 'N'
+    if (!currentEligibilityRecord.value.MemberData.value[index]['Address'].value) {
+        currentEligibilityRecord.value.MemberData.value[index]['Address'].value = []
+        currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
+            AddressType: 'Mailing',
+            Street1: '55 N Main St',
+            Street2: '',
+            Street3: '',
+            CityName: 'SALT LAKE CITY',
+            StateCode: 'UT',
+            ZipCode: '84150',
+            CountyCode: 'CT117',
+            AddressStartDate: '2000-01-01',
+            AddressEndDate: '2999-12-31',
+        })
+        currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
+            AddressType: 'Residential',
+            Street1: '55 N Main St',
+            Street2: '',
+            Street3: '',
+            CityName: 'SALT LAKE CITY',
+            StateCode: 'UT',
+            ZipCode: '84150',
+            CountyCode: 'CT117',
+            AddressStartDate: '2000-01-01',
+            AddressEndDate: '2999-12-31',
+        })
+    }
 }
 
 const checkIdAgainstHOH = function() {

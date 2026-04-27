@@ -1,20 +1,17 @@
 <script setup>
-import { ref } from 'vue';
+import useModal from '../composables/useModal'
 
-const props = defineProps({
-	coverage: {
-		type: Object,
-		required: true,
-	},
-});
-const newCoverage = ref(JSON.parse(JSON.stringify(props.coverage)));
+const {
+	currentModal,
+	submitObject,
+	cancelModal,
+} = useModal();
 
-const emit = defineEmits(['submit', 'close']);
 const submit = () => {
-    emit('submit', newCoverage.value)
+	submitObject();
 };
 const close = () => {
-	emit('close');
+	cancelModal();
 };
 </script>
 <template>
@@ -24,7 +21,7 @@ const close = () => {
 				<span>Coverage Type</span>
 				<select
 					name="part"
-					v-model="newCoverage.MedicareCoverageType"
+					v-model="currentModal.object.MedicareCoverageType"
 					required
 				>
                     <option value="PARTA">PartA</option>
@@ -35,7 +32,7 @@ const close = () => {
 				<span>MedicareCoverageStartDate</span>
 				<input
 					type="date"
-					v-model="newCoverage.MedicareCoverageStartDate"
+					v-model="currentModal.object.MedicareCoverageStartDate"
                     required
 				/>
 			</label>
@@ -43,7 +40,7 @@ const close = () => {
 				<span>MedicareCoverageEndDate</span>
 				<input
 					type="date"
-					v-model="newCoverage.MedicareCoverageEndDate"
+					v-model="currentModal.object.MedicareCoverageEndDate"
                     required
 				/>
 			</label>
@@ -53,21 +50,3 @@ const close = () => {
 	</div>
 </template>
 
-<style scoped>
-div, form, label, span {
-	background-color: #bfc;
-}
-label {
-	display: block;
-}
-
-.modal {
-	z-index: 5;
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding: 20svw;
-	width: 100%;
-	height: 100%;
-}
-</style>

@@ -231,14 +231,12 @@ const downloadTextFile = function() {
 </script>
 <template>
     <div style="background-color: red; color: white;" v-if="errorCount">This XML contains errors</div>
-    <div v-if="sanitizedRecords.length" >
+    <div>
         <p>Suggested Filename: {{ title }}</p>
         <input type="button" @click="downloadTextFile" value="Download File"/>
         <p>File Contents:</p>
        <pre>{{ generatedXmlString }}</pre>
     </div>
-    
-    <p v-else>No records have been added yet</p>
  <!-- <pre>{{sanitizedRecords}}</pre> -->
 </template>
 <style scoped>
@@ -246,7 +244,7 @@ const downloadTextFile = function() {
         margin-top: 5%;
     }
     pre {
-        border: 1px solid black;
+        border: 1px solid #eeddee;
         padding: 2px;
         width: 90%;
     }

@@ -2,6 +2,7 @@ import useOptions from "./useOptions";
 const {relationshipCodeOptions} = useOptions();
 
 const newAddressTemplate = {
+    AddressType: '',
 	Street1: '',
 	Street2: '',
 	Street3: '',
