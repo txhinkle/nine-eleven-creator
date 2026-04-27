@@ -3,8 +3,8 @@ import {ref, onUpdated} from 'vue'
 import useRecord from '@/composables/useRecord';
 // import useMemberData from '@/composables/useMemberData';
 import useTemplates from '@/composables/useTemplates';
-<<<<<<< HEAD
-import useOptions from '@/composables/useOptions';
+import useOptions from '@/composables/useOptions'
+import useModal from '@/composables/useModal'
 import useValidation from '@/composables/useValidation';
 
 
@@ -13,11 +13,6 @@ const {validateRecords} = useValidation();
 onUpdated(() => {
 	validateRecords();
 })
-=======
-import useOptions from '@/composables/useOptions'
-import useModal from '@/composables/useModal'
-import useValidation from '@/composables/useValidation';
->>>>>>> modals
 
 const {
 	newAddressTemplate,
@@ -26,7 +21,6 @@ const {
 	newIncarcerationTemplate,
 	newUppTemplate,
 } = useTemplates()
-const {validateRecords} = useValidation();
 
 const {
 	// currentRecordValidationObject,
