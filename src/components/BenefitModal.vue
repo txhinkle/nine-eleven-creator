@@ -13,19 +13,6 @@ const {
 const { benefitSubTypeOptions } = useOptions();
 const {newBenefitTemplate} = useTemplates();
 
-// include Booleans to turn on/off required aspect and to show/hide elements
-const includePregnancy = ref(currentModal.value.edit && currentModal.value.object.Pregnancy.PregnancyStatus !== '');
-const includeIncome = ref(currentModal.value.edit && currentModal.value.object.Countable.Income !== '')
-const includeAssistance = ref(currentModal.value.edit && currentModal.value.object.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
-const includeCopayExemptDetails = ref(currentModal.value.edit && currentModal.value.object.CopayExemptDetails.CopayExemptIndicator !== '')
-const includePatientLiability = ref(currentModal.value.edit && currentModal.value.object.PatientLiability.Amount !== '')
-const includeSpenddown = ref(currentModal.value.edit && currentModal.value.object.Spenddown.Information.SpenddownIndicator !== '')
-// spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
-const includeSpm = ref(currentModal.value.edit && currentModal.value.object.SPMDetails.SPMIndicator !== '')
-const includeMedicareDualEligibility = ref(currentModal.value.edit && currentModal.value.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
-const includeSpenddownBill = ref(currentModal.value.edit && currentModal.value.object.Spenddown.SpenddownBills.BillDetails.BillId !== '')
-
-
 const clearNotIncluded = function() {
 	// use this to clear unincluded fields prior to submittingObject
 	const includes = [
@@ -38,7 +25,7 @@ const clearNotIncluded = function() {
 		{path: 'SPMDetails', obj: currentModal.value.object.SPMDetails, boolean: includeSpm.value},
 		{path: 'MedicareDualEligibilityStatusCode', obj: currentModal.value.object.MedicareDualEligibilityStatusCode, boolean: includeMedicareDualEligibility.value},
 		{path: 'SpenddownBills', obj: currentModal.value.object.Spenddown.SpenddownBills, boolean: includeSpenddownBill.value},
-	]
+	] // currentModal.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode
 	includes.forEach((incl) => {
 		if(!incl.boolean) {
 			if(incl.path === 'SpenddownBills' && includeSpenddown.value === true) {
@@ -55,6 +42,18 @@ const clearNotIncluded = function() {
 const submit = () => {
 	clearNotIncluded();
 };
+
+// include Booleans to turn on/off required aspect and to show/hide elements
+const includePregnancy = ref(currentModal.value.object.Pregnancy.PregnancyStatus !== '');
+const includeIncome = ref(currentModal.value.object.Countable.Income !== '')
+const includeAssistance = ref(currentModal.value.object.MemberIdsForAssistanceUnit.ContributingMemberId !== '')
+const includeCopayExemptDetails = ref(currentModal.value.object.CopayExemptDetails.CopayExemptIndicator !== '')
+const includePatientLiability = ref(currentModal.value.object.PatientLiability.Amount !== '')
+const includeSpenddown = ref(currentModal.value.object.Spenddown.Information.SpenddownIndicator !== '')
+// spenddownBills is a repeatable loop within spenddown. This is not being implemented at this time. Can be added to "expanded functionality" list
+const includeSpm = ref(currentModal.value.object.SPMDetails.SPMIndicator !== '')
+const includeMedicareDualEligibility = ref(currentModal.value.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode !== '')
+const includeSpenddownBill = ref(currentModal.value.object.Spenddown.SpenddownBills.BillDetails.BillId !== '')
 const close = () => {
 	cancelModal();
 };

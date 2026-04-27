@@ -590,8 +590,8 @@ const addMemberToRecord = function() {
             required: false,
             included: false,
             options: {
-                labels: ['1', '2','3','4', '5', '6'],
-                values: ['1', '2','3','4', '5', '6']
+                labels: ['0 - HICN only', '1', '2','3','4', '5', '6'],
+                values: ['0','1', '2','3','4', '5', '6']
             }
         },
         IdStartDate: {
@@ -1564,13 +1564,10 @@ const deleteRecord = function(index) {
     }
 }
 
-const deleteMember = function(memberIndex, recordIndex = null) {
-    if(recordIndex) {
-        console.log(recordIndex,memberIndex)
-    } else {
-        currentEligibilityRecord.value.MemberData.value.splice(memberIndex, 1);
-    }
-    
+const deleteMember = function(memberIndex) {
+    currentEligibilityRecord.value.MemberData.value.splice(memberIndex, 1);
+    currentMemberIndex.value = 0;
+    currentMemberRecord.value = currentEligibilityRecord.value.MemberData.value[0];
 }
 
 const toggleIncluded = function(section) {
