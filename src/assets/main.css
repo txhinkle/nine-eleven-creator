@@ -72,7 +72,7 @@ input:valid, select {
   background-color: #eeeeee;
 }
 
-input:invalid {
+input:invalid, select:invalid {
   background-color: lightpink;
 }
 

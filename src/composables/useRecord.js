@@ -1613,10 +1613,7 @@ const conditionalRequirementToggle = function(path, value) {
 const createRandomRecord = function() {
     currentEligibilityRecord.value['ErepCaseId'].value 
         ? currentEligibilityRecord.value['ErepCaseId'].value 
-        : currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000) + '';
-    currentEligibilityRecord.value['HohMemberId'].value
-        ? currentEligibilityRecord.value['HohMemberId'].value
-        : currentEligibilityRecord.value['HohMemberId'].value = Math.floor(Date.now() / 1000) + '';
+        : currentEligibilityRecord.value['ErepCaseId'].value = Math.floor(Math.random() * 100000000) + '';
     currentEligibilityRecord.value['HohMemberId-RelationshipDetails'].value = currentEligibilityRecord.value['HohMemberId'].value;
     currentEligibilityRecord.value.MemberData.value.forEach((item, index) => {
         createRandomMemberData(index);
@@ -1637,6 +1634,9 @@ const createRandomMemberData = function(index) {
     currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value
         ? currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value
         : currentEligibilityRecord.value.MemberData.value[index]['MemberId'].value = memId;
+        currentEligibilityRecord.value['HohMemberId'].value
+        ? currentEligibilityRecord.value['HohMemberId'].value
+        : currentEligibilityRecord.value['HohMemberId'].value = memId;
     currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value
         ? currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value
         : currentEligibilityRecord.value.MemberData.value[index]['FirstName'].value = index  + 'first'
@@ -1658,7 +1658,7 @@ const createRandomMemberData = function(index) {
     currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value
         ? currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value
         : currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value = 'N'
-    if (!currentEligibilityRecord.value.MemberData.value[index]['Address'].value) {
+    if (currentEligibilityRecord.value.MemberData.value[index]['Address'].value.length === 0) {
         currentEligibilityRecord.value.MemberData.value[index]['Address'].value = []
         currentEligibilityRecord.value.MemberData.value[index]['Address'].value.push({
             AddressType: 'Mailing',

@@ -301,6 +301,7 @@ const labelStyle = function(object) {
 			<select
 				v-else-if="currentMemberRecord[item].included && currentMemberRecord[item].options"
 				v-model="currentMemberRecord[item].value"
+				:required="currentMemberRecord[item].required"
 			>
 				<option
 					v-for="(option, index) in currentMemberRecord[item].options.labels"
