@@ -376,8 +376,6 @@ const racOptions = {
         'A59 - Family Medicaid, Adult, 12-month transitional earned income increase',
         'E0B - Adult Expansion, age 21 to 64, 133%, adult w/ dependent children',
         'EP5 - Adult Expansion, age 21 to 64, 133%, Presumptive, adult w/ dependent children',
-        'II9 - Qualified Medicare Beneficiary, Medicare Part B-ID',
-        'IN9 - Qualified Medicare Beneficiary, Medicare not aged or disabled',
     ],
     values: [
         'A1',
@@ -751,8 +749,6 @@ const racOptions = {
         'A59',
         'E0B',
         'EP5',
-        'II9',
-        'IN9',
     ]
 }
 
