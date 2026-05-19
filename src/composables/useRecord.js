@@ -1654,7 +1654,7 @@ const createRandomMemberData = function(index) {
         : currentEligibilityRecord.value.MemberData.value[index]['Gender'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'M' : 'F'
     currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value
         ? currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value
-        : currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value = Math.floor((Math.random() * 10) % 2) === 0 ? 'Y' : 'N'
+        : currentEligibilityRecord.value.MemberData.value[index]['Citizenship'].value = 'Y'
     currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value
         ? currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value
         : currentEligibilityRecord.value.MemberData.value[index]['ExemptDuplicateIndicator'].value = 'N'
