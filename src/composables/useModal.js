@@ -55,11 +55,12 @@ const submitAddress = function ({addressTypes, address}) {
 			...address,
 		};
 		addy.AddressType = type;
-		currentMemberRecord.value['Address'].value.push(addy);
+        if (currentModal.value.index !== null || currentModal.value.index === 0) {
+            currentMemberRecord.value['Address'].value.splice(currentModal.value.index, 1, addy);
+        } else {
+            currentMemberRecord.value['Address'].value.push(addy);
+        }
 	});
-	if (currentModal.value.index !== null) {
-		currentMemberRecord.value['Address'].value.splice(currentModal.value.index, 1);
-	}
     cancelModal();
 }
 export default function useModal () {

@@ -101,12 +101,12 @@ const addAddress = function (address, index) {
 		...newAddressTemplate,
 		...address
 	};
-	const itemIndex = index || null
-	if (index !== null) {
+	// const itemIndex = index || null
+	if (index !== null || index === 0) {
 		oldAddressIndex.value = index;
 		edit.value = true;
 	}
-	setModal('Address', newAddress.value, edit.value, itemIndex)
+	setModal('Address', newAddress.value, edit.value, index)
 };
 const addRac = function (rac, index) {
 	setModal('Rac', rac, !!index, index);
