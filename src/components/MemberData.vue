@@ -20,6 +20,7 @@ const {
 	newBenefitTemplate,
 	newIncarcerationTemplate,
 	newUppTemplate,
+	newEsiTemplate,
 } = useTemplates()
 
 const {
