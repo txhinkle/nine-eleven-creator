@@ -42,7 +42,7 @@ jobs:
           cache: 'npm' # Use 'yarn' or 'pnpm' if applicable
 
       - name: Install Dependencies
-        run: npm ci # Use yarn install or pnpm install
+        run: npm install # Use yarn install or pnpm install
 
       # - name: Run Tests (Optional)
       #   run: npm run test:unit # Or whichever test script you use
