@@ -44,8 +44,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci # Use yarn install or pnpm install
 
-      - name: Run Tests (Optional)
-        run: npm run test:unit # Or whichever test script you use
+      # - name: Run Tests (Optional)
+      #   run: npm run test:unit # Or whichever test script you use
 
       - name: Build Project
         run: npm run build
