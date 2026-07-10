@@ -44,7 +44,18 @@ const confirmFacilityLoop = function () {
 }
 
 const deleteLoop = function (index) {
-	currentModal.value.object.Facility.splice(index, 1)
+	currentModal.value.object.Facility.splice(index, 1);
+	if(
+		!currentModal.value.object.Facility.length
+		|| currentModal.value.object.Facility.indexOf(currentFacilityLoop.value) === index
+	) {
+		confirmFacilityLoop();
+	}
+}
+
+const cancelFacility = function () {
+	currentModal.value.object.Facility.splice(currentModal.value.object.Facility.indexOf(currentFacilityLoop.value), 1);
+	confirmFacilityLoop()
 }
 
 </script>
@@ -151,6 +162,7 @@ const deleteLoop = function (index) {
 							/>
 						</label>
 						<input type="submit" @click="confirmFacilityLoop" value="Confirm Facility" style="margin-bottom: 10px;"/>
+						<button @click="cancelFacility">Cancel</button>
 					</form>
 			</div>
 			<button type="submit">Update</button>

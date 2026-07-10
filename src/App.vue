@@ -14,6 +14,10 @@ const { eligibilityList, addNewRecord } = useRecord();
 const updateView = function(view) {
   currentView.value = view
 }
+const recordAdd = function () {
+  addNewRecord();
+  currentView.value = 'form';
+}
 const tabStyles = computed(() => {
   const tab = currentView.value;
   const styles = {
@@ -36,7 +40,7 @@ const tabStyles = computed(() => {
       <li @click="updateView('xml')"  :style="tabStyles['xml']">XML</li>
     </ul>
     <button
-      @click="addNewRecord"
+      @click="recordAdd"
       id="record-button"
       style="z-index: 2;"
     >
