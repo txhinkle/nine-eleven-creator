@@ -308,6 +308,7 @@ const addMemberToRecord = function() {
             value: '',
             required: false,
             included: true,
+            pattern: '\\d{9}',
         },
         Hispanic: {
             path: 'MemberData.Demographics.Details.Hispanic',

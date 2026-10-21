@@ -454,6 +454,12 @@ const close = () => {
 						v-model="currentModal.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode"
 						required
 					/>
+					<!-- <select
+						v-model="currentModal.object.MedicareDualEligibilityStatusCode.MedicareDualEligibilityStatusCode"
+						required
+					>
+						<option></option>
+					</select> -->
 				</label>
 			</div>
 			<button type="submit">Update</button>
